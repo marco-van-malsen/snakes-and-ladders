@@ -14,11 +14,13 @@ let tiles = [];
 // One player
 let player;
 
-// setup gameboard (columns, header, rows and tilesize)
-let cols = 10;
+// setup gameboard (header for game controls, columns, rows and tile size and number of snakes and ladders)
 let header = 100;
-let resolution = 40;
+let cols = 10;
 let rows = 10;
+let resolution = 40;
+let numSnakes = 3;
+let numLadders = 3;
 
 // current position (spot) of player on board
 let index = 0;
@@ -45,16 +47,31 @@ function setup() {
   }
 
   // Pick random Snakes
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < numSnakes - 1; i++) {
+    // pick random tile to add Snake to
     let index = floor(random(cols, tiles.length - 1));
-    // -1 makes in a Snake (drop down a number of spots)
-    tiles[index].snadder = -1 * floor(random(index % cols, index - 1));
+
+    // add snake, unless one already exists
+    if (tiles[index].snadder < 0) {
+      i--;
+    } else {
+      // -1 makes in a Snake (drop down a number of spots)
+      tiles[index].snadder = -1 * floor(random(index % cols, index - 1));
+    }
   }
 
-  // Pick random Ladders
-  for (let i = 0; i < 3; i++) {
+  // Pick random ladders
+  for (let i = 0; i < numLadders - 1; i++) {
+    // pick random tile to add Ladder to
     let index = floor(random(0, tiles.length - cols));
-    tiles[index].snadder = floor(random(cols - (index % cols), tiles.length - index - 1));
+
+    // add ladder, unless one already exists
+    if (tiles[index].snadder > 0) {
+      i--;
+    } else {
+      // 1 makes in a ladder (skip ahead a number of spots)
+      tiles[index].snadder = floor(random(cols - (index % cols), tiles.length - index - 1));
+    }
   }
 
   // A new player
