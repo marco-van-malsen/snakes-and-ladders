@@ -1,5 +1,6 @@
-// Daniel Shiffman
 // Snakes and Ladders
+// Original: Daniel Shiffman (The Coding Train)
+// Extended: Marco van Malsen
 
 // What is the state?
 const ROLL_STATE = 0; // Rolling the die

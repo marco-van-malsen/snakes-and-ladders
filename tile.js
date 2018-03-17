@@ -1,5 +1,6 @@
-// Daniel Shiffman
 // Snakes and Ladders
+// Original: Daniel Shiffman (The Coding Train)
+// Extended: Marco van Malsen
 
 // Each tile on the board
 class Tile {
@@ -20,29 +21,29 @@ class Tile {
       this.color = 100;
     }
   }
-  
+
   // Find center
   getCenter() {
     let cx = this.x + this.wh / 2;
     let cy = this.y + this.wh / 2;
     // TODO: change to p5.Vector?
     return [cx, cy];
-  } 
-  
+  }
+
   // Draw rectangle
   show() {
     fill(this.color);
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
   }
-  
+
   // Highlight over rectangle
   highlight() {
     fill(0, 0, 255, 100);
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
   }
-  
+
   // If it's connected to another tile
   // with a snake or a ladder
   showSnadders() {
