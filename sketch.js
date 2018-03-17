@@ -2,7 +2,7 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// What is the state?
+// Fefine available game states and set initial game state
 const ROLL_STATE = 0; // Rolling the die
 const MOVE_STATE = 1; // Moving to next spot
 const SNADDER_STATE = 2; // Moving along a Snake or Ladder
@@ -10,19 +10,23 @@ let state = ROLL_STATE;
 
 // Array of tiles
 let tiles = [];
+
 // One player
 let player;
+
+// set default number of column and rows (can be changed later)
+let cols = 10;
+let rows = 10;
 
 // current position (spot) of player on board
 let index = 0;
 
 function setup() {
-  createCanvas(400, 400);
-
   // Size of tile, columns and rows
   let resolution = 40;
-  let cols = width / resolution;
-  let rows = height / resolution;
+
+  // create the canvas for board and controls
+  createCanvas(cols * resolution, rows * resolution);
 
   // Create all the tiles from bottom to top
   let x = 0;
