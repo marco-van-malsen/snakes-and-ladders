@@ -65,10 +65,12 @@ function draw() {
   // set framerate
   //frameRate(5);
 
-  // Draw all the tiles, snakes, and ladders
+  // Draw  tiles
   for (let tile of tiles) {
     tile.show();
   }
+
+  // Draw snakes and ladders
   for (let tile of tiles) {
     tile.showSnadders();
   }

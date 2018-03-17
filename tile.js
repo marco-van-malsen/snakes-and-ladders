@@ -38,9 +38,30 @@ class Tile {
 
   // Draw rectangle
   show() {
-    fill(this.color);
+    // draw tile (override tile color for start and finish)
+    if (this.index == 0 || this.index == tiles.length - 1) {
+      fill(255, 0, 0);
+    } else {
+      fill(this.color);
+    }
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
+
+    // determine content to display
+    let tileText;
+    if (this.index == 0) {
+      tileText = 'start';
+    } else if (this.index == tiles.length - 1) {
+      tileText = 'finish';
+    } else {
+      tileText = this.index + 1;
+    }
+
+    // display tile number
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    fill(255, 255, 255);
+    text(tileText, this.x + this.wh / 2, this.y + this.wh / 2);
   }
 
   // If it's connected to another tile with a snake or a ladder
