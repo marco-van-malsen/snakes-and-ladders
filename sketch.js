@@ -47,7 +47,7 @@ function setup() {
   }
 
   // Pick random Snakes
-  for (let i = 0; i < numSnakes - 1; i++) {
+  for (let i = 0; i <= numSnakes - 1; i++) {
     // pick random tile to add Snake to
     let index = floor(random(cols, tiles.length - 1));
 
@@ -61,7 +61,7 @@ function setup() {
   }
 
   // Pick random ladders
-  for (let i = 0; i < numLadders - 1; i++) {
+  for (let i = 0; i <= numLadders - 1; i++) {
     // pick random tile to add Ladder to
     let index = floor(random(0, tiles.length - cols));
 
