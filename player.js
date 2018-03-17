@@ -4,10 +4,26 @@
 
 // A player
 class Player {
-
   // Call a reset function to initialize
   constructor() {
     this.reset();
+  }
+
+  // Is player on a Snake or Ladder?
+  isSnadder() {
+    let tile = tiles[this.spot];
+    return (tile && tile.snadder !== 0);
+  }
+
+  // Update spot to next
+  move() {
+    this.spot = this.next;
+  }
+
+  // Move according to the Snake or Ladder
+  moveSnadder() {
+    let tile = tiles[this.spot];
+    this.spot += tile.snadder;
   }
 
   // Reset variables
@@ -23,11 +39,6 @@ class Player {
     this.next = this.spot + this.roll;
   }
 
-  // Update spot to next
-  move() {
-    this.spot = this.next;
-  }
-
   // Highlight the tiles ahead
   showPreview() {
     let start = max(0, this.spot);
@@ -35,21 +46,7 @@ class Player {
     for (let i = start; i <= end; i++) {
       tiles[i].highlight();
     }
-
   }
-
-  // Is player on a Snake or Ladder?
-  isSnadder() {
-    let tile = tiles[this.spot];
-    return (tile && tile.snadder !== 0);
-  }
-
-  // Move according to the Snake or Ladder
-  moveSnadder() {
-    let tile = tiles[this.spot];
-    this.spot += tile.snadder;
-  }
-
 
   // Display on the current tile
   show() {

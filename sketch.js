@@ -116,7 +116,4 @@ function draw() {
   if (avg) {
     avgP.html(avg);
   }
-
-
-
 }
