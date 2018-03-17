@@ -14,23 +14,23 @@ let tiles = [];
 // One player
 let player;
 
-// set default number of column and rows (can be changed later)
+// setup gameboard (columns, header, rows and tilesize)
 let cols = 10;
+let header = 100;
+let resolution = 40;
 let rows = 10;
 
 // current position (spot) of player on board
 let index = 0;
 
 function setup() {
-  // Size of tile, columns and rows
-  let resolution = 40;
-
   // create the canvas for board and controls
-  createCanvas(cols * resolution, rows * resolution);
+  createCanvas(cols * resolution, header + rows * resolution);
+  background(51);
 
   // Create all the tiles from bottom to top
   let x = 0;
-  let y = (rows - 1) * resolution;
+  let y = header + (rows - 1) * resolution;
   let dir = 1;
   for (let i = 0; i < cols * rows; i++) {
     let tile = new Tile(x, y, resolution, i, i + 1);
