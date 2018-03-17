@@ -37,7 +37,7 @@ function setup() {
     tiles.push(tile);
     x = x + (resolution * dir);
     // Move along a winding path up the rows
-    if (x >= width || x <= -resolution) {
+    if (x >= cols * resolution || x <= -resolution) {
       dir *= -1;
       x += resolution * dir;
       y -= resolution;
@@ -62,8 +62,8 @@ function setup() {
 }
 
 function draw() {
-  // frameRate(5);
-  background(51);
+  // set framerate
+  //frameRate(5);
 
   // Draw all the tiles, snakes, and ladders
   for (let tile of tiles) {
