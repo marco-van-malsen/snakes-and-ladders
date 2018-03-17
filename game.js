@@ -4,11 +4,6 @@
 
 // add game controls (number of players)
 function createControls() {
-  // setup text
-  textAlign(LEFT, TOP);
-  textSize(16);
-  fill(0);
-
   // set location of first control element
   let spacing = 40;
   let x = cols * resolution + separator;
@@ -50,11 +45,6 @@ function createControls() {
 function resetGame() {
   // stop game loop to reset the game
   noLoop();
-
-  // read number of players, snakes and ladders from controls
-  // numPlayers = sliderPlayers.value();
-  // numSnakes = sliderSnakes.value();
-  // numLadders = sliderSnakes.value();
 
   // reset the tiles array
   tiles = [];
@@ -126,7 +116,6 @@ function updateControls() {
     numPlayers = sliderPlayers.value();
   }
   updateControlsTxt();
-  // console.log(numLadders + " ladders; " + numSnakes + " snakes");
   resetGame();
 }
 
