@@ -2,98 +2,62 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// Fefine available game states and set initial game state
+// define available game states and set initial game state
 const ROLL_STATE = 0; // Rolling the die
 const MOVE_STATE = 1; // Moving to next spot
 const SNADDER_STATE = 2; // Moving along a Snake or Ladder
 let state = ROLL_STATE;
 
-// Array of tiles
+// array of tiles
 let tiles = [];
 
-// One player
+// one player
 let player;
 
-// setup gameboard (header for game controls, columns, rows and tile size and number of snakes and ladders)
-let header = 100;
+// setup gameboard (title, separator, columns, rows and tile size and number of snakes and ladders)
+let separator = 25;
 let cols = 10;
 let rows = 10;
 let resolution = 40;
-let numSnakes = 3;
+let maxLadders = 5;
+let maxPlayers = 2;
+let maxSnakes = 5;
 let numLadders = 3;
+let numPlayers = 1;
+let numSnakes = 3;
 let title = 50;
 
-// current position (spot) of player on board
-let index = 0;
+// setup controls
+var sliderLadders;
+var sliderPlayers;
+var sliderSnakes;
+var txtLadders = "";
+var txtPlayers = "";
+var txtSnakes = "";
 
 function setup() {
-  // create the canvas for board and controls
-  createCanvas(cols * resolution, title + header + (rows * resolution));
+  // create the canvas for board and separator
+  createCanvas(cols * resolution + 500, title + separator + (rows * resolution));
 
   // display game title
   noStroke();
   fill(200);
-  rect(0, 0, width, title);
+  rect(0, 0, cols * resolution, title);
   textAlign(CENTER, CENTER);
   textSize(36);
-  // fill(255);
-  // text("Snakes & Ladders", width / 2 + 1, title / 2 + 1)
-  // fill(0);
-  // text("Snakes & Ladders", width / 2 - 1, title / 2 - 1)
   fill(100);
-  text("Snakes & Ladders", width / 2, title / 2)
+  text("Snakes & Ladders", (cols * resolution) / 2, title / 2)
 
-  // Create all the tiles from bottom to top
-  let x = 0;
-  let y = title + header + (rows - 1) * resolution;
-  let dir = 1;
-  for (let i = 0; i < cols * rows; i++) {
-    let tile = new Tile(x, y, resolution, i, i + 1);
-    tiles.push(tile);
-    x = x + (resolution * dir);
-    // Move along a winding path up the rows
-    if (x >= cols * resolution || x <= -resolution) {
-      dir *= -1;
-      x += resolution * dir;
-      y -= resolution;
-    }
-  }
+  // create game controls
+  createControls();
 
-  // Pick random Snakes
-  for (let i = 0; i <= numSnakes - 1; i++) {
-    // pick random tile to add Snake to (snake on finish tile not allowed)
-    let index = floor(random(cols, tiles.length - 2));
-
-    // add snake, unless one already exists
-    if (tiles[index].snadder < 0) {
-      i--;
-    } else {
-      // -1 makes in a Snake (drop down a number of spots)
-      tiles[index].snadder = -1 * floor(random(index % cols, index - 1));
-    }
-  }
-
-  // Pick random ladders
-  for (let i = 0; i <= numLadders - 1; i++) {
-    // pick random tile to add Ladder to
-    let index = floor(random(0, tiles.length - cols));
-
-    // add ladder, unless one already exists
-    if (tiles[index].snadder > 0) {
-      i--;
-    } else {
-      // 1 makes in a ladder (skip ahead a number of spots)
-      tiles[index].snadder = floor(random(cols - (index % cols), tiles.length - index - 1));
-    }
-  }
-
-  // A new player
-  player = new Player();
+  // initialize the game
+  resetGame();
 }
 
 function draw() {
   // set framerate
-  //frameRate(5);
+  frameRate(5);
 
   // Draw  tiles
   for (let tile of tiles) {
@@ -131,6 +95,5 @@ function draw() {
   if (player.spot >= tiles.length - 1) {
     state = ROLL_STATE;
     player.reset();
-    index++;
   }
 }
