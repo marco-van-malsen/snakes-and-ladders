@@ -13,18 +13,11 @@ let tiles = [];
 // One player
 let player;
 
-// Unecessary for playing the game
-// these variables or for storing all the rolls over time
-let rolls = [];
+// current position (spot) of player on board
 let index = 0;
-let averageRolls = 0;
-let avgP;
 
 function setup() {
   createCanvas(400, 400);
-  avgP = createP('');
-
-  rolls[index] = 0;
 
   // Size of tile, columns and rows
   let resolution = 40;
@@ -79,7 +72,6 @@ function draw() {
   // Rolling the die
   if (state === ROLL_STATE) {
     player.rollDie();
-    rolls[index]++;
     player.showPreview();
     state = MOVE_STATE;
     // Moving the player
@@ -104,16 +96,5 @@ function draw() {
     state = ROLL_STATE;
     player.reset();
     index++;
-    rolls[index] = 0;
-  }
-
-  // Compute average rolls to complete game
-  let sum = 0;
-  for (let i = 0; i < rolls.length - 1; i++) {
-    sum += rolls[i];
-  }
-  let avg = sum / (rolls.length - 1);
-  if (avg) {
-    avgP.html(avg);
   }
 }
