@@ -21,18 +21,31 @@ let rows = 10;
 let resolution = 40;
 let numSnakes = 3;
 let numLadders = 3;
+let title = 50;
 
 // current position (spot) of player on board
 let index = 0;
 
 function setup() {
   // create the canvas for board and controls
-  createCanvas(cols * resolution, header + rows * resolution);
-  background(51);
+  createCanvas(cols * resolution, title + header + (rows * resolution));
+
+  // display game title
+  noStroke();
+  fill(200);
+  rect(0, 0, width, title);
+  textAlign(CENTER, CENTER);
+  textSize(36);
+  // fill(255);
+  // text("Snakes & Ladders", width / 2 + 1, title / 2 + 1)
+  // fill(0);
+  // text("Snakes & Ladders", width / 2 - 1, title / 2 - 1)
+  fill(100);
+  text("Snakes & Ladders", width / 2, title / 2)
 
   // Create all the tiles from bottom to top
   let x = 0;
-  let y = header + (rows - 1) * resolution;
+  let y = title + header + (rows - 1) * resolution;
   let dir = 1;
   for (let i = 0; i < cols * rows; i++) {
     let tile = new Tile(x, y, resolution, i, i + 1);
@@ -48,8 +61,8 @@ function setup() {
 
   // Pick random Snakes
   for (let i = 0; i <= numSnakes - 1; i++) {
-    // pick random tile to add Snake to
-    let index = floor(random(cols, tiles.length - 1));
+    // pick random tile to add Snake to (snake on finish tile not allowed)
+    let index = floor(random(cols, tiles.length - 2));
 
     // add snake, unless one already exists
     if (tiles[index].snadder < 0) {
