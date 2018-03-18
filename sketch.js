@@ -14,30 +14,41 @@ let tiles = [];
 // one player
 let player;
 
-// setup gameboard (title, separator, columns, rows and tile size and number of snakes and ladders)
-let separator = 25;
+// setup gameboard (columns, rows and tile size)
 let cols = 10;
-let rows = 10;
+let rows = cols;
 let resolution = 40;
-let maxLadders = 5;
-let maxPlayers = 2;
-let maxSnakes = 5;
-let numLadders = 3;
-let numPlayers = 1;
-let numSnakes = 3;
+
+// setup game (title, separator and controlsArea)
+let controlsArea = 150;
+let separator = 25;
 let title = 50;
 
-// setup controls
-var sliderLadders;
+// setup control for number of Players
+let maxPlayers = 2;
+let numPlayers = 1;
 var sliderPlayers;
-var sliderSnakes;
-var txtLadders = "";
 var txtPlayers = "";
+
+// setup control for number of Ladders
+let maxLadders = 5;
+let numLadders = 3;
+var sliderLadders;
+var txtLadders = "";
+
+// setup control for number of snakes
+let maxSnakes = 5;
+let numSnakes = 3;
+var sliderSnakes;
 var txtSnakes = "";
+
+// setup control for Roll the Die
+var buttonRollDie;
 
 function setup() {
   // create the canvas for board and separator
-  createCanvas(cols * resolution + 500, title + separator + (rows * resolution));
+  createCanvas(cols * resolution + separator + controlsArea, title + separator + (rows * resolution));
+  background(245);
 
   // display game title
   noStroke();
@@ -68,6 +79,12 @@ function draw() {
   for (let tile of tiles) {
     tile.showSnadders();
   }
+
+  // Draw the player
+  // player.show();
+
+  // skip rest of code
+  // return;
 
   // Rolling the die
   if (state === ROLL_STATE) {

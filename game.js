@@ -6,8 +6,12 @@
 function createControls() {
   // set location of first control element
   let spacing = 40;
-  let x = cols * resolution + separator;
+  let x = cols * resolution + separator + 17;
   let y = title + separator
+
+  // draw the conrols area
+  fill(200);
+  rect(cols * resolution + separator, height - rows * resolution, controlsArea, rows * resolution);
 
   // create control for number of players
   txtPlayers = createP("# Players : " + numPlayers);
@@ -40,6 +44,11 @@ function createControls() {
   sliderLadders.position(x, y);
   sliderLadders.input(updateControlsTxt);
   sliderLadders.changed(updateControls);
+
+  // create die-roll button, with text
+  buttonRollDie = createButton("Roll the Die");
+  buttonRollDie.position(cols * resolution + separator + 40, height - 25);
+  buttonRollDie.mousePressed(RollTheDie);
 }
 
 function resetGame() {
@@ -98,6 +107,22 @@ function resetGame() {
 
   // restart the game loop
   loop();
+}
+
+// roll the die
+function RollTheDie() {
+  if (state === ROLL_STATE) {
+    player.rollDie();
+    player.showPreview();
+    // state = MOVE_STATE;
+    player.show();
+    //
+    // // Is the game over?
+    // if (player.spot >= tiles.length - 1) {
+    //   state = ROLL_STATE;
+    //   player.reset();
+    // }
+  }
 }
 
 // update the controls
