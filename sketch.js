@@ -26,7 +26,7 @@ let title = 50;
 
 // setup control for number of Players
 let maxPlayers = 2;
-let numPlayers = 0;
+let numPlayers = 1;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -70,7 +70,7 @@ function setup() {
 }
 
 function draw() {
-  // Draw  tiles
+  // Draw tiles
   for (let tile of tiles) {
     tile.show();
   }
@@ -86,6 +86,7 @@ function draw() {
     if (numPlayers === 0) {
       rollDie();
     }
+    showDie(player.roll);
     player.showPreview();
     state = MOVE_STATE;
 

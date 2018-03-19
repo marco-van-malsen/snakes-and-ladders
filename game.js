@@ -113,7 +113,7 @@ function resetGame() {
 function rollDie() {
   if (state === ROLL_STATE) {
     var dieRoll = random([1, 2, 3, 4, 5, 6]);
-    showDie(dieRoll);
+    player.roll = dieRoll;
     player.next = player.spot + dieRoll;
   }
 }
@@ -125,13 +125,13 @@ function showDie(number) {
   // translate to center of where die will be drawn
   translate(cols * resolution + separator + controlsArea / 2, height - 75);
 
-  // draw the die
+  // draw the die outline
   rectMode(CENTER);
   fill(255);
   strokeWeight(4);
   stroke(0);
   rect(0, 0, 50, 50, 5, 5, 5, 5);
-  // rectMode(CORNER);
+
   // draw the dots
   //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
   //  -------|---------|---------|---------|---------|---------|---------
@@ -139,7 +139,6 @@ function showDie(number) {
   //  4 5 6  |  * 5 *  |  * * *  |  * 5 *  |  * * *  |  * 5 *  |  4 * 6
   //  7 8 9  |  * * *  |  * 8 *  |  7 * *  |  7 * 9  |  7 * 9  |  7 * 9
   //  -------|---------|---------|---------|---------|---------|---------
-
   // draw dot 1
   if (number === 4 || number === 5 || number === 6) {
     ellipse(-13, -13, 3, 3);
