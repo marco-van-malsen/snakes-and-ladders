@@ -33,12 +33,6 @@ class Player {
     this.roll = -1; // What was my latest roll
   }
 
-  // random die roll 1 - 6
-  rollDie() {
-    this.roll = floor(random(1, 7));
-    this.next = this.spot + this.roll;
-  }
-
   // Highlight the tiles ahead
   showPreview() {
     let start = max(0, this.spot);

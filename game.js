@@ -112,18 +112,69 @@ function resetGame() {
 // roll the die
 function RollTheDie() {
   if (state === ROLL_STATE) {
-    player.rollDie();
+    // player.rollDie();
+    var dieRoll = floor(random(1, 7));
+    showDie(dieRoll);
+    player.next = player.spot + dieRoll;
     player.showPreview();
-    // state = MOVE_STATE;
-    player.show();
-    //
-    // // Is the game over?
-    // if (player.spot >= tiles.length - 1) {
-    //   state = ROLL_STATE;
-    //   player.reset();
-    // }
   }
 }
+
+function showDie(number) {
+  push();
+  translate(cols * resolution + separator + controlsArea / 2, height - 75);
+  rectMode(CENTER);
+  fill(255);
+  strokeWeight(4);
+  stroke(0);
+  rect(0, 0, 50, 50, 5, 5, 5, 5);
+  rectMode(CORNER);
+  // draw the dots
+  //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
+  //  -------|---------|---------|---------|---------|---------|---------
+  //  1 2 3  |  * * *  |  * 2 *  |  * * 3  |  1 * 3  |  1 * 3  |  1 * 3
+  //  4 5 6  |  * 5 *  |  * * *  |  * 5 *  |  * * *  |  * 5 *  |  4 * 6
+  //  7 8 9  |  * * *  |  * 8 *  |  7 * *  |  7 * 9  |  7 * 9  |  7 * 9
+  //  -------|---------|---------|---------|---------|---------|---------
+
+  // draw dot 1
+  if (number === 4 || number === 5 || number === 6) {
+    ellipse(-13, -13, 3, 3);
+  }
+  // draw dot 2
+  if (number === 2) {
+    ellipse(0, -13, 3, 3);
+  }
+  // draw dot 3
+  if (number === 3 || number === 4 || number === 5 || number === 6) {
+    ellipse(13, -13, 3, 3);
+  }
+  // draw dot 4
+  if (number === 6) {
+    ellipse(-13, 0, 3, 3);
+  }
+  // draw dot 5
+  if (number === 1 || number === 3 || number === 5) {
+    ellipse(0, 0, 3, 3);
+  }
+  // draw dot 6
+  if (number === 6) {
+    ellipse(13, 0, 3, 3);
+  }
+  // draw dot 7
+  if (number === 3 || number === 4 || number === 5 || number === 6) {
+    ellipse(-13, 13, 3, 3);
+  }
+  // draw dot 8
+  if (number === 2) {
+    ellipse(0, 13, 3, 3);
+  }
+  // draw dot 9
+  if (number === 4 || number === 5 || number === 6) {
+    ellipse(13, 13, 3, 3);
+  }
+  pop();
+};
 
 // update the controls
 function updateControls() {

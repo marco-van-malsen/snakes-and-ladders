@@ -46,6 +46,9 @@ var txtSnakes = "";
 var buttonRollDie;
 
 function setup() {
+  // set framerate
+  frameRate(1);
+
   // create the canvas for board and separator
   createCanvas(cols * resolution + separator + controlsArea, title + separator + (rows * resolution));
   background(245);
@@ -67,8 +70,6 @@ function setup() {
 }
 
 function draw() {
-  // set framerate
-  frameRate(5);
 
   // Draw  tiles
   for (let tile of tiles) {
@@ -82,17 +83,20 @@ function draw() {
 
   // Draw the player
   // player.show();
+  // player.move();
 
   // skip rest of code
   // return;
 
   // Rolling the die
   if (state === ROLL_STATE) {
-    player.rollDie();
+    // player.rollDie();
+    RollTheDie();
     player.showPreview();
     state = MOVE_STATE;
     // Moving the player
   } else if (state === MOVE_STATE) {
+    // if (state === MOVE_STATE) {
     player.move();
     if (player.isSnadder()) {
       state = SNADDER_STATE;
