@@ -18,7 +18,7 @@ function createControls() {
   txtPlayers.position(x, y);
   y += spacing;
 
-  sliderPlayers = createSlider(1, maxPlayers, numPlayers);
+  sliderPlayers = createSlider(0, maxPlayers, numPlayers);
   sliderPlayers.position(x, y);
   sliderPlayers.input(updateControlsTxt);
   sliderPlayers.changed(updateControls);
@@ -48,7 +48,7 @@ function createControls() {
   // create die-roll button, with text
   buttonRollDie = createButton("Roll the Die");
   buttonRollDie.position(cols * resolution + separator + 40, height - 25);
-  buttonRollDie.mousePressed(RollTheDie);
+  buttonRollDie.mousePressed(rollDie);
 }
 
 function resetGame() {
@@ -110,25 +110,28 @@ function resetGame() {
 }
 
 // roll the die
-function RollTheDie() {
+function rollDie() {
   if (state === ROLL_STATE) {
-    // player.rollDie();
-    var dieRoll = floor(random(1, 7));
+    var dieRoll = random([1, 2, 3, 4, 5, 6]);
     showDie(dieRoll);
     player.next = player.spot + dieRoll;
-    player.showPreview();
   }
 }
 
 function showDie(number) {
+  // remember current settings
   push();
+
+  // translate to center of where die will be drawn
   translate(cols * resolution + separator + controlsArea / 2, height - 75);
+
+  // draw the die
   rectMode(CENTER);
   fill(255);
   strokeWeight(4);
   stroke(0);
   rect(0, 0, 50, 50, 5, 5, 5, 5);
-  rectMode(CORNER);
+  // rectMode(CORNER);
   // draw the dots
   //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
   //  -------|---------|---------|---------|---------|---------|---------
@@ -173,6 +176,17 @@ function showDie(number) {
   if (number === 4 || number === 5 || number === 6) {
     ellipse(13, 13, 3, 3);
   }
+
+  // display current player
+  translate(0, -40);
+  noStroke();
+  fill(100);
+  textAlign(CENTER, CENTER);
+  // textFormat(BOLD);
+  textSize(14);
+  text("Player : 1", 0, 0);
+
+  // restore previous settings
   pop();
 };
 

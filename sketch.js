@@ -26,7 +26,7 @@ let title = 50;
 
 // setup control for number of Players
 let maxPlayers = 2;
-let numPlayers = 1;
+let numPlayers = 0;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -47,15 +47,15 @@ var buttonRollDie;
 
 function setup() {
   // set framerate
-  frameRate(1);
+  frameRate(5);
 
   // create the canvas for board and separator
   createCanvas(cols * resolution + separator + controlsArea, title + separator + (rows * resolution));
   background(245);
 
   // display game title
-  noStroke();
   fill(200);
+  noStroke();
   rect(0, 0, cols * resolution, title);
   textAlign(CENTER, CENTER);
   textSize(36);
@@ -70,7 +70,6 @@ function setup() {
 }
 
 function draw() {
-
   // Draw  tiles
   for (let tile of tiles) {
     tile.show();
@@ -81,22 +80,17 @@ function draw() {
     tile.showSnadders();
   }
 
-  // Draw the player
-  // player.show();
-  // player.move();
-
-  // skip rest of code
-  // return;
-
-  // Rolling the die
+  // player's turn
   if (state === ROLL_STATE) {
-    // player.rollDie();
-    RollTheDie();
+    // run in simulation mode if zero players
+    if (numPlayers === 0) {
+      rollDie();
+    }
     player.showPreview();
     state = MOVE_STATE;
+
     // Moving the player
   } else if (state === MOVE_STATE) {
-    // if (state === MOVE_STATE) {
     player.move();
     if (player.isSnadder()) {
       state = SNADDER_STATE;
