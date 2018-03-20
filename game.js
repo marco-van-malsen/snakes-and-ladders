@@ -9,52 +9,53 @@ function createControls() {
   let x = cols * resolution + separator + 17;
   let y = title + separator
 
-  // draw the conrols area
-  fill(200);
-  rect(cols * resolution + separator, height - rows * resolution, controlsArea, rows * resolution);
-
-  // create control for number of players
+  // create text showing number of players
   txtPlayers = createP("# Players : " + numPlayers);
   txtPlayers.position(x, y);
   y += spacing;
 
+  // create slider to control number of players
   sliderPlayers = createSlider(0, maxPlayers, numPlayers);
   sliderPlayers.position(x, y);
   sliderPlayers.input(updateControlsTxt);
   sliderPlayers.changed(updateControls);
   y += spacing;
 
-  // create control for number of snakes)
+  // create text showing number of snakes
   txtSnakes = createP("# Snakes : " + numSnakes);
   txtSnakes.position(x, y);
   y += spacing;
 
+  // create slider to control number of snakes
   sliderSnakes = createSlider(1, maxSnakes, numSnakes);
   sliderSnakes.position(x, y);
   sliderSnakes.input(updateControlsTxt);
   sliderSnakes.changed(updateControls);
   y += spacing;
 
-  // create control for number of ladders
+  // create text showing number of ladders
   txtLadders = createP("# Ladders : " + numLadders);
   txtLadders.position(x, y);
   y += spacing;
 
+  // create slider to control number of ladders
   sliderLadders = createSlider(1, maxLadders, numLadders);
   sliderLadders.position(x, y);
   sliderLadders.input(updateControlsTxt);
   sliderLadders.changed(updateControls);
 
-  // create die-roll button, with text
+  // create button to roll the die
   buttonRollDie = createButton("Roll the Die");
-  buttonRollDie.position(cols * resolution + separator + 40, height - 25);
+  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
   buttonRollDie.mousePressed(rollDie);
+
+  // create text showing the current player
+  txtCurPlayer = createP("Player : " + 1);
+  txtCurPlayer.center('horizonal');
+  txtCurPlayer.position(buttonRollDie.x + buttonRollDie.width / 2 - 30, buttonRollDie.y - 115);
 }
 
 function resetGame() {
-  // stop game loop to reset the game
-  noLoop();
-
   // reset the tiles array
   tiles = [];
 
@@ -102,92 +103,17 @@ function resetGame() {
     }
   }
 
+  // create the die
+  if (!die) {
+    die = new Die();
+  }
+
   // A new player
   player = new Player();
 
   // restart the game loop
   loop();
 }
-
-// roll the die
-function rollDie() {
-  if (state === ROLL_STATE) {
-    var dieRoll = random([1, 2, 3, 4, 5, 6]);
-    player.roll = dieRoll;
-    player.next = player.spot + dieRoll;
-  }
-}
-
-function showDie(number) {
-  // remember current settings
-  push();
-
-  // translate to center of where die will be drawn
-  translate(cols * resolution + separator + controlsArea / 2, height - 75);
-
-  // draw the die outline
-  rectMode(CENTER);
-  fill(255);
-  strokeWeight(4);
-  stroke(0);
-  rect(0, 0, 50, 50, 5, 5, 5, 5);
-
-  // draw the dots
-  //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
-  //  -------|---------|---------|---------|---------|---------|---------
-  //  1 2 3  |  * * *  |  * 2 *  |  * * 3  |  1 * 3  |  1 * 3  |  1 * 3
-  //  4 5 6  |  * 5 *  |  * * *  |  * 5 *  |  * * *  |  * 5 *  |  4 * 6
-  //  7 8 9  |  * * *  |  * 8 *  |  7 * *  |  7 * 9  |  7 * 9  |  7 * 9
-  //  -------|---------|---------|---------|---------|---------|---------
-  // draw dot 1
-  if (number === 4 || number === 5 || number === 6) {
-    ellipse(-13, -13, 3, 3);
-  }
-  // draw dot 2
-  if (number === 2) {
-    ellipse(0, -13, 3, 3);
-  }
-  // draw dot 3
-  if (number === 3 || number === 4 || number === 5 || number === 6) {
-    ellipse(13, -13, 3, 3);
-  }
-  // draw dot 4
-  if (number === 6) {
-    ellipse(-13, 0, 3, 3);
-  }
-  // draw dot 5
-  if (number === 1 || number === 3 || number === 5) {
-    ellipse(0, 0, 3, 3);
-  }
-  // draw dot 6
-  if (number === 6) {
-    ellipse(13, 0, 3, 3);
-  }
-  // draw dot 7
-  if (number === 3 || number === 4 || number === 5 || number === 6) {
-    ellipse(-13, 13, 3, 3);
-  }
-  // draw dot 8
-  if (number === 2) {
-    ellipse(0, 13, 3, 3);
-  }
-  // draw dot 9
-  if (number === 4 || number === 5 || number === 6) {
-    ellipse(13, 13, 3, 3);
-  }
-
-  // display current player
-  translate(0, -40);
-  noStroke();
-  fill(100);
-  textAlign(CENTER, CENTER);
-  // textFormat(BOLD);
-  textSize(14);
-  text("Player : 1", 0, 0);
-
-  // restore previous settings
-  pop();
-};
 
 // update the controls
 function updateControls() {
@@ -204,7 +130,10 @@ function updateControls() {
   } else if (sliderPlayers.value() != numPlayers) {
     numPlayers = sliderPlayers.value();
   }
+  // update the texts above the controls
   updateControlsTxt();
+
+  // restart the game
   resetGame();
 }
 

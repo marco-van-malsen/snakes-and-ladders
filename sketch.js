@@ -14,6 +14,9 @@ let tiles = [];
 // one player
 let player;
 
+// The Die
+let die;
+
 // setup gameboard (columns, rows and tile size)
 let cols = 10;
 let rows = cols;
@@ -49,6 +52,14 @@ function setup() {
   // set framerate
   frameRate(5);
 
+  // create game controls
+  createControls();
+
+  // initialize the game
+  resetGame();
+}
+
+function draw() {
   // create the canvas for board and separator
   createCanvas(cols * resolution + separator + controlsArea, title + separator + (rows * resolution));
   background(245);
@@ -62,14 +73,6 @@ function setup() {
   fill(100);
   text("Snakes & Ladders", (cols * resolution) / 2, title / 2)
 
-  // create game controls
-  createControls();
-
-  // initialize the game
-  resetGame();
-}
-
-function draw() {
   // Draw tiles
   for (let tile of tiles) {
     tile.show();
@@ -80,13 +83,17 @@ function draw() {
     tile.showSnadders();
   }
 
+  // draw the conrols area
+  fill(200);
+  noStroke();
+  rect(cols * resolution + separator, height - rows * resolution, controlsArea, rows * resolution);
+
   // player's turn
   if (state === ROLL_STATE) {
     // run in simulation mode if zero players
     if (numPlayers === 0) {
       rollDie();
     }
-    showDie(player.roll);
     player.showPreview();
     state = MOVE_STATE;
 
@@ -109,7 +116,11 @@ function draw() {
 
   // Is the game over?
   if (player.spot >= tiles.length - 1) {
-    state = ROLL_STATE;
-    player.reset();
+    resetGame();
+  }
+
+  // wait for player to roll the die
+  if (numPlayers > 0) {
+    noLoop();
   }
 }
