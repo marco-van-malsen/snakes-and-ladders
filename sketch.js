@@ -14,6 +14,9 @@ let tiles = [];
 // one player
 let player;
 
+// the players
+let players = [];
+
 // The Die
 let die;
 

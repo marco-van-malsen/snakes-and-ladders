@@ -59,7 +59,7 @@ function resetGame() {
   // reset the tiles array
   tiles = [];
 
-  // Create all the tiles from bottom to top
+  // Create all the tiles from start to finish
   let x = 0;
   let y = title + separator + (rows - 1) * resolution;
   let dir = 1;
@@ -67,6 +67,7 @@ function resetGame() {
     let tile = new Tile(x, y, resolution, i, i + 1);
     tiles.push(tile);
     x = x + (resolution * dir);
+
     // Move along a winding path up the rows
     if (x >= cols * resolution || x <= -resolution) {
       dir *= -1;
@@ -110,6 +111,18 @@ function resetGame() {
 
   // A new player
   player = new Player();
+
+  // reset the players array
+  players = [];
+
+  // create new players (zero players still requires one player for simulation mode)
+  if (numPlayers === 0) {
+    players.push(new Player);
+  } else {
+    for (var i = 1; i <= numPlayers; i++) {
+      players.push(new Player);
+    }
+  }
 
   // restart the game loop
   loop();
