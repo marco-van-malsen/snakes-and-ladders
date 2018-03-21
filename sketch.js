@@ -116,9 +116,4 @@ function draw() {
   if (player.spot >= tiles.length - 1) {
     resetGame();
   }
-
-  // wait for player to roll the die
-  // if (numPlayers > 0) {
-  //   noLoop();
-  // }
 }
