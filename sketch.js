@@ -90,9 +90,12 @@ function draw() {
 
   // player's turn
   if (state === ROLL_STATE) {
-    // run in simulation mode if zero players
+    // zero players; automatically roll the die
     if (numPlayers === 0) {
       rollDie();
+      // one or more players; interrupt loop and wait for user to roll the die
+    } else {
+      noLoop();
     }
 
     // Moving the player
@@ -103,14 +106,16 @@ function draw() {
     } else {
       state = ROLL_STATE;
     }
+
     // Moving along a Snake or Ladder
   } else if (state === SNADDER_STATE) {
     player.moveSnadder();
     state = ROLL_STATE;
   }
 
-  // Draw the player
+  // Draw player and die
   player.show();
+  showDie();
 
   // Is the game over?
   if (player.spot >= tiles.length - 1) {

@@ -142,14 +142,17 @@ function updateControls() {
     numSnakes = sliderSnakes.value();
     numLadders = min(sliderSnakes.value(), sliderLadders.value());
     sliderLadders.value(numLadders);
+
     // the number of snakes is always greater or equal to the number of ladders
   } else if (sliderLadders.value() != numLadders) {
     numLadders = sliderLadders.value();
     numSnakes = max(sliderSnakes.value(), sliderLadders.value());
     sliderSnakes.value(numSnakes);
+
   } else if (sliderPlayers.value() != numPlayers) {
     numPlayers = sliderPlayers.value();
   }
+
   // update the texts above the controls
   updateControlsTxt();
 
