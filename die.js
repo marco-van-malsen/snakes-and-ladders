@@ -20,68 +20,68 @@ function rollDie() {
     die.value = random([1, 2, 3, 4, 5, 6]);
     player.roll = die.value;
     player.next = player.spot + die.value;
-    showDie(die.value);
+
+    // remember current settings
+    push();
+
+    // translate to center of where die will be drawn
+    translate(die.x, die.y);
+
+    // draw the die outline
+    rectMode(CENTER);
+    fill(255);
+    strokeWeight(4);
+    stroke(0);
+    rect(0, 0, die.wh, die.wh, die.r, die.r, die.r, die.r);
+
+    // draw the dots
+    //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
+    //  -------|---------|---------|---------|---------|---------|---------
+    //  1 2 3  |  * * *  |  * 2 *  |  * * 3  |  1 * 3  |  1 * 3  |  1 * 3
+    //  4 5 6  |  * 5 *  |  * * *  |  * 5 *  |  * * *  |  * 5 *  |  4 * 6
+    //  7 8 9  |  * * *  |  * 8 *  |  7 * *  |  7 * 9  |  7 * 9  |  7 * 9
+    //  -------|---------|---------|---------|---------|---------|---------
+    // draw dot 1
+    if (die.value === 4 || die.value === 5 || die.value === 6) {
+      ellipse(-13, -13, 3, 3);
+    }
+    // draw dot 2
+    if (die.value === 2) {
+      ellipse(0, -13, 3, 3);
+    }
+    // draw dot 3
+    if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
+      ellipse(13, -13, 3, 3);
+    }
+    // draw dot 4
+    if (die.value === 6) {
+      ellipse(-13, 0, 3, 3);
+    }
+    // draw dot 5
+    if (die.value === 1 || die.value === 3 || die.value === 5) {
+      ellipse(0, 0, 3, 3);
+    }
+    // draw dot 6
+    if (die.value === 6) {
+      ellipse(13, 0, 3, 3);
+    }
+    // draw dot 7
+    if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
+      ellipse(-13, 13, 3, 3);
+    }
+    // draw dot 8
+    if (die.value === 2) {
+      ellipse(0, 13, 3, 3);
+    }
+    // draw dot 9
+    if (die.value === 4 || die.value === 5 || die.value === 6) {
+      ellipse(13, 13, 3, 3);
+    }
+    // restore previous settings
+    pop();
+
+    // change to move state
+    player.showPreview();
+    state = MOVE_STATE;
   }
 }
-
-function showDie(number) {
-  // remember current settings
-  push();
-
-  // translate to center of where die will be drawn
-  translate(die.x, die.y);
-
-  // draw the die outline
-  rectMode(CENTER);
-  fill(255);
-  strokeWeight(4);
-  stroke(0);
-  rect(0, 0, die.wh, die.wh, die.r, die.r, die.r, die.r);
-
-  // draw the dots
-  //   DOTS  |    1    |    2    |    3    |    4    |    5    |    6
-  //  -------|---------|---------|---------|---------|---------|---------
-  //  1 2 3  |  * * *  |  * 2 *  |  * * 3  |  1 * 3  |  1 * 3  |  1 * 3
-  //  4 5 6  |  * 5 *  |  * * *  |  * 5 *  |  * * *  |  * 5 *  |  4 * 6
-  //  7 8 9  |  * * *  |  * 8 *  |  7 * *  |  7 * 9  |  7 * 9  |  7 * 9
-  //  -------|---------|---------|---------|---------|---------|---------
-  // draw dot 1
-  if (number === 4 || number === 5 || number === 6) {
-    ellipse(-13, -13, 3, 3);
-  }
-  // draw dot 2
-  if (number === 2) {
-    ellipse(0, -13, 3, 3);
-  }
-  // draw dot 3
-  if (number === 3 || number === 4 || number === 5 || number === 6) {
-    ellipse(13, -13, 3, 3);
-  }
-  // draw dot 4
-  if (number === 6) {
-    ellipse(-13, 0, 3, 3);
-  }
-  // draw dot 5
-  if (number === 1 || number === 3 || number === 5) {
-    ellipse(0, 0, 3, 3);
-  }
-  // draw dot 6
-  if (number === 6) {
-    ellipse(13, 0, 3, 3);
-  }
-  // draw dot 7
-  if (number === 3 || number === 4 || number === 5 || number === 6) {
-    ellipse(-13, 13, 3, 3);
-  }
-  // draw dot 8
-  if (number === 2) {
-    ellipse(0, 13, 3, 3);
-  }
-  // draw dot 9
-  if (number === 4 || number === 5 || number === 6) {
-    ellipse(13, 13, 3, 3);
-  }
-
-  // restore previous settings
-  pop();
-};

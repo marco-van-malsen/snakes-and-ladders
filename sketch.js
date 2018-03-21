@@ -52,9 +52,6 @@ var txtSnakes = "";
 var buttonRollDie;
 
 function setup() {
-  // set framerate
-  frameRate(5);
-
   // create game controls
   createControls();
 
@@ -97,8 +94,6 @@ function draw() {
     if (numPlayers === 0) {
       rollDie();
     }
-    player.showPreview();
-    state = MOVE_STATE;
 
     // Moving the player
   } else if (state === MOVE_STATE) {
@@ -123,7 +118,7 @@ function draw() {
   }
 
   // wait for player to roll the die
-  if (numPlayers > 0) {
-    noLoop();
-  }
+  // if (numPlayers > 0) {
+  //   noLoop();
+  // }
 }

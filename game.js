@@ -56,6 +56,13 @@ function createControls() {
 }
 
 function resetGame() {
+  // set framerate
+  if (numPlayers === 0) {
+    frameRate(20);
+  } else {
+    frameRate(5);
+  }
+
   // reset the tiles array
   tiles = [];
 
