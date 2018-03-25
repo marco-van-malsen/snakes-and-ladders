@@ -147,8 +147,16 @@ function draw() {
     // player landed or a snadder
   } else if (state === SNADDER_STATE) {
     if (DEBUG) console.log("SNADDER_STATE");
+    // move player along snadder
     players[curPlayer].moveSnadder();
+    
+    // switch player
+    switchPlayer()
+      
+    // update player progress
     showPlayersArea();
+    
+    // continue play
     if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
   }
 
