@@ -222,6 +222,7 @@ function setupCanvas() {
   // if (DEBUG) console.log("canvas : " + canvasW + "x" + canvasH);
 }
 
+// draw background for controls
 function showControlsArea() {
   push();
   fill(200);
@@ -257,7 +258,7 @@ function showPlayers() {
   }
 }
 
-// display player infomration area
+// display player information area
 function showPlayersArea() {
   // if (DEBUG) console.log("SHOW PLAYERS AREA")
   // store current settings
@@ -380,7 +381,8 @@ function showPlayersArea() {
       // // in case of a snadder; read next value
       if (nextValue === "snadder") {
         drawSnadder = true;
-        nextValue = players[p].history[h + 1];
+        h++;
+        nextValue = players[p].history[h];
       }
 
       // last position is beginning new line
@@ -402,9 +404,9 @@ function showPlayersArea() {
       line(x1, y1, x2, y2);
 
       // bump counter when last value was a snadder
-      if (drawSnadder) {
-        h++;
-      };
+      //if (drawSnadder) {
+        //h++;
+      //};
     }
   }
 
