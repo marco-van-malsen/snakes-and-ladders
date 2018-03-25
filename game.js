@@ -345,7 +345,7 @@ function showPlayersArea() {
   // determine distance between histogram lines
   let histSpacingY = histH / rows;
   let histSpacingX = histW / turns;
-  histSpacingX = max(histSpacingX, histSpacingY);
+  histSpacingX = min(histSpacingX, histSpacingY);
 
   // draw histogram - horizontal lines
   push();
@@ -393,7 +393,7 @@ function showPlayersArea() {
       y2 = -1 * map(nextValue, 0, 100, 0, playersArea);
 
       // highlight current player's history with a thicker line
-      if (numPlayers>0 && p === curPlayer) {
+      if (numPlayers > 0 && p === curPlayer) {
         strokeWeight(4);
       } else {
         strokeWeight(2);
