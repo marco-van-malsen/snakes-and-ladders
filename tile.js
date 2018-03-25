@@ -31,12 +31,13 @@ class Tile {
 
   // Highlight over rectangle
   highlight() {
+    // console.log("highlight tile " + (this.index + 1));
     fill(0, 0, 255, 100);
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
   }
 
-  // Draw rectangle
+  // Draw tile
   show() {
     // draw tile (override tile color for start and finish)
     if (this.index == 0 || this.index == tiles.length - 1) {
@@ -60,7 +61,7 @@ class Tile {
     // display tile number
     textAlign(CENTER, CENTER);
     textSize(12);
-    fill(255, 255, 255);
+    fill(255);
     text(tileText, this.x + this.wh / 2, this.y + this.wh / 2);
   }
 

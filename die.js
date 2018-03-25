@@ -16,18 +16,23 @@ class Die {
 
 // roll the die
 function rollDie() {
+  if (DEBUG) console.log("ROLL THE DIE")
   if (state === ROLL_STATE) {
     // pick a random number 1 to 6
     die.value = random([1, 2, 3, 4, 5, 6]);
+    if (DEBUG) console.log("- die rolled a " + die.value)
 
-    // update player
-    player.roll = die.value;
-    player.next = player.spot + die.value;
 
-    // show preview; change state to MOVE_STATE and restart loop
-    // player.showPreview();
-    // state = MOVE_STATE;
-    loop();
+    // // update player
+    players[curPlayer].updateNew();
+
+    // switch to next player
+    switchPlayer();
+
+    // resume loop
+    if (numPlayers > 0) {
+      loop();
+    }
   }
 }
 
