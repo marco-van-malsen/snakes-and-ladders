@@ -344,7 +344,6 @@ function showPlayersArea() {
 
   // determine distance between histogram lines
   let histSpacingY = histH / rows;
-  // let histSpacingX = histW / players[0].history.length;
   let histSpacingX = histW / turns;
   histSpacingX = min(histSpacingX, histSpacingY);
 
@@ -402,11 +401,6 @@ function showPlayersArea() {
 
       // draw player history line
       line(x1, y1, x2, y2);
-
-      // bump counter when last value was a snadder
-      //if (drawSnadder) {
-        //h++;
-      //};
     }
   }
 
