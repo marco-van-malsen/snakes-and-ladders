@@ -11,26 +11,34 @@ class Player {
   // initialize player
   constructor(n) {
     this.active = true; // player in play, not finish
-    this.spot = 0; // Where I am now
-    this.roll = -1; // What was my last roll
-    this.next = -1; // Where I'm going
-    this.number = n; //player's number
-    this.animated = true;
-    this.delay = TURN_DELAY;
-    this.done = false;
-    this.half_done = false;
-    this.interpolator = 0;
-    this.current = tiles[0];
-    this.queue = this.current;
-    this.position = this.current.getCenter();
-    this.steps = 0;
     this.history = [];
-    this.tokenColor = 127;
+    this.number = n; //player's number
+    this.spot = 0; // Where I am now
+    this.tokenColor = 127; // color assigned to players token
+    // this.roll = -1; // What was my last roll
+    // this.next = -1; // Where I'm going
+    // this.animated = true;
+    // this.delay = TURN_DELAY;
+    // this.done = false;
+    // this.half_done = false;
+    // this.interpolator = 0;
+    // this.current = tiles[0];
+    // this.queue = this.current;
+    // this.position = this.current.getCenter();
+    // this.steps = 0;
   }
 
-  // Is player on a Snake or Ladder?
+  // Did current player land on a Snake or Ladder?
   isSnadder() {
+    // if (DEBUG) console.log("IS SNADDER")
     let tile = tiles[this.spot];
+
+    // if (tile.snadder < 0) {
+    // if (DEBUG) console.log("- snake")
+    // } else if (tile.snadder > 0) {
+    // if (DEBUG) console.log("- ladder")
+    // }
+
     return (tile && tile.snadder !== 0);
   }
 
@@ -43,32 +51,38 @@ class Player {
 
   // Move according to the Snake or Ladder
   moveSnadder() {
-    // console.log("follow snadder")
-    let tile = tiles[this.spot];
-    this.spot += tile.snadder;
+    if (DEBUG) console.log("MOVE SNADDER")
+    if (DEBUG) console.log("- start: " + this.spot)
+    if (DEBUG) console.log("- delta: " + tiles[this.spot].snadder)
+    this.spot += tiles[this.spot].snadder;
+    this.history.push("snadder");
+    this.history.push(this.spot);
   }
 
   // Display on the current tile
   show() {
-    // get players position on the port
+    // if (DEBUG) console.log("SHOW PLAYER: " + curPlayer);
+    // get players position on the board
     let playerTile = tiles[this.spot];
 
     // Just get out of here if it's not a valid tile
-    if (!playerTile) return;
+    // if (!playerTile) return;
 
     // get total number of players on current tile
     let playersOnTile = 0;
-    for (let i = 1; i <= numPlayers; i++) {
-      if (this.spot === players[i - 1].spot) {
+    for (let i = 0; i <= players.length - 1; i++) {
+      if (this.spot === players[i].spot) {
         playersOnTile += 1;
       }
     }
+    // if (DEBUG) console.log("- playersOnTile: " + playersOnTile);
 
     // determine token size based on number of players occupying a tile
     let tokenSize = 25;
     if (playersOnTile > 1) {
       tokenSize = 15;
     }
+    // if (DEBUG) console.log("- tokenSize: " + tokenSize);
 
     // draw the player
     push();
@@ -94,8 +108,11 @@ class Player {
 
   // highlight the tiles ahead
   showPreview() {
+    if (DEBUG) console.log("SHOW PREVIEW");
     let start = max(0, this.spot);
-    let end = min(this.next, tiles.length - 1);
+    let end = min(this.spot + die.value, tiles.length - 1);
+    if (DEBUG) console.log("- start=" + start);
+    if (DEBUG) console.log("- end=" + end);
     for (let i = start; i <= end; i++) {
       tiles[i].highlight();
     }

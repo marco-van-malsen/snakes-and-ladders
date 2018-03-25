@@ -67,6 +67,7 @@ function createControls() {
 
 // Is the game over?
 function GameOver() {
+  if (DEBUG) console.clear();
   if (DEBUG) console.log("GAME OVER");
 
   // count number of players on the finish-tile
@@ -82,7 +83,8 @@ function GameOver() {
   if (playersActive === 0) {
     if (DEBUG) console.log("- YES, GAME OVER");
     noLoop();
-    // initGame();
+    // return;
+    initGame();
   }
 }
 
@@ -90,8 +92,10 @@ function GameOver() {
 function initGame() {
   // adjust framerate
   if (simulationMode) {
-    fps = 5; //24;
+    state = ROLL_STATE;
+    fps = 5;
   } else {
+    state = WAIT_STATE;
     fps = 5;
   }
   frameRate(fps);
@@ -120,46 +124,61 @@ function initGame() {
   }
 
   // Pick random Snakes
+  // if (DEBUG) console.log("MAKE SNAKES");
+  let beginMin = cols;
+  let beginMax = tiles.length - 2;
+  // if (DEBUG) console.log("- beginMin:" + beginMin);
+  // if (DEBUG) console.log("- beginMax:" + beginMax);
   for (let i = 0; i <= numSnakes - 1; i++) {
     // pick random tile to add Snake to (snake on finish tile not allowed)
-    let index = floor(random(cols, tiles.length - 2));
+    let begin = floor(random(beginMin, beginMax));
 
     // add snake, unless one already exists
-    if (tiles[index].snadder < 0) {
+    if (tiles[begin].snadder !== 0) {
       i--;
     } else {
+      // if (DEBUG) console.log("- snake:" + i);
+      // if (DEBUG) console.log("  - begin:" + begin);
       // -1 makes in a Snake (drop down a number of spots)
-      tiles[index].snadder = -1 * floor(random(index % cols, index - 1));
+      deltaMin = begin % cols;
+      deltaMax = begin - 1;
+      delta = -1 * floor(random(deltaMin, deltaMax))
+      // if (DEBUG) console.log("  - deltaMin:" + deltaMin);
+      // if (DEBUG) console.log("  - deltaMax:" + deltaMax);
+      // if (DEBUG) console.log("  - delta:" + delta);
+      tiles[begin].snadder = delta;
     }
   }
 
   // Pick random ladders
+  // if (DEBUG) console.log("MAKE LADDERS");
+  beginMin = 1;
+  beginMax = tiles.length - cols - 1;
+  // if (DEBUG) console.log("- beginMin:" + beginMin);
+  // if (DEBUG) console.log("- beginMax:" + beginMax);
   for (let i = 0; i <= numLadders - 1; i++) {
     // pick random tile to add Ladder to
-    let index = floor(random(0, tiles.length - cols));
+    begin = floor(random(beginMin, beginMax));
 
     // add ladder, unless one already exists
-    if (tiles[index].snadder > 0) {
+    if (tiles[begin].snadder != 0) {
       i--;
     } else {
+      // if (DEBUG) console.log("- ladder:" + i);
+      // if (DEBUG) console.log("  - begin:" + begin);
       // 1 makes in a ladder (skip ahead a number of spots)
-      tiles[index].snadder = floor(random(cols - (index % cols), tiles.length - index - 1));
+      deltaMin = cols - (begin % cols);
+      deltaMax = tiles.length - begin - 2;
+      delta = floor(random(deltaMin, deltaMax))
+      // if (DEBUG) console.log("  - deltaMin:" + deltaMin);
+      // if (DEBUG) console.log("  - deltaMax:" + deltaMax);
+      // if (DEBUG) console.log("  - delta:" + delta);
+      tiles[begin].snadder = delta;
     }
   }
 
   // create or reset the die
-  // if (!die) {
   die = new Die();
-  // } else {
-  // die.value = 0;
-  // }
-
-  // A new player
-  // player = new Player();
-  // if (DEBUG) console.log(player);
-
-  // set current player
-  curPlayer = 0;
 
   // create new players (zero players still requires one player for simulation mode)
   players = [];
@@ -170,6 +189,12 @@ function initGame() {
       players.push(new Player(i));
     }
   }
+
+  // set current player
+  curPlayer = 0;
+
+  // set number of turns played
+  turns = 0;
 
   // assign colors
   for (let i = 0; i <= players.length - 1; i++) {
@@ -225,8 +250,16 @@ function showGameTitle() {
   pop();
 }
 
+// show players
+function showPlayers() {
+  for (let p of players) {
+    p.show();
+  }
+}
+
 // display player infomration area
 function showPlayersArea() {
+  // if (DEBUG) console.log("SHOW PLAYERS AREA")
   // store current settings
   push();
 
@@ -239,7 +272,6 @@ function showPlayersArea() {
   textAlign(CENTER, CENTER);
 
   // draw Turn-column (shows current player)
-  // for (let j = 0; j < max(1, numPlayers) + 1; j++) {
   for (let j = 0; j <= players.length; j++) {
     //draw rectangle
     fill(100);
@@ -261,9 +293,8 @@ function showPlayersArea() {
     }
   }
 
-  // draw PLayer-column
+  // draw Player-column
   translate(resolution, 0);
-  // for (let j = 0; j < max(1, numPlayers) + 1; j++) {
   for (let j = 0; j <= players.length; j++) {
     //draw rectangle
     fill(100);
@@ -289,9 +320,9 @@ function showPlayersArea() {
     strokeWeight(1);
     rect(0, j * resolution, resolution, resolution);
 
-    strokeWeight(0);
     if (j === 0) {
       fill(255);
+      strokeWeight(0);
       text("Token", resolution * 0.5, resolution * 0.5);
     } else {
       fill(players[j - 1].tokenColor);
@@ -312,10 +343,9 @@ function showPlayersArea() {
 
   // determine distance between histogram lines
   let histSpacingY = histH / rows;
-  let histSpacingX = histW / players[0].history.length;
+  // let histSpacingX = histW / players[0].history.length;
+  let histSpacingX = histW / turns;
   histSpacingX = min(histSpacingX, histSpacingY);
-  // if (DEBUG) console.log("histSpacingY=" + histSpacingY)
-  // if (DEBUG) console.log("histSpacingX=" + histSpacingX)
 
   // draw histogram - horizontal lines
   push();
@@ -340,15 +370,29 @@ function showPlayersArea() {
     stroke(players[p].tokenColor);
 
     // draw histogram based on players history
-    for (h = 0; h <= players[p].history.length - 1; h++) {
+    for (let h = 0; h <= players[p].history.length - 1; h++) {
+      // reset snadder
+      let drawSnadder = false;
+
+      // read value (read as string to deal with strings and numbers)
+      let nextValue = players[p].history[h];
+
+      // // in case of a snadder; read next value
+      if (nextValue === "snadder") {
+        drawSnadder = true;
+        nextValue = players[p].history[h + 1];
+      }
+
       // last position is beginning new line
       x1 = x2;
       y1 = y2;
-      x2 += histSpacingX;
-      y2 = -1 * map(players[p].history[h], 0, 100, 0, playersArea);
+
+      // draw vertical line for snadders
+      if (drawSnadder ? x2 = x1 : x2 += histSpacingX);
+      y2 = -1 * map(nextValue, 0, 100, 0, playersArea);
 
       // highlight current player's history with a thicker line
-      if (p == curPlayer - 1) {
+      if (p === curPlayer) {
         strokeWeight(4);
       } else {
         strokeWeight(2);
@@ -356,17 +400,22 @@ function showPlayersArea() {
 
       // draw player history line
       line(x1, y1, x2, y2);
+
+      // bump counter when last value was a snadder
+      if (drawSnadder) {
+        h++;
+      };
     }
   }
 
-  //restore previous settings
+  // restore previous settings
   pop();
-  noLoop();
 }
 
 function switchPlayer() {
-  // skip when in single player mode
+  // skip in single player mode
   if (numPlayers === 1) {
+    turns += 1;
     return;
   }
 
@@ -407,12 +456,13 @@ function switchPlayer() {
   updateControlsTxt();
 }
 
-// switch simulation mode on off
+// switch simulation mode on or off
 function switchSimulationMode() {
-  // togle simulation mode
+  // toggle simulation mode
   simulationMode = !simulationMode;
+
+  // restart game
   initGame();
-  loop();
 }
 
 // update the controls
@@ -420,17 +470,20 @@ function updateControls() {
   // the number of ladders is always less or equal to the number of snakes
   if (sliderSnakes.value() != numSnakes) {
     numSnakes = sliderSnakes.value();
+    if (DEBUG) console.log("set numSnakes:" + numSnakes);
     numLadders = min(sliderSnakes.value(), sliderLadders.value());
     sliderLadders.value(numLadders);
 
     // the number of snakes is always greater or equal to the number of ladders
   } else if (sliderLadders.value() != numLadders) {
     numLadders = sliderLadders.value();
+    if (DEBUG) console.log("set numLadders:" + numLadders);
     numSnakes = max(sliderSnakes.value(), sliderLadders.value());
     sliderSnakes.value(numSnakes);
 
   } else if (sliderPlayers.value() != numPlayers) {
     numPlayers = sliderPlayers.value();
+    if (DEBUG) console.log("set numPlayers:" + numPlayers);
     playersArea = resolution * (max(1, numPlayers) + 1);
   }
 

@@ -3,16 +3,19 @@
 // Extended: Marco van Malsen
 
 // enable or disable debug comments
-const DEBUG = true;
+const DEBUG = false;
 
 // define available game states and set initial game state
-const ROLL_STATE = 0; // Rolling the die
-const MOVE_STATE = 1; // Moving to next spot
-const SNADDER_STATE = 2; // Moving along a Snake or Ladder
+const WAIT_STATE = 0; /// wait for player to roll the die
+const ROLL_STATE = 1; // roll the die
+const PREVIEW_STATE = 2; // preview player's move
+const MOVE_STATE = 3; // move player to next spot
+const SNADDER_STATE = 4; // move player along a Snake or Ladder
 let state = ROLL_STATE;
 
 // setup frame-rate
 let fps = 60;
+fps = 5;
 
 // set initial game simulation mode
 let simulationMode = false;
@@ -24,7 +27,10 @@ let tiles = [];
 let player;
 let players = [];
 
-// The Die
+// number of turns played
+let turns;
+
+// the die
 let die;
 
 // setup gameboard (columns, rows and tile size)
@@ -35,7 +41,7 @@ let resolution = 40;
 // setup control for number of Players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 4;
+let numPlayers = 1;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -61,7 +67,6 @@ let title = 50;
 var buttonRollDie;
 
 function setup() {
-  // create game controls
   createControls();
 
   // initialize the game
@@ -91,26 +96,72 @@ function draw() {
     tile.showSnadders();
   }
 
-  for (let player of players) {
-    // console.log(p);
-    player.show();
-  }
-
-  // return;
-
-  // if (DEBUG) console.log("Player: " + curPlayer)
+  //show players at their initial spot
+  // if (die.value === 0) {
+  // showPlayers();
+  // }
 
   // player's turn
-  if (state === ROLL_STATE) {
-    // if (DEBUG) console.log("ROLL_STATE");
+  if (state === WAIT_STATE) {
+    if (DEBUG) console.log("WAIT_STATE");
+    noLoop();
+
+  } else if (state === ROLL_STATE) {
+    if (DEBUG) console.log("ROLL_STATE");
     // zero players; automatically roll the die
-    if (simulationMode) {
-      rollDie();
+    // if (simulationMode) {
+    // rollDie();
+    // loop();
+    // } else {
+    // if (DEBUG) console.log("wait for player: " + curPlayer);
+    // noLoop();
+    // }
+
+    // preview player
+  } else if (state === PREVIEW_STATE) {
+    if (DEBUG) console.log("PREVIEW_STATE");
+    players[curPlayer].showPreview();
+    state = MOVE_STATE;
+
+    // move player
+  } else if (state === MOVE_STATE) {
+    if (DEBUG) console.log("MOVE_STATE");
+
+    // update player
+    players[curPlayer].updateNew();
+
+    // switch state
+    if (players[curPlayer].isSnadder()) {
+      state = SNADDER_STATE;
+    } else {
+      // continue play
+      if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
+
+      // switch player
+      switchPlayer()
+
+      // update player progress
+      showPlayersArea();
     }
 
-    showDie()
-    // Moving the player
+    // player landed or a snadder
+  } else if (state === SNADDER_STATE) {
+    if (DEBUG) console.log("SNADDER_STATE");
+    players[curPlayer].moveSnadder();
+    showPlayersArea();
+    if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
   }
+
+  // show the die
+  showDie()
+
+  // show the players
+  showPlayers();
+
+  // check game over state
+  GameOver();
+
+  // Moving the player
   // } else if (state === MOVE_STATE) {
   //   if (DEBUG) console.log("MOVE_STATE");
   //   player.showPreview();
@@ -135,12 +186,9 @@ function draw() {
   // Draw die
   // showDie();
 
-  // check game over state
-  GameOver();
-
   // interrupt game logic and wait for player
-  if (numPlayers > 0 && state === ROLL_STATE) {
-    if (DEBUG) console.log("wait for user");
-    noLoop();
-  }
+  // if (numPlayers > 0 && state === ROLL_STATE) {
+  // if (DEBUG) console.log("wait for user");
+  // noLoop();
+  // }
 }
