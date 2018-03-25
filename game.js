@@ -393,7 +393,7 @@ function showPlayersArea() {
       y2 = -1 * map(nextValue, 0, 100, 0, playersArea);
 
       // highlight current player's history with a thicker line
-      if (numPlayers > 0 && p === curPlayer) {
+      if (numPlayers > 1 && p === curPlayer) {
         strokeWeight(4);
       } else {
         strokeWeight(2);
@@ -411,7 +411,7 @@ function showPlayersArea() {
 function switchPlayer() {
   // skip in single player mode
   if (numPlayers === 1) {
-    turns += 1;
+    turns++;
     return;
   }
 
@@ -424,6 +424,7 @@ function switchPlayer() {
   if (DEBUG) console.log("- numPlayers=" + players.length);
   if (DEBUG) console.log("- curPlayer=" + curPlayer);
   if (curPlayer < players.length - 1) {
+    // find next player still in play
     for (let i = curPlayer + 1; i <= players.length - 1; i++) {
       if (DEBUG) console.log("- check player:" + i);
       if (players[i].active) {
@@ -436,6 +437,10 @@ function switchPlayer() {
 
   // find next player before current player; but only if no new player has been found
   if (nextPlayer < 0) {
+    // bump number of turns
+    turns++;
+    
+    // find next player still in play
     for (let i = 0; i <= curPlayer - 1; i++) {
       if (players[i].active) {
         nextPlayer = i;
