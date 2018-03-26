@@ -58,9 +58,6 @@ class Player {
     let playerTile = tiles[this.spot];
     let tileCenter = playerTile.getCenter();
 
-    // Just get out of here if it's not a valid tile
-    // if (!playerTile) return;
-
     // get total number of players on current tile
     let playersOnTile = 0;
     for (let i = 0; i <= players.length - 1; i++) {
@@ -72,7 +69,9 @@ class Player {
 
     // determine token size based on number of players occupying a tile
     let tokenSize = 25;
+    strokeWeight(2);
     if (playersOnTile > 1) {
+      strokeWeight(1);
       tokenSize = 15;
     }
     // if (DEBUG) console.log("- tokenSize: " + tokenSize);
@@ -81,7 +80,6 @@ class Player {
     push();
     stroke(0);
     fill(this.tokenColor);
-    if (this.number === curPlayer ? strokeWeight(2) : strokeWeight(1));
     if (playersOnTile === 1) {
       ellipse(tileCenter[0], tileCenter[1], tokenSize);
     } else {
