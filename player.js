@@ -88,13 +88,9 @@ class Player {
     push();
 
     stroke(0);
-    if (this.number - 1 === curPlayer) {
-      fill(this.tokenColor);
-      strokeWeight(2);
-    } else {
-      fill(this.alphaColor());
-      strokeWeight(1);
-    }
+    fill(this.tokenColor);
+    if (this.number - 1 === curPlayer ? strokeWeight(2) : strokeWeight(1));
+
     let tileCenter = playerTile.getCenter();
     if (playersOnTile === 1) {
       ellipse(tileCenter[0], tileCenter[1], tokenSize);
@@ -123,8 +119,6 @@ class Player {
       tiles[i].highlight();
     }
   }
-
-  // switch to next player
 
   // update the player
   updateNew() {

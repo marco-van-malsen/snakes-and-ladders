@@ -93,9 +93,11 @@ function initGame() {
   if (simulationMode) {
     fps = 60;
     state = ROLL_STATE;
+    loop();
   } else {
     fps = 5;
     state = WAIT_STATE;
+    noLoop();
   }
   frameRate(fps);
 

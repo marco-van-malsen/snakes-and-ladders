@@ -3,7 +3,7 @@
 // Extended: Marco van Malsen
 
 // enable or disable debug comments
-const DEBUG = false;
+const DEBUG = true;
 
 // define available game states and set initial game state
 const WAIT_STATE = 0; /// wait for player to roll the die
@@ -11,13 +11,13 @@ const ROLL_STATE = 1; // roll the die
 const PREVIEW_STATE = 2; // preview player's move
 const MOVE_STATE = 3; // move player to next spot
 const SNADDER_STATE = 4; // move player along a Snake or Ladder
-let state = ROLL_STATE;
+let state;
 
 // frame-rate
 let fps;
 
 // set initial game simulation mode
-let simulationMode = true;
+let simulationMode = false;
 
 // array of tiles
 let tiles = [];
@@ -40,7 +40,7 @@ let resolution = 40;
 // setup control for number of Players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 1;
+let numPlayers = 4;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -98,18 +98,20 @@ function draw() {
   // player's turn
   if (state === WAIT_STATE) {
     if (DEBUG) console.log("WAIT_STATE");
+
+    //
+    // if (!simulationMode) {
     noLoop();
+    // }
 
     // roll the die
   } else if (state === ROLL_STATE) {
     if (DEBUG) console.log("ROLL_STATE");
+
+    // roll the die automatically when in simulation mode
     if (simulationMode) {
       rollDie();
-    } else {
-      noLoop();
     }
-
-    state = PREVIEW_STATE;
 
     // preview player
   } else if (state === PREVIEW_STATE) {

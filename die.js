@@ -16,11 +16,19 @@ class Die {
 
 // roll the die
 function rollDie() {
-  if (DEBUG) console.log("ROLL THE DIE")
-  if (state === ROLL_STATE) {
-    // pick a random number 1 to 6
-    die.value = random([1, 2, 3, 4, 5, 6]);
-    if (DEBUG) console.log("- die rolled a " + die.value)
+  if (DEBUG) console.clear();
+  if (DEBUG) console.log("ROLL THE DIE");
+
+  // pick a random number 1 to 6
+  die.value = random([1, 2, 3, 4, 5, 6]);
+  if (DEBUG) console.log("- die rolled a " + die.value);
+
+  // switch state
+  state = PREVIEW_STATE;
+
+  // start looping, when in interactive mode
+  if (!simulationMode) {
+    loop();
   }
 }
 
