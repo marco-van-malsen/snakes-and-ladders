@@ -40,7 +40,7 @@ let resolution = 40;
 // setup control for number of Players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 4;
+let numPlayers = 1;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -161,8 +161,15 @@ function draw() {
   // check game over state
   if (GameOver()) {
     if (DEBUG) console.log("- YES, GAME OVER");
+    // reset the die
+    die.value = 0;
+    showDie();
+
+    // disable simulation mode
     simulationMode = false;
     checkboxSimulation.checked(simulationMode);
+
+    // interrup the game loop
     noLoop();
   }
 }
