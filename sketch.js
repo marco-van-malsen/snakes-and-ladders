@@ -3,7 +3,7 @@
 // Extended: Marco van Malsen
 
 // enable or disable debug comments
-const DEBUG = true;
+const DEBUG = false;
 
 // define available game states and set initial game state
 const WAIT_STATE = 0; /// wait for player to roll the die

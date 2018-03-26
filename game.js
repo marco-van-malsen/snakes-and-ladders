@@ -370,8 +370,10 @@ function showPlayersArea() {
   }
 
   // draw histogram - vertical lines
-  for (let i = histSpacingX; i < histW; i += histSpacingX) {
-    line(i, 0, i, -histH);
+  if (histSpacingX >= 8) {
+    for (let i = histSpacingX; i < histW; i += histSpacingX) {
+      line(i, 0, i, -histH);
+    }
   }
   pop();
 
