@@ -58,11 +58,6 @@ function createControls() {
   buttonRollDie = createButton("Roll the Die");
   buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
   buttonRollDie.mousePressed(rollDie);
-
-  // create text showing the current player
-  txtCurPlayer = createP("Player : " + curPlayer);
-  txtCurPlayer.center('horizonal');
-  txtCurPlayer.position(buttonRollDie.x + buttonRollDie.width / 2 - 30, buttonRollDie.y - 115);
 }
 
 // Is the game over?
@@ -463,9 +458,6 @@ function switchPlayer() {
     curPlayer = nextPlayer;
   }
   if (DEBUG) console.log("- nextPlayer=" + curPlayer);
-
-  // update text of game controls
-  updateControlsTxt();
 }
 
 // switch simulation mode on or off
@@ -523,6 +515,4 @@ function updateControlsTxt() {
   txtPlayers.html("# Players : " + sliderPlayers.value())
   txtSnakes.html("# Snakes : " + sliderSnakes.value())
   txtLadders.html("# Ladders : " + sliderLadders.value())
-  let CurPlayerText = curPlayer + 1
-  txtCurPlayer.html("Player: " + CurPlayerText)
 }
