@@ -273,65 +273,95 @@ function showPlayersArea() {
   textAlign(CENTER, CENTER);
 
   // draw Turn-column (shows current player)
-  for (let j = 0; j <= players.length; j++) {
-    //draw rectangle
+  // draw header
+  fill(100);
+  stroke(0);
+  strokeWeight(1);
+  rect(0, 0, resolution, resolution);
+  fill(255);
+  strokeWeight(0);
+  text("Turn", resolution * 0.5, resolution * 0.5);
+
+  // draw X for current player
+  translate(0, resolution);
+  for (let p = 0; p <= numPlayers - 1; p++) {
+    // draw rectangle
     fill(100);
     stroke(0);
     strokeWeight(1);
-    rect(0, j * resolution, resolution, resolution);
+    rect(0, p * resolution, resolution, resolution);
 
+    // draw X
     fill(255);
     strokeWeight(0);
-    if (j === 0) {
-      text("Turn", resolution * 0.5, resolution * 0.5);
-    } else {
-      if (j - 1 === curPlayer) {
-        push();
-        textSize(20);
-        text("X", resolution * 0.5, j * resolution + resolution * 0.5)
-        pop();
-      }
+    if (p === curPlayer) {
+      push();
+      textSize(20);
+      text("X", resolution * 0.5, p * resolution + resolution * 0.5)
+      pop();
     }
   }
+  translate(0, -resolution);
 
   // draw Player-column
+  // draw header
   translate(resolution, 0);
-  for (let j = 0; j <= players.length; j++) {
-    //draw rectangle
+  fill(100);
+  stroke(0);
+  strokeWeight(1);
+  rect(0, 0, resolution, resolution);
+  fill(255);
+  strokeWeight(0);
+  text("Player", resolution * 0.5, resolution * 0.5);
+
+  // draw player numbers
+  translate(0, resolution);
+  for (let p = 0; p <= numPlayers - 1; p++) {
+    // draw rectangle
     fill(100);
     stroke(0);
     strokeWeight(1);
-    rect(0, j * resolution, resolution, resolution);
+    rect(0, p * resolution, resolution, resolution);
 
+    // draw number
     fill(255);
     strokeWeight(0);
-    if (j === 0) {
-      text("Player", resolution * 0.5, resolution * 0.5);
-    } else {
-      text(j, resolution * 0.5, j * resolution + resolution * 0.5);
-    }
+    text(p + 1, resolution * 0.5, p * resolution + resolution * 0.5);
   }
+  translate(0, -resolution);
 
   // draw Token-column
+  // draw header
   translate(resolution, 0);
-  for (let j = 0; j < max(1, numPlayers) + 1; j++) {
-    //draw rectangle
+  fill(100);
+  stroke(0);
+  strokeWeight(1);
+  rect(0, 0, resolution, resolution);
+  fill(255);
+  strokeWeight(0);
+  text("Token", resolution * 0.5, resolution * 0.5);
+
+  // draw tokens
+  translate(0, resolution);
+  for (let p = 0; p <= numPlayers - 1; p++) {
+    // draw rectangle
     fill(100);
     stroke(0);
     strokeWeight(1);
-    rect(0, j * resolution, resolution, resolution);
+    rect(0, p * resolution, resolution, resolution);
 
-    if (j === 0) {
-      fill(255);
-      strokeWeight(0);
-      text("Token", resolution * 0.5, resolution * 0.5);
-    } else {
-      fill(players[j - 1].tokenColor);
-      stroke(0);
+    // draw tokens
+    if (p === curPlayer) {
+      fill(players[p].tokenColor);
       strokeWeight(2);
-      ellipse(resolution * 0.5, j * resolution + resolution * 0.5, 25, 25);
+    } else {
+      fill(players[p].alphaColor());
+      strokeWeight(1);
     }
+    stroke(0);
+    ellipse(resolution * 0.5, p * resolution + resolution * 0.5, 25, 25);
   }
+  translate(0, -resolution);
 
   // draw histogram - background
   translate(resolution, resolution * (max(1, numPlayers) + 1));
@@ -366,7 +396,7 @@ function showPlayersArea() {
     // reset histogram coordinates
     let x1 = y1 = x2 = y2 = 0;
 
-    // get players color
+    // get players color; add some alpha for 'other' players
     stroke(players[p].tokenColor);
 
     // draw histogram based on players history
@@ -439,7 +469,7 @@ function switchPlayer() {
   if (nextPlayer < 0) {
     // bump number of turns
     turns++;
-    
+
     // find next player still in play
     for (let i = 0; i <= curPlayer - 1; i++) {
       if (players[i].active) {

@@ -14,7 +14,7 @@ class Player {
     this.history = [];
     this.number = n; //player's number
     this.spot = 0; // Where I am now
-    this.tokenColor = 127; // color assigned to players token
+    this.tokenColor = color(255, 0, 0); // color assigned to players token
     // this.roll = -1; // What was my last roll
     // this.next = -1; // Where I'm going
     // this.animated = true;
@@ -26,6 +26,14 @@ class Player {
     // this.queue = this.current;
     // this.position = this.current.getCenter();
     // this.steps = 0;
+  }
+
+  // get color with some alpha added
+  alphaColor() {
+    let myR = red(this.tokenColor);
+    let myG = green(this.tokenColor);
+    let myB = blue(this.tokenColor);
+    return color(myR, myG, myB, 175);
   }
 
   // Did current player land on a Snake or Ladder?
@@ -86,9 +94,15 @@ class Player {
 
     // draw the player
     push();
-    fill(this.tokenColor);
+
     stroke(0);
-    strokeWeight(2);
+    if (this.number - 1 === curPlayer) {
+      fill(this.tokenColor);
+      strokeWeight(2);
+    } else {
+      fill(this.alphaColor());
+      strokeWeight(1);
+    }
     let tileCenter = playerTile.getCenter();
     if (playersOnTile === 1) {
       ellipse(tileCenter[0], tileCenter[1], tokenSize);
@@ -96,11 +110,11 @@ class Player {
       if (this.number === 1) {
         ellipse(tileCenter[0] - 10, tileCenter[1] - 10, tokenSize);
       } else if (this.number === 2) {
-        ellipse(tileCenter[0] + 10, tileCenter[1] - 10, tokenSize);
-      } else if (this.number === 3) {
-        ellipse(tileCenter[0] - 10, tileCenter[1] + 10, tokenSize);
-      } else if (this.number === 4) {
         ellipse(tileCenter[0] + 10, tileCenter[1] + 10, tokenSize);
+      } else if (this.number === 3) {
+        ellipse(tileCenter[0] + 10, tileCenter[1] - 10, tokenSize);
+      } else if (this.number === 4) {
+        ellipse(tileCenter[0] - 10, tileCenter[1] + 10, tokenSize);
       }
     }
     pop();
