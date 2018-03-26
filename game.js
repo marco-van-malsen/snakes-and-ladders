@@ -274,40 +274,8 @@ function showPlayersArea() {
   // format text
   textAlign(CENTER, CENTER);
 
-  // draw Turn-column (shows current player)
-  // draw header
-  fill(100);
-  stroke(0);
-  strokeWeight(1);
-  rect(0, 0, resolution, resolution);
-  fill(255);
-  strokeWeight(0);
-  text("Turn", resolution * 0.5, resolution * 0.5);
-
-  // draw X for current player
-  translate(0, resolution);
-  for (let p = 0; p <= numPlayers - 1; p++) {
-    // draw rectangle
-    fill(100);
-    stroke(0);
-    strokeWeight(1);
-    rect(0, p * resolution, resolution, resolution);
-
-    // draw X
-    fill(255);
-    strokeWeight(0);
-    if (p === curPlayer) {
-      push();
-      textSize(20);
-      text("X", resolution * 0.5, p * resolution + resolution * 0.5)
-      pop();
-    }
-  }
-  translate(0, -resolution);
-
   // draw Player-column
   // draw header
-  translate(resolution, 0);
   fill(100);
   stroke(0);
   strokeWeight(1);
@@ -361,13 +329,20 @@ function showPlayersArea() {
       strokeWeight(1);
     }
     stroke(0);
-    ellipse(resolution * 0.5, p * resolution + resolution * 0.5, 25, 25);
+    ellipse(0.5 * resolution, p * resolution + 0.5 * resolution, 25, 25);
+
+    if (numPlayers > 1 && p === curPlayer) {
+      noFill();
+      stroke(0);
+      textSize(14);
+      text("X", 0.5 * resolution, p * resolution + 0.5 * resolution);
+    }
   }
   translate(0, -resolution);
 
   // draw histogram - background
   translate(resolution, resolution * (max(1, numPlayers) + 1));
-  let histW = (cols - 3) * resolution;
+  let histW = width - 2 * resolution;
   let histH = playersArea;
   fill(10);
   stroke(0);
@@ -388,10 +363,8 @@ function showPlayersArea() {
   }
 
   // draw histogram - vertical lines
-  if (histSpacingX >= 10) {
-    for (let i = histSpacingX; i < histW; i += histSpacingX) {
-      line(i, 0, i, -histH);
-    }
+  for (let i = histSpacingX; i < histW; i += histSpacingX) {
+    line(i, 0, i, -histH);
   }
   pop();
 
