@@ -10,7 +10,7 @@ let TURN_DELAY = 15;
 class Player {
   // initialize player
   constructor(n) {
-    this.active = true; // player in play, not finish
+    this.finished = 0;
     this.history = [];
     this.number = n; //player's number
     this.spot = 0; // Where I am now
@@ -26,14 +26,6 @@ class Player {
     // this.queue = this.current;
     // this.position = this.current.getCenter();
     // this.steps = 0;
-  }
-
-  // get color with some alpha added
-  alphaColor() {
-    let myR = red(this.tokenColor);
-    let myG = green(this.tokenColor);
-    let myB = blue(this.tokenColor);
-    return color(myR, myG, myB, 175);
   }
 
   // Did current player land on a Snake or Ladder?
@@ -127,7 +119,8 @@ class Player {
       this.spot = this.spot + die.value;
     } else {
       this.spot = tiles.length - 1;
-      this.active = false;
+      finalResult++;
+      this.finished = finalResult;
     }
 
     //  add new spot to history

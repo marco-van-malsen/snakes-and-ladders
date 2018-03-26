@@ -68,7 +68,7 @@ function GameOver() {
   // count number of players on the finish-tile
   let playersActive = 0;
   for (let p in players) {
-    if (players[p].active) {
+    if (players[p].finished === 0) {
       playersActive += 1;
     }
   }
@@ -179,6 +179,9 @@ function initGame() {
 
   // set number of turns played
   turns = 0;
+
+  // keep track of final results of players
+  finalResult = 0;
 
   // assign colors
   for (let i = 0; i <= players.length - 1; i++) {
@@ -316,21 +319,30 @@ function showPlayersArea() {
     rect(0, p * resolution, resolution, resolution);
 
     // draw tokens
-    if (p === curPlayer) {
-      fill(players[p].tokenColor);
-      strokeWeight(2);
-    } else {
-      fill(players[p].alphaColor());
-      strokeWeight(1);
-    }
+    fill(players[p].tokenColor);
     stroke(0);
+    strokeWeight(2);
     ellipse(0.5 * resolution, p * resolution + 0.5 * resolution, 25, 25);
 
-    if (numPlayers > 1 && p === curPlayer) {
+    // draw "X" for current player
+    // draw finalResult for players that have finished
+    let tokenText = "";
+    if (numPlayers > 1) {
+      // mark current player with X
+      if (p === curPlayer) {
+        tokenText = "X";
+      }
+
+      // mark finished players with their finishing place
+      if (players[p].finished > 0) {
+        tokenText = players[p].finished;
+      }
+
+      // draw text on token
       noFill();
       stroke(0);
       textSize(14);
-      text("X", 0.5 * resolution, p * resolution + 0.5 * resolution);
+      text(tokenText, 0.5 * resolution, p * resolution + 0.5 * resolution);
     }
   }
   translate(0, -resolution);
@@ -429,8 +441,8 @@ function switchPlayer() {
     // find next player still in play
     for (let i = curPlayer + 1; i <= players.length - 1; i++) {
       if (DEBUG) console.log("- check player:" + i);
-      if (players[i].active) {
-        if (DEBUG) console.log("- players[" + i + "].active=" + players[i].active);
+      if (players[i].finished === 0) {
+        if (DEBUG) console.log("- players[" + i + "].finished=" + players[i].finished);
         nextPlayer = i;
         break;
       }
@@ -444,7 +456,7 @@ function switchPlayer() {
 
     // find next player still in play
     for (let i = 0; i <= curPlayer - 1; i++) {
-      if (players[i].active) {
+      if (players[i].finished === 0) {
         nextPlayer = i;
         break;
       }
@@ -475,7 +487,7 @@ function switchSimulationMode() {
   }
   frameRate(fps);
 
-  //
+  // start a new game if the previous game has ended
   if (GameOver()) {
     initGame();
   }

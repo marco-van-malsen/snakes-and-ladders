@@ -1,9 +1,9 @@
-update // Snakes and Ladders
+// Snakes and Ladders
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
 // enable or disable debug comments
-const DEBUG = false;
+const DEBUG = true;
 
 // define available game states and set initial game state
 const WAIT_STATE = 0; /// wait for player to roll the die
@@ -23,8 +23,11 @@ let simulationMode = false;
 let tiles = [];
 
 // the players
-let player;
 let players = [];
+
+// keep track of the final result of the playersArea
+// initialize at 0 in initGame and increase by one for every finished player
+let finalResult;
 
 // number of turns played
 let turns;
@@ -112,7 +115,10 @@ function draw() {
     // preview player
   } else if (state === PREVIEW_STATE) {
     if (DEBUG) console.log("PREVIEW_STATE");
+    // show preview
     players[curPlayer].showPreview();
+
+    // switch state
     state = MOVE_STATE;
 
     // move player
@@ -124,6 +130,7 @@ function draw() {
 
     // switch state
     if (players[curPlayer].isSnadder()) {
+      // switch state
       state = SNADDER_STATE;
     } else {
       // continue play
@@ -131,9 +138,6 @@ function draw() {
 
       // switch player
       switchPlayer()
-
-      // update player progress
-      showPlayersArea();
     }
 
     // player landed or a snadder
@@ -145,9 +149,6 @@ function draw() {
     // switch player
     switchPlayer()
 
-    // update player progress
-    showPlayersArea();
-
     // continue play
     if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
   }
@@ -158,9 +159,13 @@ function draw() {
   // show the players
   showPlayers();
 
+  // show player information area
+  showPlayersArea()
+
   // check game over state
   if (GameOver()) {
     if (DEBUG) console.log("- YES, GAME OVER");
+
     // reset the die
     die.value = 0;
     showDie();
