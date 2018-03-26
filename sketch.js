@@ -13,9 +13,6 @@ const MOVE_STATE = 3; // move player to next spot
 const SNADDER_STATE = 4; // move player along a Snake or Ladder
 let state;
 
-// frame-rate
-let fps;
-
 // set initial game simulation mode
 let simulationMode = false;
 

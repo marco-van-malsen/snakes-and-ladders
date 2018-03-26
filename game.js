@@ -200,15 +200,15 @@ function initGame() {
   // update text for controls
   updateControlsTxt();
 
-  // adjust framerate and game state
+  // adjust framerate
+  updateFPS();
+
+  // switch state
   if (simulationMode) {
-    fps = 60;
     state = ROLL_STATE;
   } else {
-    fps = 5;
     state = WAIT_STATE;
   }
-  frameRate(fps);
 
   // resume game loop
   loop();
@@ -480,14 +480,14 @@ function switchSimulationMode() {
   simulationMode = !simulationMode;
 
   // switch game state and adjust framerate
+  updateFPS();
+
+  // switch game state and adjust framerate
   if (simulationMode) {
-    fps = 60;
     state = ROLL_STATE;
   } else {
-    fps = 5;
     state = WAIT_STATE;
   }
-  frameRate(fps);
 
   // start a new game if the previous game has ended
   if (GameOver()) {
@@ -529,4 +529,14 @@ function updateControlsTxt() {
   txtPlayers.html("# Players : " + sliderPlayers.value())
   txtSnakes.html("# Snakes : " + sliderSnakes.value())
   txtLadders.html("# Ladders : " + sliderLadders.value())
+}
+
+// set framerate depending on interactive or simulation mode
+function updateFPS() {
+  if (simulationMode) {
+    fps = 60;
+  } else {
+    fps = 5;
+  }
+  frameRate(fps);
 }
