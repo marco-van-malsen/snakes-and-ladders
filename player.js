@@ -119,7 +119,7 @@ class Player {
   }
 
   // update the player
-  updateNew() {
+  update() {
     // do the animation
 
     // put player on new spot and add to history

@@ -1,4 +1,4 @@
-// Snakes and Ladders
+update // Snakes and Ladders
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
@@ -120,7 +120,7 @@ function draw() {
     if (DEBUG) console.log("MOVE_STATE");
 
     // update player
-    players[curPlayer].updateNew();
+    players[curPlayer].update();
 
     // switch state
     if (players[curPlayer].isSnadder()) {
