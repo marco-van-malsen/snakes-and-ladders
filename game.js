@@ -67,7 +67,7 @@ function createControls() {
 
 // Is the game over?
 function GameOver() {
-  if (DEBUG) console.clear();
+  // if (DEBUG) console.clear();
   if (DEBUG) console.log("GAME OVER");
 
   // count number of players on the finish-tile
@@ -83,8 +83,7 @@ function GameOver() {
   if (playersActive === 0) {
     if (DEBUG) console.log("- YES, GAME OVER");
     noLoop();
-    // return;
-    initGame();
+    // initGame();
   }
 }
 
@@ -92,11 +91,11 @@ function GameOver() {
 function initGame() {
   // adjust framerate
   if (simulationMode) {
+    fps = 60;
     state = ROLL_STATE;
-    fps = 5;
   } else {
-    state = WAIT_STATE;
     fps = 5;
+    state = WAIT_STATE;
   }
   frameRate(fps);
 
@@ -520,7 +519,6 @@ function updateControls() {
 
   // restart the game
   initGame();
-  loop();
 }
 
 // update the text of the game controls

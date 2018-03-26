@@ -13,12 +13,11 @@ const MOVE_STATE = 3; // move player to next spot
 const SNADDER_STATE = 4; // move player along a Snake or Ladder
 let state = ROLL_STATE;
 
-// setup frame-rate
-let fps = 60;
-fps = 5;
+// frame-rate
+let fps;
 
 // set initial game simulation mode
-let simulationMode = false;
+let simulationMode = true;
 
 // array of tiles
 let tiles = [];
@@ -101,8 +100,16 @@ function draw() {
     if (DEBUG) console.log("WAIT_STATE");
     noLoop();
 
+    // roll the die
   } else if (state === ROLL_STATE) {
     if (DEBUG) console.log("ROLL_STATE");
+    if (simulationMode) {
+      rollDie();
+    } else {
+      noLoop();
+    }
+
+    state = PREVIEW_STATE;
 
     // preview player
   } else if (state === PREVIEW_STATE) {
