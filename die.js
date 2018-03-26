@@ -16,8 +16,8 @@ class Die {
 
 // roll the die
 function rollDie() {
-  if (DEBUG) console.clear();
-  if (DEBUG) console.log("ROLL THE DIE");
+  // if (DEBUG) console.clear();
+  // if (DEBUG) console.log("ROLL THE DIE");
 
   // pick a random number 1 to 6
   die.value = random([1, 2, 3, 4, 5, 6]);

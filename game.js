@@ -82,8 +82,9 @@ function GameOver() {
   // Game over if all players are on the finish tile
   if (playersActive === 0) {
     if (DEBUG) console.log("- YES, GAME OVER");
+    simulationMode = false;
+    checkboxSimulation.checked(simulationMode);
     noLoop();
-    // initGame();
   }
 }
 
@@ -480,9 +481,13 @@ function switchPlayer() {
     }
   }
 
-  // set next current player
-  if (DEBUG) console.log("- curPlayer=" + curPlayer + "; nextPlayer=" + nextPlayer);
-  curPlayer = nextPlayer;
+  // set next current player (nextPlayer starts at -1)
+  // nextPlayer = -1 ; this means current player is only player left
+  // nextPlayer >= 0 ; two or more players still in play (switch to next player)
+  if (nextPlayer >= 0) {
+    curPlayer = nextPlayer;
+  }
+  if (DEBUG) console.log("- nextPlayer=" + curPlayer);
 
   // update text of game controls
   updateControlsTxt();
