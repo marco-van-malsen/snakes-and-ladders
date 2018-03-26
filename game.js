@@ -81,27 +81,14 @@ function GameOver() {
 
   // Game over if all players are on the finish tile
   if (playersActive === 0) {
-    if (DEBUG) console.log("- YES, GAME OVER");
-    simulationMode = false;
-    checkboxSimulation.checked(simulationMode);
-    noLoop();
+    return true;
+  } else {
+    return false;
   }
 }
 
 // initialze a new game
 function initGame() {
-  // adjust framerate
-  if (simulationMode) {
-    fps = 60;
-    state = ROLL_STATE;
-    loop();
-  } else {
-    fps = 5;
-    state = WAIT_STATE;
-    noLoop();
-  }
-  frameRate(fps);
-
   // setup canvas
   setupCanvas();
 
@@ -214,6 +201,19 @@ function initGame() {
 
   // update text for controls
   updateControlsTxt();
+
+  // adjust framerate and game state
+  if (simulationMode) {
+    fps = 60;
+    state = ROLL_STATE;
+  } else {
+    fps = 5;
+    state = WAIT_STATE;
+  }
+  frameRate(fps);
+
+  // resume game loop
+  loop();
 }
 
 // create the canvas for board and separator
@@ -498,8 +498,23 @@ function switchSimulationMode() {
   // toggle simulation mode
   simulationMode = !simulationMode;
 
-  // restart game
-  initGame();
+  // switch game state and adjust framerate
+  if (simulationMode) {
+    fps = 60;
+    state = ROLL_STATE;
+  } else {
+    fps = 5;
+    state = WAIT_STATE;
+  }
+  frameRate(fps);
+
+  //
+  if (GameOver()) {
+    initGame();
+  }
+
+  // resume game loop
+  loop();
 }
 
 // update the controls

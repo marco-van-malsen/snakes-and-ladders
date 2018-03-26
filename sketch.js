@@ -98,11 +98,7 @@ function draw() {
   // player's turn
   if (state === WAIT_STATE) {
     if (DEBUG) console.log("WAIT_STATE");
-
-    //
-    // if (!simulationMode) {
     noLoop();
-    // }
 
     // roll the die
   } else if (state === ROLL_STATE) {
@@ -163,5 +159,10 @@ function draw() {
   showPlayers();
 
   // check game over state
-  GameOver();
+  if (GameOver()) {
+    if (DEBUG) console.log("- YES, GAME OVER");
+    simulationMode = false;
+    checkboxSimulation.checked(simulationMode);
+    noLoop();
+  }
 }
