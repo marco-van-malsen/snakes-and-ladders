@@ -140,7 +140,7 @@ function initGame() {
       // if (DEBUG) console.log("- snake:" + i);
       // if (DEBUG) console.log("  - begin:" + begin);
       // -1 makes in a Snake (drop down a number of spots)
-      deltaMin = begin % cols;
+      deltaMin = (begin % cols) + 1;
       deltaMax = begin - 1;
       delta = -1 * floor(random(deltaMin, deltaMax))
       // if (DEBUG) console.log("  - deltaMin:" + deltaMin);
