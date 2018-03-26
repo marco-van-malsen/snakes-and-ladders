@@ -376,7 +376,7 @@ function showPlayersArea() {
 
   // determine distance between histogram lines
   let histSpacingY = histH / rows;
-  let histSpacingX = histW / turns;
+  let histSpacingX = histW / (turns + 1);
   histSpacingX = min(histSpacingX, histSpacingY);
 
   // draw histogram - horizontal lines
@@ -388,8 +388,10 @@ function showPlayersArea() {
   }
 
   // draw histogram - vertical lines
-  for (let i = histSpacingX; i < histW; i += histSpacingX) {
-    line(i, 0, i, -histH);
+  if (histSpacingX >= 10) {
+    for (let i = histSpacingX; i < histW; i += histSpacingX) {
+      line(i, 0, i, -histH);
+    }
   }
   pop();
 
