@@ -184,10 +184,10 @@ function initGame() {
   // create new players (zero players still requires one player for simulation mode)
   players = [];
   if (numPlayers === 0) {
-    players.push(new Player(1));
+    players.push(new Player(0));
   } else {
     for (var i = 1; i <= numPlayers; i++) {
-      players.push(new Player(i));
+      players.push(new Player(i - 1));
     }
   }
 

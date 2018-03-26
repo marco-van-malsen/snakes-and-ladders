@@ -64,6 +64,7 @@ class Player {
     // if (DEBUG) console.log("SHOW PLAYER: " + curPlayer);
     // get players position on the board
     let playerTile = tiles[this.spot];
+    let tileCenter = playerTile.getCenter();
 
     // Just get out of here if it's not a valid tile
     // if (!playerTile) return;
@@ -86,22 +87,19 @@ class Player {
 
     // draw the player
     push();
-
     stroke(0);
     fill(this.tokenColor);
-    if (this.number - 1 === curPlayer ? strokeWeight(2) : strokeWeight(1));
-
-    let tileCenter = playerTile.getCenter();
+    if (this.number === curPlayer ? strokeWeight(2) : strokeWeight(1));
     if (playersOnTile === 1) {
       ellipse(tileCenter[0], tileCenter[1], tokenSize);
     } else {
-      if (this.number === 1) {
+      if (this.number === 0) {
         ellipse(tileCenter[0] - 10, tileCenter[1] - 10, tokenSize);
-      } else if (this.number === 2) {
+      } else if (this.number === 1) {
         ellipse(tileCenter[0] + 10, tileCenter[1] + 10, tokenSize);
-      } else if (this.number === 3) {
+      } else if (this.number === 2) {
         ellipse(tileCenter[0] + 10, tileCenter[1] - 10, tokenSize);
-      } else if (this.number === 4) {
+      } else if (this.number === 3) {
         ellipse(tileCenter[0] - 10, tileCenter[1] + 10, tokenSize);
       }
     }
