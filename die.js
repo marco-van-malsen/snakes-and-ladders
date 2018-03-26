@@ -24,24 +24,6 @@ function rollDie() {
 
   state = PREVIEW_STATE;
   loop();
-  // // update player
-  // players[curPlayer].updateNew();
-
-  // switch to next player
-  // switchPlayer();
-
-  // resume loop
-  // if (numPlayers > 0) {
-  // loop();
-  // }
-  // }
-
-  // state = MOVE_STATE;
-
-  // resume loop if not running simulation mode
-  // if (!simulationMode) {
-  // loop();
-  // }
 }
 
 function showDie() {

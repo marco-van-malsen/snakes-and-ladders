@@ -38,15 +38,7 @@ class Player {
 
   // Did current player land on a Snake or Ladder?
   isSnadder() {
-    // if (DEBUG) console.log("IS SNADDER")
     let tile = tiles[this.spot];
-
-    // if (tile.snadder < 0) {
-    // if (DEBUG) console.log("- snake")
-    // } else if (tile.snadder > 0) {
-    // if (DEBUG) console.log("- ladder")
-    // }
-
     return (tile && tile.snadder !== 0);
   }
 

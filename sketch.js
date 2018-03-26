@@ -96,11 +96,6 @@ function draw() {
     tile.showSnadders();
   }
 
-  //show players at their initial spot
-  // if (die.value === 0) {
-  // showPlayers();
-  // }
-
   // player's turn
   if (state === WAIT_STATE) {
     if (DEBUG) console.log("WAIT_STATE");
@@ -108,14 +103,6 @@ function draw() {
 
   } else if (state === ROLL_STATE) {
     if (DEBUG) console.log("ROLL_STATE");
-    // zero players; automatically roll the die
-    // if (simulationMode) {
-    // rollDie();
-    // loop();
-    // } else {
-    // if (DEBUG) console.log("wait for player: " + curPlayer);
-    // noLoop();
-    // }
 
     // preview player
   } else if (state === PREVIEW_STATE) {
@@ -149,13 +136,13 @@ function draw() {
     if (DEBUG) console.log("SNADDER_STATE");
     // move player along snadder
     players[curPlayer].moveSnadder();
-    
+
     // switch player
     switchPlayer()
-      
+
     // update player progress
     showPlayersArea();
-    
+
     // continue play
     if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
   }
@@ -168,35 +155,4 @@ function draw() {
 
   // check game over state
   GameOver();
-
-  // Moving the player
-  // } else if (state === MOVE_STATE) {
-  //   if (DEBUG) console.log("MOVE_STATE");
-  //   player.showPreview();
-  //   player.move();
-  //
-  //   if (player.isSnadder()) {
-  //     state = SNADDER_STATE;
-  //   } else {
-  //     state = ROLL_STATE;
-  //   }
-  //
-  //   // show the player
-  //   player.show();
-  //
-  //   // Moving along a Snake or Ladder
-  // } else if (state === SNADDER_STATE) {
-  //   if (DEBUG) console.log("SNADDER_STATE");
-  //   player.moveSnadder();
-  //   state = ROLL_STATE;
-  // }
-
-  // Draw die
-  // showDie();
-
-  // interrupt game logic and wait for player
-  // if (numPlayers > 0 && state === ROLL_STATE) {
-  // if (DEBUG) console.log("wait for user");
-  // noLoop();
-  // }
 }
