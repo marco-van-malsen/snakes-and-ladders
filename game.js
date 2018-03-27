@@ -10,7 +10,7 @@ function createControls() {
   let x = cols * resolution + separator + 15;
   let y = title + separator
 
-  // create simulation checkbox
+  // create simulation text and checkbox
   txtSimulate = createP("Simulate");
   txtSimulate.position(x, y);
   y += 15;
@@ -19,44 +19,44 @@ function createControls() {
   checkboxSimulation.changed(switchSimulationMode);
   y += spacingMajor;
 
-  // create text showing number of players
-  txtPlayers = createP("# Players : " + numPlayers);
+  // create text for number of players
+  txtPlayers = createP("");
   txtPlayers.position(x, y);
   y += spacingMinor;
 
-  // create slider to control number of players
+  // create slider for number of players
   sliderPlayers = createSlider(1, maxPlayers, numPlayers);
   sliderPlayers.position(x, y);
   sliderPlayers.input(updateControlsTxt);
   sliderPlayers.changed(updateControls);
   y += spacingMajor;
 
-  // create text showing number of snakes
+  // create text showing grid size
   txtGrid = createP("");
   txtGrid.position(x, y);
   y += spacingMinor;
 
-  // create slider to control grid size
+  // create slider for grid size
   sliderGrid = createSlider(8, 20, cols, 2);
   sliderGrid.position(x, y);
   sliderGrid.input(updateControlsTxt);
   sliderGrid.changed(updateControls);
   y += spacingMajor;
 
-  // create text showing number of snakes
-  txtSnakes = createP("# Snakes : " + numSnakes);
+  // create text for number of snakes
+  txtSnakes = createP("");
   txtSnakes.position(x, y);
   y += spacingMinor;
 
-  // create slider to control number of snakes
+  // create slider for number of snakes
   sliderSnakes = createSlider(1, maxSnakes, numSnakes);
   sliderSnakes.position(x, y);
   sliderSnakes.input(updateControlsTxt);
   sliderSnakes.changed(updateControls);
   y += spacingMajor;
 
-  // create text showing number of ladders
-  txtLadders = createP("# Ladders : " + numLadders);
+  // create text for number of ladders
+  txtLadders = createP("");
   txtLadders.position(x, y);
   y += spacingMinor;
 
@@ -100,7 +100,7 @@ function initGame() {
   setupCanvas();
 
   // update controls
-  // repositionControls();
+  moveControls();
 
   // reset the tiles array
   tiles = [];
@@ -230,51 +230,43 @@ function initGame() {
 }
 
 // add game controls (number of players)
-function repositionControls() {
+function moveControls() {
   // set location of first control element
   let spacingMajor = 15;
   let spacingMinor = 35;
   let x = cols * resolution + separator + 15;
   let y = title + separator
 
-  // create simulation checkbox
+  // update simulation text and checkbox
   txtSimulate.position(x, y);
   y += 15;
   checkboxSimulation.position(x + controlsArea - 35, y);
   y += spacingMajor;
 
-  // create text showing number of players
+  // update text and slider for number of players
   txtPlayers.position(x, y);
   y += spacingMinor;
-
-  // create slider to control number of players
   sliderPlayers.position(x, y);
   y += spacingMajor;
 
-  // create text showing number of snakes
+  // update text and slider for grid size
   txtGrid.position(x, y);
   y += spacingMinor;
-
-  // create slider to control grid size
   sliderGrid.position(x, y);
   y += spacingMajor;
 
-  // create text showing number of snakes
+  // update text and slider for number of snakes
   txtSnakes.position(x, y);
   y += spacingMinor;
-
-  // create slider to control number of snakes
   sliderSnakes.position(x, y);
   y += spacingMajor;
 
-  // create text showing number of ladders
+  // update text and slider for number of ladders
   txtLadders.position(x, y);
   y += spacingMinor;
-
-  // create slider to control number of ladders
   sliderLadders.position(x, y);
 
-  // create button to roll the die
+  // update button to roll the die
   buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
 }
 
@@ -583,9 +575,12 @@ function updateControls() {
   } else if (sliderGrid.value() != cols) {
     cols = sliderGrid.value();
     rows = cols;
-    maxSnakes = cols * 0.5;
-    maxLadders = maxSnakes;
     if (DEBUG) console.log("set cols + rows:" + cols + "x" + rows);
+
+    // maxSnakes = cols * 0.5;
+    // sliderSnakes.max(maxSnakes);
+    // maxLadders = maxSnakes;
+    // sliderLadders.max(maxLadders);
 
     // the number of ladders is always less or equal to the number of snakes
   } else if (sliderSnakes.value() != numSnakes) {
