@@ -33,6 +33,8 @@ let turns;
 let die;
 
 // setup gameboard (columns, rows and tile size)
+maxColsRows = 12;
+minColsRows = 8;
 let cols = 10;
 let rows = cols;
 let resolution = 40;

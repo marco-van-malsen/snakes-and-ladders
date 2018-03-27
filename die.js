@@ -7,7 +7,7 @@ class Die {
   constructor() {
     // set x and y position of the die-center
     this.x = cols * resolution + separator + controlsArea / 2;
-    this.y = title + separator + rows * resolution - 75;
+    this.y = title + separator + rows * resolution - 60;
     this.wh = 50;
     this.r = this.wh * 0.1;
     this.value = 0;

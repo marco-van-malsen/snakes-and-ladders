@@ -2,73 +2,47 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// add game controls (number of players)
+// create game controls (DOM objects) in top-down order they will be seen
 function createControls() {
-  // set location of first control element
-  let spacingMajor = 15;
-  let spacingMinor = 35;
-  let x = cols * resolution + separator + 15;
-  let y = title + separator
-
   // create simulation text and checkbox
   txtSimulate = createP("Simulate");
-  txtSimulate.position(x, y);
-  y += 15;
   checkboxSimulation = createCheckbox("", simulationMode);
-  checkboxSimulation.position(x + controlsArea - 35, y);
   checkboxSimulation.changed(switchSimulationMode);
-  y += spacingMajor;
 
   // create text for number of players
   txtPlayers = createP("");
-  txtPlayers.position(x, y);
-  y += spacingMinor;
 
   // create slider for number of players
   sliderPlayers = createSlider(1, maxPlayers, numPlayers);
-  sliderPlayers.position(x, y);
   sliderPlayers.input(updateControlsTxt);
   sliderPlayers.changed(updateControls);
-  y += spacingMajor;
 
   // create text showing grid size
   txtGrid = createP("");
-  txtGrid.position(x, y);
-  y += spacingMinor;
 
   // create slider for grid size
-  sliderGrid = createSlider(8, 20, cols, 2);
-  sliderGrid.position(x, y);
+  sliderGrid = createSlider(minColsRows, maxColsRows, cols, 2);
   sliderGrid.input(updateControlsTxt);
   sliderGrid.changed(updateControls);
-  y += spacingMajor;
 
   // create text for number of snakes
   txtSnakes = createP("");
-  txtSnakes.position(x, y);
-  y += spacingMinor;
 
   // create slider for number of snakes
   sliderSnakes = createSlider(1, maxSnakes, numSnakes);
-  sliderSnakes.position(x, y);
   sliderSnakes.input(updateControlsTxt);
   sliderSnakes.changed(updateControls);
-  y += spacingMajor;
 
   // create text for number of ladders
   txtLadders = createP("");
-  txtLadders.position(x, y);
-  y += spacingMinor;
 
   // create slider to control number of ladders
   sliderLadders = createSlider(1, maxLadders, numLadders);
-  sliderLadders.position(x, y);
   sliderLadders.input(updateControlsTxt);
   sliderLadders.changed(updateControls);
 
   // create button to roll the die
   buttonRollDie = createButton("Roll the Die");
-  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
   buttonRollDie.mousePressed(rollDie);
 }
 
@@ -99,7 +73,7 @@ function initGame() {
   // setup canvas
   setupCanvas();
 
-  // update controls
+  // move DOM controls
   moveControls();
 
   // reset the tiles array
@@ -267,7 +241,7 @@ function moveControls() {
   sliderLadders.position(x, y);
 
   // update button to roll the die
-  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
+  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 20);
 }
 
 // create the canvas for board and separator
@@ -577,10 +551,10 @@ function updateControls() {
     rows = cols;
     if (DEBUG) console.log("set cols + rows:" + cols + "x" + rows);
 
-    // maxSnakes = cols * 0.5;
-    // sliderSnakes.max(maxSnakes);
-    // maxLadders = maxSnakes;
-    // sliderLadders.max(maxLadders);
+    // max number of snakes and ladders is half the grid Size
+    // e.g. a grid of 10x10 has max 5 snakes and 5 ladders
+    sliderSnakes.attribute('max', cols / 2);
+    sliderLadders.attribute('max', cols / 2);
 
     // the number of ladders is always less or equal to the number of snakes
   } else if (sliderSnakes.value() != numSnakes) {
