@@ -408,14 +408,8 @@ function showPlayersArea() {
       if (drawSnadder ? x2 = x1 : x2 += histSpacingX);
       y2 = -1 * map(nextValue, 0, 100, 0, playersArea);
 
-      // highlight current player's history with a thicker line
-      if (numPlayers > 1 && p === curPlayer) {
-        strokeWeight(4);
-      } else {
-        strokeWeight(2);
-      }
-
       // draw player history line
+      strokeWeight(2);
       line(x1, y1, x2, y2);
     }
   }

@@ -59,7 +59,7 @@ var txtSnakes = "";
 // setup game areas (title, separator and controlsArea)
 let controlsArea = 150;
 let playersArea = resolution * (numPlayers + 1);
-let separator = 25;
+let separator = 0.5 * resolution;
 let title = 50;
 
 // setup control for Roll the Die
