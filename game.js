@@ -11,7 +11,7 @@ function createControls() {
   let y = title + separator
 
   // create simulation checkbox
-  txtSimulate = createP("Simulate ");
+  txtSimulate = createP("Simulate");
   txtSimulate.position(x, y);
   y += 15;
   checkboxSimulation = createCheckbox("", simulationMode);
@@ -29,6 +29,18 @@ function createControls() {
   sliderPlayers.position(x, y);
   sliderPlayers.input(updateControlsTxt);
   sliderPlayers.changed(updateControls);
+  y += spacingMajor;
+
+  // create text showing number of snakes
+  txtGrid = createP("");
+  txtGrid.position(x, y);
+  y += spacingMinor;
+
+  // create slider to control grid size
+  sliderGrid = createSlider(8, 20, cols, 2);
+  sliderGrid.position(x, y);
+  sliderGrid.input(updateControlsTxt);
+  sliderGrid.changed(updateControls);
   y += spacingMajor;
 
   // create text showing number of snakes
@@ -86,6 +98,9 @@ function GameOver() {
 function initGame() {
   // setup canvas
   setupCanvas();
+
+  // update controls
+  // repositionControls();
 
   // reset the tiles array
   tiles = [];
@@ -212,6 +227,55 @@ function initGame() {
 
   // resume game loop
   loop();
+}
+
+// add game controls (number of players)
+function repositionControls() {
+  // set location of first control element
+  let spacingMajor = 15;
+  let spacingMinor = 35;
+  let x = cols * resolution + separator + 15;
+  let y = title + separator
+
+  // create simulation checkbox
+  txtSimulate.position(x, y);
+  y += 15;
+  checkboxSimulation.position(x + controlsArea - 35, y);
+  y += spacingMajor;
+
+  // create text showing number of players
+  txtPlayers.position(x, y);
+  y += spacingMinor;
+
+  // create slider to control number of players
+  sliderPlayers.position(x, y);
+  y += spacingMajor;
+
+  // create text showing number of snakes
+  txtGrid.position(x, y);
+  y += spacingMinor;
+
+  // create slider to control grid size
+  sliderGrid.position(x, y);
+  y += spacingMajor;
+
+  // create text showing number of snakes
+  txtSnakes.position(x, y);
+  y += spacingMinor;
+
+  // create slider to control number of snakes
+  sliderSnakes.position(x, y);
+  y += spacingMajor;
+
+  // create text showing number of ladders
+  txtLadders.position(x, y);
+  y += spacingMinor;
+
+  // create slider to control number of ladders
+  sliderLadders.position(x, y);
+
+  // create button to roll the die
+  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 25);
 }
 
 // create the canvas for board and separator
@@ -509,8 +573,22 @@ function switchSimulationMode() {
 
 // update the controls
 function updateControls() {
-  // the number of ladders is always less or equal to the number of snakes
-  if (sliderSnakes.value() != numSnakes) {
+  // change the number of players
+  if (sliderPlayers.value() != numPlayers) {
+    numPlayers = sliderPlayers.value();
+    if (DEBUG) console.log("set numPlayers:" + numPlayers);
+    playersArea = resolution * (max(1, numPlayers) + 1);
+
+    // change grid size
+  } else if (sliderGrid.value() != cols) {
+    cols = sliderGrid.value();
+    rows = cols;
+    maxSnakes = cols * 0.5;
+    maxLadders = maxSnakes;
+    if (DEBUG) console.log("set cols + rows:" + cols + "x" + rows);
+
+    // the number of ladders is always less or equal to the number of snakes
+  } else if (sliderSnakes.value() != numSnakes) {
     numSnakes = sliderSnakes.value();
     if (DEBUG) console.log("set numSnakes:" + numSnakes);
     numLadders = min(sliderSnakes.value(), sliderLadders.value());
@@ -522,11 +600,6 @@ function updateControls() {
     if (DEBUG) console.log("set numLadders:" + numLadders);
     numSnakes = max(sliderSnakes.value(), sliderLadders.value());
     sliderSnakes.value(numSnakes);
-
-  } else if (sliderPlayers.value() != numPlayers) {
-    numPlayers = sliderPlayers.value();
-    if (DEBUG) console.log("set numPlayers:" + numPlayers);
-    playersArea = resolution * (max(1, numPlayers) + 1);
   }
 
   // restart the game
@@ -536,6 +609,7 @@ function updateControls() {
 // update the text of the game controls
 function updateControlsTxt() {
   txtPlayers.html("# Players : " + sliderPlayers.value())
+  txtGrid.html("Grid Size : " + sliderGrid.value() + "x" + sliderGrid.value())
   txtSnakes.html("# Snakes : " + sliderSnakes.value())
   txtLadders.html("# Ladders : " + sliderLadders.value())
 }

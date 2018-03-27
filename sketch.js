@@ -66,6 +66,7 @@ let title = 50;
 var buttonRollDie;
 
 function setup() {
+  // create the controls
   createControls();
 
   // initialize the game
@@ -85,12 +86,12 @@ function draw() {
   // show player information area
   showPlayersArea();
 
-  // Draw tiles
+  // draw tiles
   for (let tile of tiles) {
     tile.show();
   }
 
-  // Draw snakes and ladders
+  // draw snakes and ladders
   for (let tile of tiles) {
     tile.showSnadders();
   }
