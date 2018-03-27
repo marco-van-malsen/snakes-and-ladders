@@ -377,6 +377,21 @@ function showPlayersArea() {
   }
   pop();
 
+  // draw number of turns played in lower right corner
+  fill(200);
+  noStroke();
+  if (turns < 100) {
+    rect(histW - 20, -20, 20, 20);
+  } else {
+    rect(histW - 30, -20, 30, 20);
+  }
+  fill(100);
+  if (turns < 100) {
+    text(turns, histW - 10, -10);
+  } else {
+    text(turns, histW - 15, -10);
+  }
+
   // draw histogram per player
   for (let p = 0; p <= players.length - 1; p++) {
     // reset histogram coordinates
