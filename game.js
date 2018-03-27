@@ -178,7 +178,7 @@ function initGame() {
   curPlayer = 0;
 
   // set number of turns played
-  turns = 0;
+  turns = 1;
 
   // keep track of final results of players
   finalResult = 0;
@@ -358,7 +358,7 @@ function showPlayersArea() {
 
   // determine distance between histogram lines
   let histSpacingY = histH / rows;
-  let histSpacingX = histW / (turns + 1);
+  let histSpacingX = histW / turns;
   histSpacingX = min(histSpacingX, histSpacingY);
 
   // draw histogram - horizontal lines
