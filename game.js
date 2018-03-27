@@ -406,7 +406,7 @@ function showPlayersArea() {
 
       // draw vertical line for snadders
       if (drawSnadder ? x2 = x1 : x2 += histSpacingX);
-      y2 = -1 * map(nextValue, 0, 100, 0, playersArea);
+      y2 = -1 * map(nextValue, 0, cols * rows, 0, playersArea);
 
       // draw player history line
       strokeWeight(2);
