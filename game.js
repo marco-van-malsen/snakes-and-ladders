@@ -48,9 +48,6 @@ function createControls() {
 
 // Is the game over?
 function GameOver() {
-  // if (DEBUG) console.clear();
-  if (DEBUG) console.log("GAME OVER");
-
   // count number of players on the finish-tile
   let playersActive = 0;
   for (let p in players) {
@@ -58,7 +55,6 @@ function GameOver() {
       playersActive += 1;
     }
   }
-  if (DEBUG) console.log("- playersActive=" + playersActive);
 
   // Game over if all players are on the finish tile
   if (playersActive === 0) {
@@ -97,11 +93,8 @@ function initGame() {
   }
 
   // Pick random Snakes
-  // if (DEBUG) console.log("MAKE SNAKES");
   let beginMin = cols;
   let beginMax = tiles.length - 2;
-  // if (DEBUG) console.log("- beginMin:" + beginMin);
-  // if (DEBUG) console.log("- beginMax:" + beginMax);
   for (let i = 0; i <= numSnakes - 1; i++) {
     // pick random tile to add Snake to (snake on finish tile not allowed)
     let begin = floor(random(beginMin, beginMax));
@@ -110,25 +103,17 @@ function initGame() {
     if (tiles[begin].snadder !== 0) {
       i--;
     } else {
-      // if (DEBUG) console.log("- snake:" + i);
-      // if (DEBUG) console.log("  - begin:" + begin);
       // -1 makes in a Snake (drop down a number of spots)
       deltaMin = (begin % cols) + 1;
       deltaMax = begin - 1;
       delta = -1 * floor(random(deltaMin, deltaMax))
-      // if (DEBUG) console.log("  - deltaMin:" + deltaMin);
-      // if (DEBUG) console.log("  - deltaMax:" + deltaMax);
-      // if (DEBUG) console.log("  - delta:" + delta);
       tiles[begin].snadder = delta;
     }
   }
 
   // Pick random ladders
-  // if (DEBUG) console.log("MAKE LADDERS");
   beginMin = 1;
   beginMax = tiles.length - cols - 1;
-  // if (DEBUG) console.log("- beginMin:" + beginMin);
-  // if (DEBUG) console.log("- beginMax:" + beginMax);
   for (let i = 0; i <= numLadders - 1; i++) {
     // pick random tile to add Ladder to
     begin = floor(random(beginMin, beginMax));
@@ -137,18 +122,16 @@ function initGame() {
     if (tiles[begin].snadder != 0) {
       i--;
     } else {
-      // if (DEBUG) console.log("- ladder:" + i);
-      // if (DEBUG) console.log("  - begin:" + begin);
       // 1 makes in a ladder (skip ahead a number of spots)
       deltaMin = cols - (begin % cols);
       deltaMax = tiles.length - begin - 2;
       delta = floor(random(deltaMin, deltaMax))
-      // if (DEBUG) console.log("  - deltaMin:" + deltaMin);
-      // if (DEBUG) console.log("  - deltaMax:" + deltaMax);
-      // if (DEBUG) console.log("  - delta:" + delta);
       tiles[begin].snadder = delta;
     }
   }
+
+  // add ladder on first tile
+  if (DEBUG) tiles[1].snadder = 10;
 
   // create or reset the die
   die = new Die();
@@ -184,13 +167,9 @@ function initGame() {
       players[i].tokenColor = color(255, 255, 255);
     }
   }
-  // if (DEBUG) console.log(players);
 
   // update text for controls
   updateControlsTxt();
-
-  // adjust framerate
-  updateFPS();
 
   // switch state
   if (simulationMode) {
@@ -249,7 +228,6 @@ function setupCanvas() {
   let canvasW = (cols * resolution) + separator + controlsArea;
   let canvasH = title + separator + (rows * resolution) + separator + playersArea;
   createCanvas(canvasW, canvasH);
-  // if (DEBUG) console.log("canvas : " + canvasW + "x" + canvasH);
 }
 
 // draw background for controls
@@ -284,13 +262,14 @@ function showGameTitle() {
 // show players
 function showPlayers() {
   for (let p of players) {
-    p.show();
+    if (!p.animate) {
+      p.show();
+    }
   }
 }
 
 // display player information area
 function showPlayersArea() {
-  // if (DEBUG) console.log("SHOW PLAYERS AREA")
   // store current settings
   push();
 
@@ -470,20 +449,14 @@ function switchPlayer() {
     return;
   }
 
-  if (DEBUG) console.log("SWITCH PLAYER");
-
   // find next player still in play
   let nextPlayer = -1;
 
   // find next player after current player
-  if (DEBUG) console.log("- numPlayers=" + players.length);
-  if (DEBUG) console.log("- curPlayer=" + curPlayer);
   if (curPlayer < players.length - 1) {
     // find next player still in play
     for (let i = curPlayer + 1; i <= players.length - 1; i++) {
-      if (DEBUG) console.log("- check player:" + i);
       if (players[i].finished === 0) {
-        if (DEBUG) console.log("- players[" + i + "].finished=" + players[i].finished);
         nextPlayer = i;
         break;
       }
@@ -510,16 +483,12 @@ function switchPlayer() {
   if (nextPlayer >= 0) {
     curPlayer = nextPlayer;
   }
-  if (DEBUG) console.log("- nextPlayer=" + curPlayer);
 }
 
 // switch simulation mode on or off
 function switchSimulationMode() {
   // toggle simulation mode
   simulationMode = !simulationMode;
-
-  // switch game state and adjust framerate
-  updateFPS();
 
   // switch game state and adjust framerate
   if (simulationMode) {
@@ -542,14 +511,12 @@ function updateControls() {
   // change the number of players
   if (sliderPlayers.value() != numPlayers) {
     numPlayers = sliderPlayers.value();
-    if (DEBUG) console.log("set numPlayers:" + numPlayers);
     playersArea = resolution * (max(1, numPlayers) + 1);
 
     // change grid size
   } else if (sliderGrid.value() != cols) {
     cols = sliderGrid.value();
     rows = cols;
-    if (DEBUG) console.log("set cols + rows:" + cols + "x" + rows);
 
     // max number of snakes and ladders is half the grid Size
     // e.g. a grid of 10x10 has max 5 snakes and 5 ladders
@@ -559,14 +526,12 @@ function updateControls() {
     // the number of ladders is always less or equal to the number of snakes
   } else if (sliderSnakes.value() != numSnakes) {
     numSnakes = sliderSnakes.value();
-    if (DEBUG) console.log("set numSnakes:" + numSnakes);
     numLadders = min(sliderSnakes.value(), sliderLadders.value());
     sliderLadders.value(numLadders);
 
     // the number of snakes is always greater or equal to the number of ladders
   } else if (sliderLadders.value() != numLadders) {
     numLadders = sliderLadders.value();
-    if (DEBUG) console.log("set numLadders:" + numLadders);
     numSnakes = max(sliderSnakes.value(), sliderLadders.value());
     sliderSnakes.value(numSnakes);
   }
@@ -581,14 +546,4 @@ function updateControlsTxt() {
   txtGrid.html("Grid Size : " + sliderGrid.value() + "x" + sliderGrid.value())
   txtSnakes.html("# Snakes : " + sliderSnakes.value())
   txtLadders.html("# Ladders : " + sliderLadders.value())
-}
-
-// set framerate depending on interactive or simulation mode
-function updateFPS() {
-  if (simulationMode) {
-    fps = 60;
-  } else {
-    fps = 5;
-  }
-  frameRate(fps);
 }

@@ -8,10 +8,13 @@ const DEBUG = false;
 // define available game states and set initial game state
 const WAIT_STATE = 0; /// wait for player to roll the die
 const ROLL_STATE = 1; // roll the die
-const PREVIEW_STATE = 2; // preview player's move
-const MOVE_STATE = 3; // move player to next spot
-const SNADDER_STATE = 4; // move player along a Snake or Ladder
+const MOVE_STATE = 2; // move player to next spot
+const SNADDER_STATE = 3; // move player along a Snake or Ladder
 let state;
+
+// constants used for player animation
+const INTERPOLATION_SPEED = 1 / 15;
+const TURN_DELAY = 15;
 
 // set initial game simulation mode
 let simulationMode = false;
@@ -42,7 +45,7 @@ let resolution = 40;
 // setup control for number of Players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 1;
+let numPlayers = 2;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -100,39 +103,36 @@ function draw() {
 
   // player's turn
   if (state === WAIT_STATE) {
-    if (DEBUG) console.log("WAIT_STATE");
     noLoop();
 
     // roll the die
   } else if (state === ROLL_STATE) {
-    if (DEBUG) console.log("ROLL_STATE");
-
     // roll the die automatically when in simulation mode
     if (simulationMode) {
       rollDie();
     }
 
-    // preview player
-  } else if (state === PREVIEW_STATE) {
-    if (DEBUG) console.log("PREVIEW_STATE");
-    // show preview
-    players[curPlayer].showPreview();
-
-    // switch state
-    state = MOVE_STATE;
-
     // move player
   } else if (state === MOVE_STATE) {
-    if (DEBUG) console.log("MOVE_STATE");
-
     // update player
+    showDie();
+    showPlayers();
     players[curPlayer].update();
+    players[curPlayer].showAnimation();
+
+    // continue until animation has finished
+    if (players[curPlayer].animate) {
+      return;
+    }
 
     // switch state
     if (players[curPlayer].isSnadder()) {
       // switch state
       state = SNADDER_STATE;
     } else {
+      // update players updateHistory
+      players[curPlayer].updateHistory();
+
       // continue play
       if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
 
@@ -142,19 +142,29 @@ function draw() {
 
     // player landed or a snadder
   } else if (state === SNADDER_STATE) {
-    if (DEBUG) console.log("SNADDER_STATE");
     // move player along snadder
+    showDie();
+    showPlayers();
     players[curPlayer].moveSnadder();
+    players[curPlayer].showAnimation();
+
+    // continue until animation has finished
+    if (players[curPlayer].animate) {
+      return;
+    }
+
+    // update players updateHistory
+    players[curPlayer].updateHistory();
 
     // switch player
-    switchPlayer()
+    switchPlayer();
 
     // continue play
     if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
   }
 
   // show the die
-  showDie()
+  showDie();
 
   // show the players
   showPlayers();
@@ -164,8 +174,6 @@ function draw() {
 
   // check game over state
   if (GameOver()) {
-    if (DEBUG) console.log("- YES, GAME OVER");
-
     // reset the die
     die.value = 0;
     showDie();

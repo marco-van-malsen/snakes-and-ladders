@@ -55,11 +55,7 @@ class Tile {
     } else if (this.index == tiles.length - 1) {
       tileText = 'finish';
     } else {
-      if (DEBUG) {
-        tileText = this.index;
-      } else {
-        tileText = this.index + 1;
-      }
+      if (DEBUG ? tileText = this.index : tileText = this.index + 1);
     }
 
     // display tile number

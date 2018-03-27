@@ -2,9 +2,6 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// constants
-let INTERPOLATION_SPEED = 1 / 15;
-let TURN_DELAY = 15;
 
 // A player
 class Player {
@@ -15,45 +12,87 @@ class Player {
     this.number = n; //player's number
     this.spot = 0; // Where I am now
     this.tokenColor = color(255, 0, 0); // color assigned to players token
-    // this.roll = -1; // What was my last roll
-    // this.next = -1; // Where I'm going
-    // this.animated = true;
-    // this.delay = TURN_DELAY;
-    // this.done = false;
-    // this.half_done = false;
-    // this.interpolator = 0;
-    // this.current = tiles[0];
-    // this.queue = this.current;
-    // this.position = this.current.getCenter();
-    // this.steps = 0;
+
+    // animation related
+    this.animate = false;
+    this.current;
+    this.delay = TURN_DELAY;
+    this.interpolator = 0;
+    this.position = tiles[this.spot].getCenter();
+    this.queue = [];
   }
 
+  // update original
+  animateMovement() {
+    // calculate x,y coordinate based on where player is and is going
+    if (this.queue.length > 1) {
+      // interpolote new x,y coordinate for player
+      this.position.x = lerp(this.queue[0].getCenter()[0], this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
+      this.position.y = lerp(this.queue[0].getCenter()[1], this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
+
+      // increase interpolator speed
+      this.interpolator += INTERPOLATION_SPEED;
+
+      // drop the first cell after the interpolation has finished
+      if (this.interpolator >= 1) {
+        this.interpolator = 0;
+        this.queue.shift();
+      }
+      return;
+    }
+
+    // delay between steps in animated frames
+    if (this.delay != 0) {
+      this.delay--;
+      return;
+    }
+
+    // reset player
+    this.animate = false
+    this.delay = TURN_DELAY;
+    this.queue = [];
+  }
+
+  // player has finished; mark player # place
+  checkFinished() {
+    if (this.spot = tiles.length - 1) {
+      this.finished = finalResult;
+    }
+  }
+
+  easeInOutTile(t) {
+    if (t < 0.5) {
+      return 2 * t * t
+    } else {
+      return -1 + (4 - 2 * t) * t;
+    }
+  }
   // Did current player land on a Snake or Ladder?
   isSnadder() {
     let tile = tiles[this.spot];
     return (tile && tile.snadder !== 0);
   }
 
-  // Update spot to next
-  move() {
-    if (DEBUG) console.log("move the player")
-    this.update();
-    this.spot = this.next;
-  }
-
-  // Move according to the Snake or Ladder
+  // Move player along the Snake or Ladder
   moveSnadder() {
-    if (DEBUG) console.log("MOVE SNADDER")
-    if (DEBUG) console.log("- start: " + this.spot)
-    if (DEBUG) console.log("- delta: " + tiles[this.spot].snadder)
-    this.spot += tiles[this.spot].snadder;
-    this.history.push("snadder");
-    this.history.push(this.spot);
+    // trigger the animation
+    if (!this.animate) {
+      this.animate = true;
+
+      // add begin and end of snadder to queue
+      this.queue.push(tiles[this.spot]);
+      this.queue.push(tiles[this.spot + tiles[this.spot].snadder]);
+    }
+
+    // repat until animation is finished
+    if (this.animate) {
+      this.animateMovement();
+      return;
+    }
   }
 
-  // Display on the current tile
+  // Display players not currently at play
   show() {
-    // if (DEBUG) console.log("SHOW PLAYER: " + curPlayer);
     // get players position on the board
     let playerTile = tiles[this.spot];
     let tileCenter = playerTile.getCenter();
@@ -65,7 +104,6 @@ class Player {
         playersOnTile += 1;
       }
     }
-    // if (DEBUG) console.log("- playersOnTile: " + playersOnTile);
 
     // determine token size based on number of players occupying a tile
     let tokenSize = 25;
@@ -74,7 +112,6 @@ class Player {
       strokeWeight(1);
       tokenSize = 15;
     }
-    // if (DEBUG) console.log("- tokenSize: " + tokenSize);
 
     // draw the player
     push();
@@ -96,91 +133,55 @@ class Player {
     pop();
   }
 
-  // highlight the tiles ahead
-  showPreview() {
-    if (DEBUG) console.log("SHOW PREVIEW");
-    let start = max(0, this.spot);
-    let end = min(this.spot + die.value, tiles.length - 1);
-    if (DEBUG) console.log("- start=" + start);
-    if (DEBUG) console.log("- end=" + end);
-    for (let i = start; i <= end; i++) {
-      tiles[i].highlight();
-    }
+  // show currently moving player
+  showAnimation() {
+    stroke(0);
+    strokeWeight(2);
+    fill(this.tokenColor);
+    ellipse(this.position.x, this.position.y, 25);
   }
 
   // update the player
   update() {
-    // do the animation
+    // trigger the animation (just once)
+    if (!this.animate) {
+      // trigger animation
+      this.animate = true;
 
-    // put player on new spot and add to history
-    if (this.spot + die.value <= tiles.length - 1) {
-      this.spot = this.spot + die.value;
-    } else {
-      this.spot = tiles.length - 1;
-      finalResult++;
-      this.finished = finalResult;
-    }
+      // add starting tile to queue
+      this.queue.push(tiles[this.spot]);
 
-    //  add new spot to history
-    this.history.push(this.spot);
-  }
-
-  // update original
-  updateOFF() {
-    // if (state !== MOVE_STATE) {
-    // return;
-    // }
-    if (DEBUG) console.log("update");
-
-    if (this.queue.length > 1) {
-      let x = lerp(this.queue[0].getCenter()[0], this.queue[1].getCenter()[0], this.easeInOutQuad(this.interpolator));
-      let y = lerp(this.queue[0].getCenter()[1], this.queue[1].getCenter()[1], this.easeInOutQuad(this.interpolator));
-
-      this.interpolator += INTERPOLATION_SPEED;
-
-      if (this.interpolator >= 1) {
-        this.interpolator = 0;
-        this.queue.shift();
-      }
-      return;
-    }
-
-    if (this.half_done) {
-      this.done = true;
-    }
-
-    if (this.delay != 0) {
-      this.delay--;
-      return;
-    }
-
-    this.delay = TURN_DELAY;
-
-    // steps is number rolled
-    let steps = this.roll;
-    while (steps > 0) {
-      if (this.current.next) {
-        // this.current = this.current.next;
-        // this.queue.push(this.current);
-        // this.steps++;
-        steps--;
-      } else {
-        this.half_done = true;
-        break;
+      // push all cells from the roll into the queue
+      for (let step = 1; step <= die.value; step++) {
+        // player must finish on the finish spot; cannot go beyond finish
+        // player will move backwards if the die roll would violate this
+        if (this.spot + step <= (cols * rows) - 1) {
+          this.spot += 1;
+        } else {
+          this.spot -= 1;
+        }
+        this.queue.push(tiles[this.spot]);
       }
     }
 
-    if (this.current.jump) {
-      this.current = this.current.jump;
-      this.queue.push(this.current);
+    // repat until animation is finished
+    if (this.animate) {
+      this.animateMovement();
+      return;
     }
   }
 
-  easeInOutQuad(t) {
-    if (t < 0.5) {
-      return 2 * t * t
-    } else {
-      return -1 + (4 - 2 * t) * t;
+  // update player after animation has finished
+  updateHistory() {
+    // add player's spot to the history
+    if (state === MOVE_STATE) {
+      this.history.push(this.spot);
+
+      // update player's spot after the snadder to the history
+    } else if (state === SNADDER_STATE) {
+      this.spot += tiles[this.spot].snadder
+      this.history.push("snadder");
+      this.history.push(this.spot);
     }
   }
 }
