@@ -15,6 +15,9 @@ let state;
 const INTERPOLATION_SPEED = 1 / 15;
 const TURN_DELAY = 15;
 
+// set initial game simulation mode
+let simulationMode = false;
+
 // array of tiles
 let tiles = [];
 
