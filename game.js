@@ -505,7 +505,6 @@ function updateControls() {
     numPlayers = sliderPlayers.value();
     playersArea = resolution * (max(1, numPlayers) + 1);
 
-    // change animation speed
     // change grid size
   } else if (sliderGrid.value() != cols) {
     cols = sliderGrid.value();
