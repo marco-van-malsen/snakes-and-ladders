@@ -148,18 +148,22 @@ class Player {
       // trigger animation
       this.animate = true;
 
-      // add starting tile to queue
-      this.queue.push(tiles[this.spot]);
+      // boolean needed to reverse the player if the throw of the die goes beyond the finish spot
+      let reverse = false;
 
       // push all cells from the roll into the queue
       for (let step = 1; step <= die.value; step++) {
+        // add tile to queue includes tile where player started
+        this.queue.push(tiles[this.spot]);
+
+        // go forward until player hits finish; any remaining steps go backwards
+        if (!reverse && this.spot === tiles.length - 1) {
+          reverse = true;
+        }
+
         // player must finish on the finish spot; cannot go beyond finish
         // player will move backwards if the die roll would violate this
-        if (this.spot + step <= (cols * rows) - 1) {
-          this.spot += 1;
-        } else {
-          this.spot -= 1;
-        }
+        if (reverse === true ? this.spot -= 1 : this.spot += 1);
         this.queue.push(tiles[this.spot]);
       }
     }

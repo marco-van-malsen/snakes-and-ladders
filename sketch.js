@@ -36,8 +36,8 @@ let turns;
 let die;
 
 // setup gameboard (columns, rows and tile size)
-maxColsRows = 12;
-minColsRows = 8;
+maxColsRows = 14;
+minColsRows = 10;
 let cols = 10;
 let rows = cols;
 let resolution = 40;
@@ -45,7 +45,7 @@ let resolution = 40;
 // setup control for number of Players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 2;
+let numPlayers = 1;
 var sliderPlayers;
 var txtPlayers = "";
 
