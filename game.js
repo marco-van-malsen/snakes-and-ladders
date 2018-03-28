@@ -9,14 +9,6 @@ function createControls() {
   checkboxSimulation = createCheckbox("", simulationMode);
   checkboxSimulation.changed(switchSimulationMode);
 
-  // create text for animation speed
-  txtSpeed = createP("");
-
-  // create slider for number of players
-  sliderSpeed = createSlider(24, 60, 60);
-  sliderSpeed.input(updateControlsTxt);
-  sliderSpeed.changed(updateControls);
-
   // create text for number of players
   txtPlayers = createP("");
 
@@ -198,12 +190,6 @@ function moveControls() {
   txtSimulate.position(x, y);
   y += 15;
   checkboxSimulation.position(x + controlsArea - 35, y);
-  y += spacingMajor;
-
-  // update text and slider for animation speed
-  txtSpeed.position(x, y);
-  y += spacingMinor;
-  sliderSpeed.position(x, y);
   y += spacingMajor;
 
   // update text and slider for number of players
@@ -519,9 +505,6 @@ function updateControls() {
     numPlayers = sliderPlayers.value();
     playersArea = resolution * (max(1, numPlayers) + 1);
 
-    // change animation speed
-  } else if (sliderSpeed.value() != cols) {
-
     // change grid size
   } else if (sliderGrid.value() != cols) {
     cols = sliderGrid.value();
@@ -552,7 +535,6 @@ function updateControls() {
 // update the text of the game controls
 function updateControlsTxt() {
   txtPlayers.html("# Players : " + sliderPlayers.value());
-  txtSpeed.html("Speed : " + sliderSpeed.value() + "fps")
   txtGrid.html("Grid Size : " + sliderGrid.value() + "x" + sliderGrid.value());
   txtSnakes.html("# Snakes : " + sliderSnakes.value());
   txtLadders.html("# Ladders : " + sliderLadders.value());
