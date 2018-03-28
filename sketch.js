@@ -6,7 +6,6 @@
 const DEBUG = false;
 
 // define available game states and set initial game state
-const WAIT_STATE = 0; /// wait for player to roll the die
 const ROLL_STATE = 1; // roll the die
 const MOVE_STATE = 2; // move player to next spot
 const SNADDER_STATE = 3; // move player along a Snake or Ladder
@@ -101,15 +100,12 @@ function draw() {
     tile.showSnadders();
   }
 
-  // player's turn
-  if (state === WAIT_STATE) {
-    noLoop();
-
-    // roll the die
-  } else if (state === ROLL_STATE) {
-    // roll the die automatically when in simulation mode
+  // roll the die or wait for player to roll the die
+  if (state === ROLL_STATE) {
     if (simulationMode) {
       rollDie();
+    } else {
+      noLoop();
     }
 
     // move player
@@ -130,11 +126,14 @@ function draw() {
       // switch state
       state = SNADDER_STATE;
     } else {
-      // update players updateHistory
+      // update players history
       players[curPlayer].updateHistory();
 
+      // check if players has finished
+      // players[curPlayer].checkFinished();
+
       // continue play
-      if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
+      state = ROLL_STATE;
 
       // switch player
       switchPlayer()
@@ -160,7 +159,7 @@ function draw() {
     switchPlayer();
 
     // continue play
-    if (simulationMode ? state = ROLL_STATE : state = WAIT_STATE);
+    state = ROLL_STATE;
   }
 
   // show the die

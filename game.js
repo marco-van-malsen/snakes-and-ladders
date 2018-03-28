@@ -180,11 +180,7 @@ function initGame() {
   updateControlsTxt();
 
   // switch state
-  if (simulationMode) {
-    state = ROLL_STATE;
-  } else {
-    state = WAIT_STATE;
-  }
+  state = ROLL_STATE;
 
   // resume game loop
   loop();
@@ -505,11 +501,7 @@ function switchSimulationMode() {
   simulationMode = !simulationMode;
 
   // switch game state and adjust framerate
-  if (simulationMode) {
-    state = ROLL_STATE;
-  } else {
-    state = WAIT_STATE;
-  }
+  state = ROLL_STATE;
 
   // start a new game if the previous game has ended
   if (GameOver()) {
