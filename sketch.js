@@ -25,9 +25,9 @@ let tiles = [];
 // the players
 let players = [];
 
-// keep track of the final result of the playersArea
+// keep track of the final result of the players
 // initialize at 0 in initGame and increase by one for every finished player
-let finalResult;
+let finishOrder;
 
 // number of turns played
 let turns;

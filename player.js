@@ -56,7 +56,7 @@ class Player {
   // player has finished; mark player # place
   checkFinished() {
     if (this.spot = tiles.length - 1) {
-      this.finished = finalResult;
+      this.finished = finishOrder;
     }
   }
 

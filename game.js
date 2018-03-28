@@ -161,7 +161,7 @@ function initGame() {
   turns = 1;
 
   // keep track of final results of players
-  finalResult = 0;
+  finishOrder = 0;
 
   // assign colors
   for (let i = 0; i <= players.length - 1; i++) {
@@ -348,7 +348,7 @@ function showPlayersArea() {
     ellipse(0.5 * resolution, p * resolution + 0.5 * resolution, 25, 25);
 
     // draw "X" for current player
-    // draw finalResult for players that have finished
+    // draw number matching finishing order for players that have finished
     let tokenText = "";
     if (numPlayers > 1) {
       // mark current player with X
