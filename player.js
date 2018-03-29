@@ -6,10 +6,10 @@
 class Player {
   // initialize player
   constructor(n) {
-    this.finished = 0;
-    this.history = [];
+    this.finished = 0; // player finishing position (1 for winner, 2 for 2nd place etc.)
+    this.history = []; // history of spots where player landed, including snakes ladders
     this.number = n; //player's number
-    this.spot = 0; // Where I am now
+    this.spot = 0; // player's position on the board
     this.tokenColor = color(255, 0, 0); // color assigned to players token
 
     // animation related
@@ -71,7 +71,7 @@ class Player {
     }
   }
 
-  // did current player land on a Snake or Ladder?
+  // did current player land on a snake or ladder?
   isSnadder() {
     let tile = tiles[this.spot];
     return (tile && tile.snadder !== 0);
@@ -170,7 +170,7 @@ class Player {
         if (reverse === true ? this.spot -= 1 : this.spot += 1);
         this.queue.push(tiles[this.spot]);
 
-        // stop once player is on the finish tile
+        // stop once player reaches finish tile
         // if (this.spot === tiles.length - 1) {
         // step = die.value;
         // }
