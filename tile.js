@@ -10,8 +10,8 @@ class Tile {
     this.wh = wh
     this.x = x
     this.y = y
-    // Checkboard pattern
-    if (this.index % 2 == 0) {
+    // checker board pattern
+    if (this.index % 2 === 0) {
       this.color = 200;
     } else {
       this.color = 100;
@@ -27,7 +27,6 @@ class Tile {
 
   // highlight over rectangle
   highlight() {
-    // console.log("highlight tile " + (this.index + 1));
     fill(0, 0, 255, 100);
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
@@ -36,7 +35,7 @@ class Tile {
   // draw tile
   show() {
     // draw tile (override tile color for start and finish)
-    if (this.index == 0 || this.index == tiles.length - 1) {
+    if (this.index === 0 || this.index === tiles.length - 1) {
       fill(255, 0, 0);
     } else {
       fill(this.color);
@@ -48,13 +47,13 @@ class Tile {
     let tileText;
     if (this.index == 0) {
       tileText = 'start';
-    } else if (this.index == tiles.length - 1) {
+    } else if (this.index === tiles.length - 1) {
       tileText = 'finish';
     } else {
       tileText = this.index + 1;
     }
 
-    // display tile number
+    // display tile text
     textAlign(CENTER, CENTER);
     textSize(12);
     fill(255);
