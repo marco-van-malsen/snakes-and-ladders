@@ -135,15 +135,14 @@ function draw() {
       players[curPlayer].updateSimple();
     }
 
+    // update players history
+    players[curPlayer].updateHistory();
+
     // switch state
     if (players[curPlayer].isSnadder()) {
       // switch state
       state = SNADDER_STATE;
     } else {
-
-      // update players history
-      players[curPlayer].updateHistory();
-
       // check if player is finished
       players[curPlayer].checkFinished();
 
