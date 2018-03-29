@@ -4,7 +4,7 @@
 
 // create game controls (DOM objects) in top-down order they will be seen
 function createControls() {
-  // create simulation text and checkbox
+  // create simulate text and checkbox
   txtSimulation = createP("Simulate");
   checkboxSimulation = createCheckbox("", simulationMode);
   checkboxSimulation.changed(switchSimulationMode);
@@ -51,7 +51,7 @@ function createControls() {
   buttonRollDie.mousePressed(rollDie);
 }
 
-// Is the game over?
+// is the game over?
 function GameOver() {
   // count number of players on the finish-tile
   let playersActive = 0;
@@ -61,7 +61,7 @@ function GameOver() {
     }
   }
 
-  // Game over if all players are on the finish tile
+  // game over if all players are on the finish tile
   if (playersActive === 0) {
     return true;
   } else {
@@ -69,18 +69,18 @@ function GameOver() {
   }
 }
 
-// initialze a new game
+// initialize a new game
 function initGame() {
   // setup canvas
   setupCanvas();
 
-  // move DOM controls
+  // move game controls
   moveControls();
 
   // reset the tiles array
   tiles = [];
 
-  // Create all the tiles from start to finish
+  // create all the tiles from start to finish
   let x = 0;
   let y = title + separator + (rows - 1) * resolution;
   let dir = 1;
@@ -89,7 +89,7 @@ function initGame() {
     tiles.push(tile);
     x = x + (resolution * dir);
 
-    // Move along a winding path up the rows
+    // move along a winding path up the rows
     if (x >= cols * resolution || x <= -resolution) {
       dir *= -1;
       x += resolution * dir;
@@ -97,18 +97,18 @@ function initGame() {
     }
   }
 
-  // Pick random Snakes
+  // pick random snakes
   let beginMin = cols;
   let beginMax = tiles.length - 2;
   for (let i = 0; i <= numSnakes - 1; i++) {
-    // pick random tile to add Snake to (snake on finish tile not allowed)
+    // pick random tile to add snake to (snake on finish tile not allowed)
     let begin = floor(random(beginMin, beginMax));
 
     // add snake, unless one already exists
     if (tiles[begin].snadder !== 0) {
       i--;
     } else {
-      // -1 makes in a Snake (drop down a number of spots)
+      // -1 makes in a snake (drop down a number of spots)
       deltaMin = (begin % cols) + 1;
       deltaMax = begin - 1;
       delta = -1 * floor(random(deltaMin, deltaMax))
@@ -116,7 +116,7 @@ function initGame() {
     }
   }
 
-  // Pick random ladders
+  // pick random ladders
   beginMin = 1;
   beginMax = tiles.length - cols - 1;
   for (let i = 0; i <= numLadders - 1; i++) {
@@ -180,7 +180,7 @@ function initGame() {
   loop();
 }
 
-// add game controls (number of players)
+// add game controls
 function moveControls() {
   // set location of first control element
   let spacingMajor = 15;
@@ -227,7 +227,7 @@ function moveControls() {
   buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 20);
 }
 
-// create the canvas for board and separator
+// create the canvas
 function setupCanvas() {
   let canvasW = (cols * resolution) + separator + controlsArea;
   let canvasH = title + separator + (rows * resolution) + separator + playersArea;
@@ -285,7 +285,7 @@ function showPlayersArea() {
   // format text
   textAlign(CENTER, CENTER);
 
-  // draw Player-column
+  // player-column
   // draw header
   fill(100);
   stroke(0);
@@ -311,7 +311,7 @@ function showPlayersArea() {
   }
   translate(0, -resolution);
 
-  // draw Token-column
+  // token-column
   // draw header
   translate(resolution, 0);
   fill(100);
@@ -418,10 +418,10 @@ function showPlayersArea() {
       // reset snadder
       let drawSnadder = false;
 
-      // read value (read as string to deal with strings and numbers)
+      // read value
       let nextValue = players[p].history[h];
 
-      // // in case of a snadder; read next value
+      // in case of a snadder; read next value
       if (nextValue === "snadder") {
         drawSnadder = true;
         h++;
@@ -447,7 +447,7 @@ function showPlayersArea() {
 }
 
 function switchPlayer() {
-  // skip in single player mode
+  // single player mode; just increase the number of turns
   if (numPlayers === 1) {
     turns++;
     return;
@@ -482,8 +482,8 @@ function switchPlayer() {
   }
 
   // set next current player (nextPlayer starts at -1)
-  // nextPlayer = -1 ; this means current player is only player left
-  // nextPlayer >= 0 ; two or more players still in play (switch to next player)
+  // nextPlayer = -1 ; current player is only player left, no need to switch
+  // nextPlayer >= 0 ; two or more players still in play (switch player)
   if (nextPlayer >= 0) {
     curPlayer = nextPlayer;
   }
@@ -514,7 +514,7 @@ function switchSimulationMode() {
   // switch game state
   state = ROLL_STATE;
 
-  // start a new game if the previous game has ended
+  // start new game if previous game has ended
   if (GameOver()) {
     initGame();
   }
