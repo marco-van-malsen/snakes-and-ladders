@@ -2,8 +2,9 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
+// setup die
 class Die {
-  // call a reset function to initialize
+  // initialize
   constructor() {
     // set x and y position of the die-center
     this.x = cols * resolution + separator + controlsArea / 2;
@@ -21,7 +22,7 @@ function rollDie() {
     initGame();
   }
 
-  // pick a random number 1 to 6
+  // pick a random number between 1 and 6
   die.value = random([1, 2, 3, 4, 5, 6]);
 
   // switch state
