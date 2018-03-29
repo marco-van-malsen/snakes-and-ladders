@@ -5,9 +5,14 @@
 // create game controls (DOM objects) in top-down order they will be seen
 function createControls() {
   // create simulation text and checkbox
-  txtSimulate = createP("Simulate");
+  txtSimulation = createP("Simulate");
   checkboxSimulation = createCheckbox("", simulationMode);
   checkboxSimulation.changed(switchSimulationMode);
+
+  // create animate text and checkbox
+  txtAnimation = createP("Animate");
+  checkboxAnimation = createCheckbox("", animationMode);
+  checkboxAnimation.changed(switchAnimationMode);
 
   // create text for number of players
   txtPlayers = createP("");
@@ -80,7 +85,7 @@ function initGame() {
   let y = title + separator + (rows - 1) * resolution;
   let dir = 1;
   for (let i = 0; i < cols * rows; i++) {
-    let tile = new Tile(x, y, resolution, i, i + 1);
+    let tile = new Tile(x, y, resolution, i);
     tiles.push(tile);
     x = x + (resolution * dir);
 
@@ -129,9 +134,6 @@ function initGame() {
       tiles[begin].snadder = delta;
     }
   }
-
-  // add ladder on first tile
-  if (DEBUG) tiles[1].snadder = 10;
 
   // create or reset the die
   die = new Die();
@@ -187,9 +189,15 @@ function moveControls() {
   let y = title + separator
 
   // update simulation text and checkbox
-  txtSimulate.position(x, y);
+  txtSimulation.position(x, y);
   y += 15;
   checkboxSimulation.position(x + controlsArea - 35, y);
+  y += spacingMajor;
+
+  // update animation text and checkbox
+  txtAnimation.position(x, y);
+  y += 15;
+  checkboxAnimation.position(x + controlsArea - 35, y);
   y += spacingMajor;
 
   // update text and slider for number of players
@@ -481,12 +489,29 @@ function switchPlayer() {
   }
 }
 
+// switch animation mode on or off
+function switchAnimationMode() {
+  // toggle animation mode
+  animationMode = !animationMode;
+
+  // switch game state
+  state = ROLL_STATE;
+
+  // start a new game if the previous game has ended
+  if (GameOver()) {
+    initGame();
+  }
+
+  // resume game loop
+  loop();
+}
+
 // switch simulation mode on or off
 function switchSimulationMode() {
   // toggle simulation mode
   simulationMode = !simulationMode;
 
-  // switch game state and adjust framerate
+  // switch game state
   state = ROLL_STATE;
 
   // start a new game if the previous game has ended

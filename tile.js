@@ -2,17 +2,14 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// Each tile on the board
+// a tile on the board
 class Tile {
-  constructor(x, y, wh, index, next) {
+  constructor(x, y, wh, index) {
+    this.index = index;
+    this.snadder = 0;
+    this.wh = wh
     this.x = x
     this.y = y
-    this.wh = wh
-    // index and next
-    // TODO: (next is probably redundant?)
-    this.index = index;
-    this.next = next;
-    this.snadder = 0;
     // Checkboard pattern
     if (this.index % 2 == 0) {
       this.color = 200;
@@ -21,15 +18,14 @@ class Tile {
     }
   }
 
-  // Find center
+  // find center
   getCenter() {
     let cx = this.x + this.wh / 2;
     let cy = this.y + this.wh / 2;
-    // TODO: change to p5.Vector?
     return [cx, cy];
   }
 
-  // Highlight over rectangle
+  // highlight over rectangle
   highlight() {
     // console.log("highlight tile " + (this.index + 1));
     fill(0, 0, 255, 100);
@@ -37,7 +33,7 @@ class Tile {
     rect(this.x, this.y, this.wh, this.wh);
   }
 
-  // Draw tile
+  // draw tile
   show() {
     // draw tile (override tile color for start and finish)
     if (this.index == 0 || this.index == tiles.length - 1) {
@@ -55,7 +51,7 @@ class Tile {
     } else if (this.index == tiles.length - 1) {
       tileText = 'finish';
     } else {
-      if (DEBUG ? tileText = this.index : tileText = this.index + 1);
+      tileText = this.index + 1;
     }
 
     // display tile number
@@ -65,7 +61,7 @@ class Tile {
     text(tileText, this.x + this.wh / 2, this.y + this.wh / 2);
   }
 
-  // If it's connected to another tile with a snake or a ladder
+  // show snake or ladder
   showSnadders() {
     if (this.snadder != 0) {
       let myCenter = this.getCenter();

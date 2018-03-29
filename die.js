@@ -16,9 +16,13 @@ class Die {
 
 // roll the die
 function rollDie() {
+  // start a new game
+  if (GameOver()) {
+    initGame();
+  }
+
   // pick a random number 1 to 6
   die.value = random([1, 2, 3, 4, 5, 6]);
-  if (DEBUG) die.value = 1;
 
   // switch state
   state = MOVE_STATE;

@@ -2,8 +2,7 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-
-// A player
+// a player
 class Player {
   // initialize player
   constructor(n) {
@@ -42,9 +41,11 @@ class Player {
     }
 
     // delay between steps in animated frames
-    if (this.delay != 0) {
-      this.delay--;
-      return;
+    if (animationMode) {
+      if (this.delay != 0) {
+        this.delay--;
+        return;
+      }
     }
 
     // reset player
@@ -53,13 +54,15 @@ class Player {
     this.queue = [];
   }
 
-  // player has finished; mark player # place
+  // player has finished; mark player finishing position
   checkFinished() {
-    if (this.spot = tiles.length - 1) {
+    if (this.spot >= tiles.length - 1) {
+      finishOrder += 1;
       this.finished = finishOrder;
     }
   }
 
+  // ease in and out of tile
   easeInOutTile(t) {
     if (t < 0.5) {
       return 2 * t * t
@@ -67,13 +70,14 @@ class Player {
       return -1 + (4 - 2 * t) * t;
     }
   }
-  // Did current player land on a Snake or Ladder?
+
+  // did current player land on a Snake or Ladder?
   isSnadder() {
     let tile = tiles[this.spot];
     return (tile && tile.snadder !== 0);
   }
 
-  // Move player along the Snake or Ladder
+  // move player along snake or ladder
   moveSnadder() {
     // trigger the animation
     if (!this.animate) {
@@ -91,7 +95,7 @@ class Player {
     }
   }
 
-  // Display players not currently at play
+  // display players not currently at play
   show() {
     // get players position on the board
     let playerTile = tiles[this.spot];
@@ -151,11 +155,11 @@ class Player {
       // boolean needed to reverse the player if the throw of the die goes beyond the finish spot
       let reverse = false;
 
+      // always add starting tile to queue
+      this.queue.push(tiles[this.spot]);
+
       // push all cells from the roll into the queue
       for (let step = 1; step <= die.value; step++) {
-        // add tile to queue includes tile where player started
-        this.queue.push(tiles[this.spot]);
-
         // go forward until player hits finish; any remaining steps go backwards
         if (!reverse && this.spot === tiles.length - 1) {
           reverse = true;
@@ -165,10 +169,15 @@ class Player {
         // player will move backwards if the die roll would violate this
         if (reverse === true ? this.spot -= 1 : this.spot += 1);
         this.queue.push(tiles[this.spot]);
+
+        // stop once player is on the finish tile
+        // if (this.spot === tiles.length - 1) {
+        // step = die.value;
+        // }
       }
     }
 
-    // repat until animation is finished
+    // repeat until animation is finished
     if (this.animate) {
       this.animateMovement();
       return;
@@ -187,5 +196,14 @@ class Player {
       this.history.push("snadder");
       this.history.push(this.spot);
     }
+  }
+
+  // move player without animation
+  updateSimple() {
+    // advance player
+    this.spot += die.value;
+
+    // player cannot overshoot finish
+    this.spot = min(this.spot, tiles.length - 1);
   }
 }
