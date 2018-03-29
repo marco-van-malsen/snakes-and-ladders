@@ -190,8 +190,8 @@ function draw() {
     showPlayersArea();
 
     // disable simulation mode
-    simulationMode = false;
-    checkboxSimulation.checked(simulationMode);
+    // simulationMode = false;
+    // checkboxSimulation.checked(simulationMode);
 
     // interrupt the game loop
     noLoop();
