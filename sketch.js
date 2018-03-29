@@ -16,7 +16,7 @@ let TURN_DELAY = 15;
 let animationMode = true;
 
 // set initial game simulation mode
-let simulationMode = false;
+let simulationMode = true;
 
 // all the tiles
 let tiles = [];
@@ -44,7 +44,7 @@ let resolution = 40;
 // setup control for number of players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 3;
+let numPlayers = 2;
 var sliderPlayers;
 var txtPlayers = "";
 
@@ -166,12 +166,12 @@ function draw() {
 
     // update players history
     players[curPlayer].updateHistory();
-    
+
     // allow for one snadder leading to another
     if (players[curPlayer].isSnadder()) {
       return;
     }
-    
+
     // switch player
     switchPlayer();
 

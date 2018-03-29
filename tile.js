@@ -25,13 +25,6 @@ class Tile {
     return [cx, cy];
   }
 
-  // highlight over rectangle
-  highlight() {
-    fill(0, 0, 255, 100);
-    noStroke();
-    rect(this.x, this.y, this.wh, this.wh);
-  }
-
   // draw tile
   show() {
     // draw tile (override tile color for start and finish)
