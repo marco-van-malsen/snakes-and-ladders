@@ -9,7 +9,7 @@ const SNADDER_STATE = 3; // move player along a Snake or Ladder
 let state;
 
 // values required for player animation
-let INTERPOLATION_SPEED = 1 / 10;
+let INTERPOLATION_SPEED = 1 / 15;
 let TURN_DELAY = 15;
 
 // set initial game animation mode
