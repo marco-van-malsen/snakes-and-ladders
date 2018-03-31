@@ -354,7 +354,6 @@ function showPlayersArea() {
 
       // draw text on token
       fill(0);
-      noStroke();
       textSize(14);
       text(tokenText, 0.5 * resolution, p * resolution + 0.5 * resolution);
     }
@@ -392,22 +391,42 @@ function showPlayersArea() {
   pop();
 
   // draw number of turns played in upper left corner of histogram
-  let turnsW = histSpacingY * 2;
-  let turnsH = histSpacingY * 2;
+  let turnsH;
+  let turnsW;
+
+  // set height of textbox
+  if (numPlayers === 4) {
+    turnsH = histSpacingY;
+  } else {
+    turnsH = histSpacingY * 2;
+  }
+
+  // height of textbox; make sure textbox is higher than the textsize
+  if (turnsH <= 12) {
+    turnsH += histSpacingY;
+  }
+
+  // set width of textbox
   if (numPlayers === 1) {
     turnsW = histSpacingY * 3;
-  } else if (numPlayers === 4) {
-    turnsH = histSpacingY;
+  } else {
+    turnsW = histSpacingY * 2;
   }
-  
+
+  // set width of textbox; increase if number of turns exceeds 100
   if (turns >= 100) {
     turnsW += histSpacingY;
   }
 
+  // draw text box
   fill(200);
-  noStroke();
+  stroke(100);
   rect(0, -histH, turnsW, turnsH);
+
+  // draw # turns
   fill(100);
+  noStroke();
+  textSize(12);
   text(turns, turnsW * 0.5, -histH + turnsH * 0.5);
 
   // draw histogram per player
