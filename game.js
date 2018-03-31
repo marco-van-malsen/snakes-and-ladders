@@ -392,19 +392,19 @@ function showPlayersArea() {
   pop();
 
   // draw number of turns played in upper left corner of histogram
+  let turnsW = histSpacingY * 2;
+  let turnsH = histSpacingY * 2;
+  if (numPlayers === 1) {
+    turnsW = histSpacingY * 3;
+  } else if (numPlayers === 4) {
+    turnsH = histSpacing;
+  }
+
   fill(200);
   noStroke();
-  if (turns < 100) {
-    rect(0, -histH, histSpacingY * 2, histSpacingY * 2);
-  } else {
-    rect(0, -histH, histSpacingY * 3, histSpacingY * 2);
-  }
+  rect(0, -histH, turnsW, turnsH);
   fill(100);
-  if (turns < 100) {
-    text(turns, histSpacingY, -histH + histSpacingY);
-  } else {
-    text(turns, histSpacingY * 1.5, -histH + histSpacingY);
-  }
+  text(turns, turnsW * 0.5, -histH + turnsH * 0.5);
 
   // draw histogram per player
   for (let p = 0; p <= players.length - 1; p++) {
