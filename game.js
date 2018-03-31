@@ -390,19 +390,19 @@ function showPlayersArea() {
   }
   pop();
 
-  // draw number of turns played in lower right corner
+  // draw number of turns played in upper left corner of histogram
   fill(200);
   noStroke();
   if (turns < 100) {
-    rect(histW - 20, -20, 20, 20);
+    rect(0, resolution * 0.5, resolution * 0.5, resolution * -0.5);
   } else {
-    rect(histW - 30, -20, 30, 20);
+    rect(0, resolution * 0.5, resolution * 0.75, resolution * -0.5);
   }
   fill(100);
   if (turns < 100) {
-    text(turns, histW - 10, -10);
+    text(turns, resolution * 0.25, resolution * -0.25);
   } else {
-    text(turns, histW - 15, -10);
+    text(turns, resolution * 0.375, resolution * -0.25);
   }
 
   // draw histogram per player
