@@ -394,9 +394,9 @@ function showPlayersArea() {
   fill(200);
   noStroke();
   if (turns < 100) {
-    rect(0, -histH + histSpacingY * 2, histSpacingY * 2, histSpacingY * 2);
+    rect(0, -histH, histSpacingY * 2, histSpacingY * 2);
   } else {
-    rect(0, -histH + histSpacingY * 2, histSpacingY * 3, histSpacingY * 2);
+    rect(0, -histH, histSpacingY * 3, histSpacingY * 2);
   }
   fill(100);
   if (turns < 100) {
