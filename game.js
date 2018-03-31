@@ -258,7 +258,7 @@ function showGameTitle() {
   // draw text
   fill(100);
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(32);
   text("Snakes & Ladders", (cols * resolution) / 2, title / 2)
   pop();
 }
