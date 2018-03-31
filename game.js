@@ -414,7 +414,7 @@ function showPlayersArea() {
   }
 
   // set width of textbox; increase if number of turns exceeds 100
-  if (turns >= 100) {
+  if (turns >= 100 && numPlayers < 4) {
     turnsW += histSpacingY;
   }
 
