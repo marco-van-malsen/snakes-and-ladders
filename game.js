@@ -307,6 +307,7 @@ function showPlayersArea() {
     // draw number
     fill(255);
     strokeWeight(0);
+    textSize(14);
     text(p + 1, resolution * 0.5, p * resolution + resolution * 0.5);
   }
   translate(0, -resolution);
@@ -352,8 +353,8 @@ function showPlayersArea() {
       }
 
       // draw text on token
-      noFill();
-      stroke(0);
+      fill(0);
+      noStroke();
       textSize(14);
       text(tokenText, 0.5 * resolution, p * resolution + 0.5 * resolution);
     }
