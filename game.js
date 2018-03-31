@@ -394,15 +394,15 @@ function showPlayersArea() {
   fill(200);
   noStroke();
   if (turns < 100) {
-    rect(0, resolution * 0.5, resolution * 0.5, resolution * -0.5);
+    rect(0, histH - histSpacingY * 2, histSpacingY * 2, histSpaxingY * 2);
   } else {
-    rect(0, resolution * 0.5, resolution * 0.75, resolution * -0.5);
+    rect(0, histH - histSpacingY * 2, histSpacingY * 3, histSpacingY * 2);
   }
   fill(100);
   if (turns < 100) {
-    text(turns, resolution * 0.25, resolution * -0.25);
+    text(turns, histSpacingY, histH - histSpacingY);
   } else {
-    text(turns, resolution * 0.375, resolution * -0.25);
+    text(turns, histSpacingY * 1.5, histH - histSpacingY);
   }
 
   // draw histogram per player
