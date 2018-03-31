@@ -397,7 +397,11 @@ function showPlayersArea() {
   if (numPlayers === 1) {
     turnsW = histSpacingY * 3;
   } else if (numPlayers === 4) {
-    turnsH = histSpacing;
+    turnsH = histSpacingY;
+  }
+  
+  if (turns >= 100) {
+    turnsW += histSpacingY;
   }
 
   fill(200);
