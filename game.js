@@ -108,10 +108,10 @@ function initGame() {
     if (tiles[begin].snadder !== 0) {
       i--;
     } else {
-      // -1 makes in a snake (drop down a number of spots)
+      // create a snake: player will drop down a number of spots
       deltaMin = (begin % cols) + 1;
       deltaMax = begin - 1;
-      delta = -1 * floor(random(deltaMin, deltaMax))
+      delta = -1 * floor(random(deltaMin, deltaMax));
       tiles[begin].snadder = delta;
     }
   }
@@ -127,11 +127,17 @@ function initGame() {
     if (tiles[begin].snadder != 0) {
       i--;
     } else {
-      // 1 makes in a ladder (skip ahead a number of spots)
+      // create a ladder (player will skip ahead a number of spots)
       deltaMin = cols - (begin % cols);
       deltaMax = tiles.length - begin - 2;
       delta = floor(random(deltaMin, deltaMax))
-      tiles[begin].snadder = delta;
+
+      // do not allow ladder to end on snake with equal length
+      if (tiles[begin + delta].snadder === -delta) {
+        i--;
+      } else {
+        tiles[begin].snadder = delta;
+      }
     }
   }
 
