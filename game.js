@@ -230,7 +230,7 @@ function moveControls() {
   sliderLadders.position(x, y);
 
   // update button to roll the die
-  buttonRollDie.position(cols * resolution + separator + 40, title + separator + rows * resolution - 20);
+  buttonRollDie.position(cols * resolution + separator + 45, title + separator + rows * resolution - 20);
 }
 
 // create the canvas
