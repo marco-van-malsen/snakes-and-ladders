@@ -7,9 +7,10 @@ class Tile {
   constructor(x, y, wh, index) {
     this.index = index;
     this.snadder = 0;
-    this.wh = wh
-    this.x = x
-    this.y = y
+    this.wh = wh;
+    this.x = x;
+    this.y = y;
+
     // checker board pattern
     if (this.index % 2 === 0) {
       this.color = 200;
@@ -33,6 +34,7 @@ class Tile {
     } else {
       fill(this.color);
     }
+
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
 
@@ -64,6 +66,7 @@ class Tile {
       } else {
         stroke(0, 255, 0, 200);
       }
+
       line(myCenter[0], myCenter[1], nextCenter[0], nextCenter[1]);
     }
   }

@@ -46,19 +46,19 @@ let curPlayer;
 let maxPlayers = 4;
 let numPlayers = 2;
 var sliderPlayers;
-var txtPlayers = "";
+var txtPlayers = '';
 
 // setup control for number of ladders
 let maxLadders = cols * 0.5;
 let numLadders = 3;
 var sliderLadders;
-var txtLadders = "";
+var txtLadders = '';
 
 // setup control for number of snakes
 let maxSnakes = cols * 0.5;
 let numSnakes = 3;
 var sliderSnakes;
-var txtSnakes = "";
+var txtSnakes = '';
 
 // setup game areas (title, separator and controls area)
 let controlsArea = 4 * resolution;
@@ -107,7 +107,7 @@ function draw() {
   showPlayers();
 
   // show player information area
-  showPlayersArea()
+  showPlayersArea();
 
   // roll the die or wait for player to roll the die
   if (state === ROLL_STATE) {
@@ -150,7 +150,7 @@ function draw() {
       state = ROLL_STATE;
 
       // switch player
-      switchPlayer()
+      switchPlayer();
     }
 
     // player landed or a snadder
@@ -181,8 +181,8 @@ function draw() {
 
   // check game over state
   if (GameOver()) {
-    die.value = 0;
     // reset the die
+    die.value = 0;
     showDie();
 
     // show players on the finish tile and update info area

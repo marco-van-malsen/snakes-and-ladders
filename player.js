@@ -14,7 +14,6 @@ class Player {
 
     // animation related
     this.animate = false;
-    this.current;
     this.delay = TURN_DELAY;
     this.interpolator = 0;
     this.position = tiles[this.spot].getCenter();
@@ -26,8 +25,10 @@ class Player {
     // calculate x,y coordinate based on where player is and is going
     if (this.queue.length > 1) {
       // interpolote new x,y coordinate for player
-      this.position.x = lerp(this.queue[0].getCenter()[0], this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
-      this.position.y = lerp(this.queue[0].getCenter()[1], this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
+      this.position.x = lerp(this.queue[0].getCenter()[0],
+        this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
+      this.position.y = lerp(this.queue[0].getCenter()[1],
+        this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
 
       // increase interpolator speed
       this.interpolator += INTERPOLATION_SPEED;
@@ -37,6 +38,7 @@ class Player {
         this.interpolator = 0;
         this.queue.shift();
       }
+
       return;
     }
 
@@ -49,7 +51,7 @@ class Player {
     }
 
     // reset player
-    this.animate = false
+    this.animate = false;
     this.delay = TURN_DELAY;
     this.queue = [];
   }
@@ -65,7 +67,7 @@ class Player {
   // ease in and out of tile
   easeInOutTile(t) {
     if (t < 0.5) {
-      return 2 * t * t
+      return 2 * t * t;
     } else {
       return -1 + (4 - 2 * t) * t;
     }
@@ -134,6 +136,7 @@ class Player {
         ellipse(tileCenter[0] - 10, tileCenter[1] + 10, tokenSize);
       }
     }
+
     pop();
   }
 
@@ -180,8 +183,8 @@ class Player {
 
       // update player's spot after the snadder to the history
     } else if (state === SNADDER_STATE) {
-      this.spot += tiles[this.spot].snadder
-      this.history.push("snadder");
+      this.spot += tiles[this.spot].snadder;
+      this.history.push('snadder');
       this.history.push(this.spot);
     }
   }

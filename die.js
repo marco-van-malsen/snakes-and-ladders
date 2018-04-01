@@ -65,34 +65,42 @@ function showDie() {
   if (die.value === 4 || die.value === 5 || die.value === 6) {
     ellipse(-dotXY, -dotXY, dotD, dotD);
   }
+
   // draw dot 2
   if (die.value === 2) {
     ellipse(0, -dotXY, dotD, dotD);
   }
+
   // draw dot 3
   if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
     ellipse(dotXY, -dotXY, dotD, dotD);
   }
+
   // draw dot 4
   if (die.value === 6) {
     ellipse(-dotXY, 0, dotD, dotD);
   }
+
   // draw dot 5
   if (die.value === 1 || die.value === 3 || die.value === 5) {
     ellipse(0, 0, dotD, dotD);
   }
+
   // draw dot 6
   if (die.value === 6) {
     ellipse(dotXY, 0, dotD, dotD);
   }
+
   // draw dot 7
   if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
     ellipse(-dotXY, dotXY, dotD, dotD);
   }
+
   // draw dot 8
   if (die.value === 2) {
     ellipse(0, dotXY, dotD, dotD);
   }
+
   // draw dot 9
   if (die.value === 4 || die.value === 5 || die.value === 6) {
     ellipse(dotXY, dotXY, dotD, dotD);

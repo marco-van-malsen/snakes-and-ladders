@@ -5,17 +5,17 @@
 // create game controls (DOM objects) in top-down order they will be seen
 function createControls() {
   // create simulate text and checkbox
-  txtSimulation = createP("Simulate");
-  checkboxSimulation = createCheckbox("", simulationMode);
+  txtSimulation = createP('Simulate');
+  checkboxSimulation = createCheckbox('', simulationMode);
   checkboxSimulation.changed(switchSimulationMode);
 
   // create animate text and checkbox
-  txtAnimation = createP("Animate");
-  checkboxAnimation = createCheckbox("", animationMode);
+  txtAnimation = createP('Animate');
+  checkboxAnimation = createCheckbox('', animationMode);
   checkboxAnimation.changed(switchAnimationMode);
 
   // create text for number of players
-  txtPlayers = createP("");
+  txtPlayers = createP('');
 
   // create slider for number of players
   sliderPlayers = createSlider(1, maxPlayers, numPlayers);
@@ -23,7 +23,7 @@ function createControls() {
   sliderPlayers.changed(updateControls);
 
   // create text showing grid size
-  txtGrid = createP("");
+  txtGrid = createP('');
 
   // create slider for grid size
   sliderGrid = createSlider(minColsRows, maxColsRows, cols, 2);
@@ -31,7 +31,7 @@ function createControls() {
   sliderGrid.changed(updateControls);
 
   // create text for number of snakes
-  txtSnakes = createP("");
+  txtSnakes = createP('');
 
   // create slider for number of snakes
   sliderSnakes = createSlider(1, maxSnakes, numSnakes);
@@ -39,7 +39,7 @@ function createControls() {
   sliderSnakes.changed(updateControls);
 
   // create text for number of ladders
-  txtLadders = createP("");
+  txtLadders = createP('');
 
   // create slider to control number of ladders
   sliderLadders = createSlider(1, maxLadders, numLadders);
@@ -47,7 +47,7 @@ function createControls() {
   sliderLadders.changed(updateControls);
 
   // create button to roll the die
-  buttonRollDie = createButton("Roll the Die");
+  buttonRollDie = createButton('Roll the Die');
   buttonRollDie.mousePressed(rollDie);
 }
 
@@ -130,7 +130,7 @@ function initGame() {
       // create a ladder (player will skip ahead a number of spots)
       deltaMin = cols - (begin % cols);
       deltaMax = tiles.length - begin - 2;
-      delta = floor(random(deltaMin, deltaMax))
+      delta = floor(random(deltaMin, deltaMax));
 
       // do not allow ladder to end on snake with equal length
       if (tiles[begin + delta].snadder === -delta) {
@@ -192,7 +192,7 @@ function moveControls() {
   let spacingMajor = 15;
   let spacingMinor = 35;
   let x = cols * resolution + separator + 15;
-  let y = title + separator
+  let y = title + separator;
 
   // update simulation text and checkbox
   txtSimulation.position(x, y);
@@ -230,7 +230,8 @@ function moveControls() {
   sliderLadders.position(x, y);
 
   // update button to roll the die
-  buttonRollDie.position(cols * resolution + separator + 45, title + separator + rows * resolution - 20);
+  buttonRollDie.position(cols * resolution + separator + 45,
+    title + separator + rows * resolution - 20);
 }
 
 // create the canvas
@@ -256,6 +257,7 @@ function showControlsArea() {
 // display game title
 function showGameTitle() {
   push();
+
   // draw background
   fill(200);
   noStroke();
@@ -265,7 +267,7 @@ function showGameTitle() {
   fill(100);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("Snakes & Ladders", (cols * resolution) / 2, title / 2)
+  text('Snakes & Ladders', (cols * resolution) / 2, title / 2);
   pop();
 }
 
@@ -299,7 +301,7 @@ function showPlayersArea() {
   rect(0, 0, resolution, resolution);
   fill(255);
   strokeWeight(0);
-  text("Player", resolution * 0.5, resolution * 0.5);
+  text('Player', resolution * 0.5, resolution * 0.5);
 
   // draw player numbers
   translate(0, resolution);
@@ -316,6 +318,7 @@ function showPlayersArea() {
     textSize(14);
     text(p + 1, resolution * 0.5, p * resolution + resolution * 0.5);
   }
+
   translate(0, -resolution);
 
   // token-column
@@ -327,7 +330,7 @@ function showPlayersArea() {
   rect(0, 0, resolution, resolution);
   fill(255);
   strokeWeight(0);
-  text("Token", resolution * 0.5, resolution * 0.5);
+  text('Token', resolution * 0.5, resolution * 0.5);
 
   // draw tokens
   translate(0, resolution);
@@ -344,13 +347,13 @@ function showPlayersArea() {
     strokeWeight(2);
     ellipse(0.5 * resolution, p * resolution + 0.5 * resolution, 25, 25);
 
-    // draw "X" for current player
+    // draw 'X' for current player
     // draw number matching finishing order for players that have finished
-    let tokenText = "";
+    let tokenText = '';
     if (numPlayers > 1) {
       // mark current player with X
       if (p === curPlayer) {
-        tokenText = "X";
+        tokenText = 'X';
       }
 
       // mark finished players with their finishing place
@@ -364,6 +367,7 @@ function showPlayersArea() {
       text(tokenText, 0.5 * resolution, p * resolution + 0.5 * resolution);
     }
   }
+
   translate(0, -resolution);
 
   // draw histogram - background
@@ -385,7 +389,7 @@ function showPlayersArea() {
   strokeWeight(1);
   stroke(255, 255, 255, 50);
   for (let j = 0; j <= rows - 1; j++) {
-    line(0, -j * histSpacingY, histW, -j * histSpacingY)
+    line(0, -j * histSpacingY, histW, -j * histSpacingY);
   }
 
   // draw histogram - vertical lines
@@ -394,6 +398,7 @@ function showPlayersArea() {
       line(i, 0, i, -histH);
     }
   }
+
   pop();
 
   // draw number of turns played in upper left corner of histogram
@@ -438,7 +443,10 @@ function showPlayersArea() {
   // draw histogram per player
   for (let p = 0; p <= players.length - 1; p++) {
     // reset histogram coordinates
-    let x1 = y1 = x2 = y2 = 0;
+    let x1 = 0;
+    let y1 = 0;
+    let x2 = 0;
+    let y2 = 0;
 
     // get players color; add some alpha for 'other' players
     stroke(players[p].tokenColor);
@@ -452,7 +460,7 @@ function showPlayersArea() {
       let nextValue = players[p].history[h];
 
       // in case of a snadder; read next value
-      if (nextValue === "snadder") {
+      if (nextValue === 'snadder') {
         drawSnadder = true;
         h++;
         nextValue = players[p].history[h];
@@ -589,8 +597,8 @@ function updateControls() {
 
 // update the text of the game controls
 function updateControlsTxt() {
-  txtPlayers.html("# Players : " + sliderPlayers.value());
-  txtGrid.html("Grid Size : " + sliderGrid.value() + "x" + sliderGrid.value());
-  txtSnakes.html("# Snakes : " + sliderSnakes.value());
-  txtLadders.html("# Ladders : " + sliderLadders.value());
+  txtPlayers.html('# Players : ' + sliderPlayers.value());
+  txtGrid.html('Grid Size : ' + sliderGrid.value() + 'x' + sliderGrid.value());
+  txtSnakes.html('# Snakes : ' + sliderSnakes.value());
+  txtLadders.html('# Ladders : ' + sliderLadders.value());
 }
