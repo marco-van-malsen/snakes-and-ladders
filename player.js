@@ -16,6 +16,7 @@ class Player {
     this.animate = false; // animite player or not
     this.delay = TURN_DELAY; // delay after move animation is complete
     this.interpolator = 0; // interpolator for move animation
+    this.moves2go = 0; // moves left; starts on die face value and decrements by 1 during animation
     this.position = tiles[this.spot].getCenter(); // player's XY-coordinate on the board
     this.queue = []; // animiation queue
   }
@@ -66,11 +67,7 @@ class Player {
 
   // ease in and out of tile
   easeInOutTile(t) {
-    if (t < 0.5) {
-      return 2 * t * t;
-    } else {
-      return -1 + (4 - 2 * t) * t;
-    }
+    return (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
   }
 
   // did current player land on a snake or ladder?
@@ -128,7 +125,7 @@ class Player {
     } else {
       // set offset of player relative to tile center
       let offset = resolution * 0.25;
-      if (this.arrayindex === 0) {
+      if (this.number === 0) {
         // player 0 in upper left corner
         ellipse(tileCenter[0] - offset, tileCenter[1] - offset, tokenSize);
       } else if (this.number === 1) {
