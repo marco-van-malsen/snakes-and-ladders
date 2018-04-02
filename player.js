@@ -13,14 +13,14 @@ class Player {
     this.tokenColor = color(255, 0, 0); // color assigned to players token
 
     // animation related
-    this.animate = false;
-    this.delay = TURN_DELAY;
-    this.interpolator = 0;
-    this.position = tiles[this.spot].getCenter();
-    this.queue = [];
+    this.animate = false; // animite player or not
+    this.delay = TURN_DELAY; // delay after move animation is complete
+    this.interpolator = 0; // interpolator for move animation
+    this.position = tiles[this.spot].getCenter(); // player's XY-coordinate on the board
+    this.queue = []; // animiation queue
   }
 
-  // update original
+  // animate player's movement
   animateMovement() {
     // calculate x,y coordinate based on where player is and is going
     if (this.queue.length > 1) {
