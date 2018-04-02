@@ -8,7 +8,7 @@ class Player {
   constructor(n) {
     this.finished = 0; // player finishing position (1 for winner, 2 for 2nd place etc.)
     this.history = []; // history of spots where player landed, including snakes ladders
-    this.number = n; //player's number
+    this.number = n; // player's number
     this.spot = 0; // player's position on the board
     this.tokenColor = color(255, 0, 0); // color assigned to players token
 
