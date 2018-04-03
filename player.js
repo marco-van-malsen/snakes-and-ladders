@@ -85,12 +85,10 @@ class Player {
       // add begin and end of snadder to queue
       this.queue.push(tiles[this.spot]);
       this.queue.push(tiles[this.spot + tiles[this.spot].snadder]);
-    }
 
-    // repat until animation is finished
-    if (this.animate) {
+      // repeat until animation is finished
+    } else {
       this.animateMovement();
-      return;
     }
   }
 
@@ -169,12 +167,10 @@ class Player {
           this.queue.push(tiles[this.spot]);
         }
       }
-    }
 
-    // repeat until animation is finished
-    if (this.animate) {
+      // repeat until animation is finished
+    } else {
       this.animateMovement();
-      return;
     }
   }
 
