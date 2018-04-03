@@ -148,7 +148,7 @@ class Player {
     stroke(0);
     strokeWeight(2);
     fill(this.tokenColor);
-    ellipse(this.position.x, this.position.y, 25);
+    ellipse(this.position.x, this.position.y, resolution * 0.6);
   }
 
   // update the player
