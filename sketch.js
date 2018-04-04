@@ -87,8 +87,8 @@ function draw() {
   // highlight the conrols area
   showControlsArea();
 
-  // show player information area
-  showPlayersArea();
+  // show the die
+  showDie();
 
   // draw tiles
   for (let tile of tiles) {
@@ -99,9 +99,6 @@ function draw() {
   for (let tile of tiles) {
     tile.showSnadders();
   }
-
-  // show the die
-  showDie();
 
   // show the players
   showPlayers();
@@ -175,6 +172,9 @@ function draw() {
 
     // continue play
     state = ROLL_STATE;
+  }
+  
+  if (state!==ROLL_STATE){
   }
 
   // check game over state
