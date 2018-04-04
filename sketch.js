@@ -44,7 +44,7 @@ let resolution = 40;
 // setup control for number of players
 let curPlayer;
 let maxPlayers = 4;
-let numPlayers = 2;
+let numPlayers = 4;
 var sliderPlayers;
 var txtPlayers = '';
 
@@ -122,8 +122,7 @@ function draw() {
     // move player (with animation)
     if (animationMode) {
       // move the player
-      players[curPlayer].update();
-      players[curPlayer].showAnimation();
+      players[curPlayer].movePlayer();
 
       // continue until animation has finished
       if (players[curPlayer].animate) {
@@ -156,8 +155,7 @@ function draw() {
     // player landed or a snadder
   } else if (state === SNADDER_STATE) {
     // move player along snadder
-    players[curPlayer].moveSnadder();
-    players[curPlayer].showAnimation();
+    players[curPlayer].movePlayer();
 
     // continue until animation is finished
     if (players[curPlayer].animate) {

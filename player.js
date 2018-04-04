@@ -24,23 +24,17 @@ class Player {
   // animate player's movement
   animateMovement() {
     // calculate x,y coordinate based on where player is and is going
-    if (this.queue.length > 1) {
-      // interpolote new x,y coordinate for player
-      this.position.x = lerp(this.queue[0].getCenter()[0],
-        this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
-      this.position.y = lerp(this.queue[0].getCenter()[1],
-        this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
+    this.position.x = lerp(this.queue[0].getCenter()[0],
+      this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
+    this.position.y = lerp(this.queue[0].getCenter()[1],
+      this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
 
-      // increase interpolator speed
-      this.interpolator += INTERPOLATION_SPEED;
+    // increase interpolator speed
+    this.interpolator += INTERPOLATION_SPEED;
 
-      // drop the first cell after the interpolation has finished
-      if (this.interpolator >= 1) {
-        this.interpolator = 0;
-        this.queue.shift();
-      }
-
-      return;
+    // drop the first cell after the interpolation has finished
+    if (this.interpolator >= 1) {
+      this.interpolator = 0;
     }
 
     // delay between steps in animated frames
@@ -51,10 +45,25 @@ class Player {
       }
     }
 
-    // reset player
-    this.animate = false;
+    // reset animation delay and queue
     this.delay = TURN_DELAY;
     this.queue = [];
+
+    // advance player to next tile
+    if (state === MOVE_STATE) {
+      this.moves2go--;
+      this.spot++;
+
+      // stop when player has moved the number of spots / reached finish
+      if (this.moves2go === 0 || this.spot === cols * rows - 1) {
+        this.animate = false;
+      }
+
+      // update player when following snadder
+    } else if (state === SNADDER_STATE) {
+      this.animate = false;
+      this.spot += tiles[this.spot].snadder;
+    }
   }
 
   // player has finished; mark player finishing position
@@ -76,19 +85,39 @@ class Player {
     return (tile && tile.snadder !== 0);
   }
 
-  // move player along snake or ladder
-  moveSnadder() {
+  movePlayer() {
     // trigger the animation
     if (!this.animate) {
+      // trigger the animation
       this.animate = true;
 
-      // add begin and end of snadder to queue
-      this.queue.push(tiles[this.spot]);
-      this.queue.push(tiles[this.spot + tiles[this.spot].snadder]);
+      // player inherits current die value
+      if (state === MOVE_STATE) {
+        players[curPlayer].moves2go = die.value;
+      }
 
       // repeat until animation is finished
     } else {
+      // clear queue just in case
+      this.queue = [];
+
+      // first element in queue-array is always player's current spot
+      this.queue.push(tiles[this.spot]);
+
+      if (state === MOVE_STATE) {
+        // second element is the next tile when player is still moving
+        this.queue.push(tiles[this.spot + 1]);
+
+        // second element is the end of the snadder
+      } else if (state === SNADDER_STATE) {
+        this.queue.push(tiles[this.spot + tiles[this.spot].snadder]);
+      }
+
+      // animate player movement
       this.animateMovement();
+
+      // animate player movement
+      this.showAnimation();
     }
   }
 
@@ -101,7 +130,8 @@ class Player {
     // get total number of players on current tile
     let playersOnTile = 0;
     for (let i = 0; i <= players.length - 1; i++) {
-      if (this.spot === players[i].spot) {
+      // players still moving are ignored here
+      if (this.spot === players[i].spot && !players[i].animate) {
         playersOnTile += 1;
       }
     }
@@ -146,32 +176,7 @@ class Player {
     stroke(0);
     strokeWeight(2);
     fill(this.tokenColor);
-    ellipse(this.position.x, this.position.y, resolution * 0.6);
-  }
-
-  // update the player
-  update() {
-    // trigger the animation (just once)
-    if (!this.animate) {
-      // trigger animation
-      this.animate = true;
-
-      // always push the starting cell on the queue
-      this.queue.push(tiles[this.spot]);
-
-      // push all cells from the roll into the queue
-      for (let step = 1; step <= die.value; step++) {
-        // but stop when player reaches finish tile
-        if (this.spot < tiles.length - 1) {
-          this.spot++;
-          this.queue.push(tiles[this.spot]);
-        }
-      }
-
-      // repeat until animation is finished
-    } else {
-      this.animateMovement();
-    }
+    ellipse(this.position.x, this.position.y, resolution * 0.75);
   }
 
   // update player after animation has finished
