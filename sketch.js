@@ -114,21 +114,16 @@ function draw() {
       noLoop();
     }
 
-    // move player
-  } else if (state === MOVE_STATE) {
-    // move player (with animation)
-    if (animationMode) {
-      // move the player
-      players[curPlayer].movePlayer();
-
-      // continue until animation has finished
-      if (players[curPlayer].animate) {
-        return;
-      }
-
-      // move player (no animation)
-    } else {
+    // player in motion
+  } else {
+    // move player; no animation
+    if (state === MOVE_STATE && !animationMode) {
       players[curPlayer].updateSimple();
+
+      //  move player; with animation
+    } else {
+      players[curPlayer].movePlayer();
+      if (players[curPlayer].animate) return;
     }
 
     // update players history
@@ -138,43 +133,17 @@ function draw() {
     if (players[curPlayer].isSnadder()) {
       // switch state
       state = SNADDER_STATE;
-    } else {
-      // check if player is finished
-      players[curPlayer].checkFinished();
-
-      // continue play
-      state = ROLL_STATE;
-
-      // switch player
-      switchPlayer();
-    }
-
-    // player landed or a snadder
-  } else if (state === SNADDER_STATE) {
-    // move player along snadder
-    players[curPlayer].movePlayer();
-
-    // continue until animation is finished
-    if (players[curPlayer].animate) {
       return;
     }
 
-    // update players history
-    players[curPlayer].updateHistory();
-
-    // allow for one snadder leading to another
-    if (players[curPlayer].isSnadder()) {
-      return;
-    }
+    // check if player is finished
+    players[curPlayer].checkFinished();
 
     // switch player
     switchPlayer();
 
     // continue play
     state = ROLL_STATE;
-  }
-  
-  if (state!==ROLL_STATE){
   }
 
   // check game over state
