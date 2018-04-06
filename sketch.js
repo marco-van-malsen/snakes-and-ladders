@@ -35,8 +35,8 @@ let turns;
 let die;
 
 // setup gameboard (columns, rows and tile size)
-maxColsRows = 14;
-minColsRows = 10;
+let maxColsRows = 14;
+let minColsRows = 10;
 let cols = 10;
 let rows = cols;
 let resolution = 40;
@@ -45,20 +45,20 @@ let resolution = 40;
 let curPlayer;
 let maxPlayers = 4;
 let numPlayers = 4;
-var sliderPlayers;
-var txtPlayers = '';
+let sliderPlayers;
+let txtPlayers = '';
 
 // setup control for number of ladders
 let maxLadders = cols * 0.5;
 let numLadders = 3;
-var sliderLadders;
-var txtLadders = '';
+let sliderLadders;
+let txtLadders = '';
 
 // setup control for number of snakes
 let maxSnakes = cols * 0.5;
 let numSnakes = 3;
-var sliderSnakes;
-var txtSnakes = '';
+let sliderSnakes;
+let txtSnakes = '';
 
 // setup game areas (title, separator and controls area)
 let controlsArea = 4 * resolution;
@@ -67,7 +67,7 @@ let separator = 0.5 * resolution;
 let title = resolution;
 
 // setup control for Roll the Die-button
-var buttonRollDie;
+let buttonRollDie;
 
 function setup() {
   // create the controls
