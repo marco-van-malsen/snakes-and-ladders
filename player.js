@@ -85,6 +85,7 @@ class Player {
     return (tile && tile.snadder !== 0);
   }
 
+  // move the player
   movePlayer() {
     // trigger the animation
     if (!this.animate) {
