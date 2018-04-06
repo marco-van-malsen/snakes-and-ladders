@@ -492,7 +492,7 @@ function switchPlayer() {
   }
 
   // find next player still in play
-  let nextPlayer = -1;
+  let nextPlayer = null;
 
   // find next player after current player
   if (curPlayer < players.length - 1) {
@@ -506,7 +506,7 @@ function switchPlayer() {
   }
 
   // find next player before current player; but only if no new player has been found
-  if (nextPlayer < 0) {
+  if (nextPlayer === null) {
     // bump number of turns
     turns++;
 
