@@ -84,8 +84,8 @@ function initGame() {
   let x = 0;
   let y = title + separator + (rows - 1) * resolution;
   let dir = 1;
-  for (let i = 0; i < cols * rows; i++) {
-    let tile = new Tile(x, y, resolution, i);
+  for (let t = 0; t < cols * rows; t++) {
+    let tile = new Tile(x, y, resolution, t);
     tiles.push(tile);
     x = x + (resolution * dir);
 
@@ -100,13 +100,13 @@ function initGame() {
   // pick random snakes
   let beginMin = cols;
   let beginMax = tiles.length - 2;
-  for (let i = 0; i <= numSnakes - 1; i++) {
+  for (let s = 0; s <= numSnakes - 1; s++) {
     // pick random tile to add snake to (snake on finish tile not allowed)
     let begin = floor(random(beginMin, beginMax));
 
     // add snake, unless one already exists
     if (tiles[begin].snadder !== 0) {
-      i--;
+      s--;
     } else {
       // create a snake: player will drop down a number of spots
       deltaMin = (begin % cols) + 1;
@@ -119,13 +119,13 @@ function initGame() {
   // pick random ladders
   beginMin = 1;
   beginMax = tiles.length - cols - 1;
-  for (let i = 0; i <= numLadders - 1; i++) {
+  for (let l = 0; l <= numLadders - 1; l++) {
     // pick random tile to add Ladder to
     begin = floor(random(beginMin, beginMax));
 
     // add ladder, unless one already exists
     if (tiles[begin].snadder != 0) {
-      i--;
+      l--;
     } else {
       // create a ladder (player will skip ahead a number of spots)
       deltaMin = cols - (begin % cols);
@@ -134,7 +134,7 @@ function initGame() {
 
       // do not allow ladder to end on snake with equal length
       if (tiles[begin + delta].snadder === -delta) {
-        i--;
+        l--;
       } else {
         tiles[begin].snadder = delta;
       }
@@ -149,8 +149,8 @@ function initGame() {
   if (numPlayers === 0) {
     players.push(new Player(0));
   } else {
-    for (var i = 1; i <= numPlayers; i++) {
-      players.push(new Player(i - 1));
+    for (var p = 1; p <= numPlayers; p++) {
+      players.push(new Player(p - 1));
     }
   }
 
@@ -164,15 +164,15 @@ function initGame() {
   finishOrder = 0;
 
   // assign colors
-  for (let i = 0; i <= players.length - 1; i++) {
-    if (i === 0) {
-      players[i].tokenColor = color(0, 255, 255);
-    } else if (i === 1) {
-      players[i].tokenColor = color(255, 0, 255);
-    } else if (i === 2) {
-      players[i].tokenColor = color(255, 255, 0);
-    } else if (i === 3) {
-      players[i].tokenColor = color(255, 255, 255);
+  for (let p = 0; p <= players.length - 1; p++) {
+    if (p === 0) {
+      players[p].tokenColor = color(0, 255, 255);
+    } else if (p === 1) {
+      players[p].tokenColor = color(255, 0, 255);
+    } else if (p === 2) {
+      players[p].tokenColor = color(255, 255, 0);
+    } else if (p === 3) {
+      players[p].tokenColor = color(255, 255, 255);
     }
   }
 
@@ -388,14 +388,14 @@ function showPlayersArea() {
   push();
   strokeWeight(1);
   stroke(255, 255, 255, 50);
-  for (let j = 0; j <= rows - 1; j++) {
-    line(0, -j * histSpacingY, histW, -j * histSpacingY);
+  for (let r = 0; r <= rows - 1; r++) {
+    line(0, -r * histSpacingY, histW, -r * histSpacingY);
   }
 
   // draw histogram - vertical lines
   if (histSpacingX >= 8) {
-    for (let i = histSpacingX; i < histW; i += histSpacingX) {
-      line(i, 0, i, -histH);
+    for (let x = histSpacingX; x < histW; x += histSpacingX) {
+      line(x, 0, x, -histH);
     }
   }
 
@@ -497,9 +497,9 @@ function switchPlayer() {
   // find next player after current player
   if (curPlayer < players.length - 1) {
     // find next player still in play
-    for (let i = curPlayer + 1; i <= players.length - 1; i++) {
-      if (players[i].finished === 0) {
-        nextPlayer = i;
+    for (let p = curPlayer + 1; p <= players.length - 1; p++) {
+      if (players[p].finished === 0) {
+        nextPlayer = p;
         break;
       }
     }
@@ -511,9 +511,9 @@ function switchPlayer() {
     turns++;
 
     // find next player still in play
-    for (let i = 0; i <= curPlayer; i++) {
-      if (players[i].finished === 0) {
-        nextPlayer = i;
+    for (let p = 0; i <= curPlayer; p++) {
+      if (players[p].finished === 0) {
+        nextPlayer = p;
         break;
       }
     }

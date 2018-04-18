@@ -128,9 +128,9 @@ class Player {
 
     // get total number of players on current tile
     let playersOnTile = 0;
-    for (let i = 0; i <= players.length - 1; i++) {
+    for (let p = 0; p <= players.length - 1; p++) {
       // players still moving are ignored here
-      if (this.spot === players[i].spot && !players[i].animate) {
+      if (this.spot === players[p].spot && !players[p].animate) {
         playersOnTile += 1;
       }
     }
