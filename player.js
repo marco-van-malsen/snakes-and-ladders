@@ -175,7 +175,7 @@ class Player {
     stroke(0);
     strokeWeight(2);
     fill(this.tokenColor);
-    ellipse(this.position.x, this.position.y, resolution * 0.75);
+    ellipse(this.position.x, this.position.y, resolution * 0.6);
   }
 
   // update player after animation has finished
