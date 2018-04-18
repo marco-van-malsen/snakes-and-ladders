@@ -24,10 +24,8 @@ class Player {
   // animate player's movement
   animateMovement() {
     // calculate x,y coordinate based on where player is and is going
-    this.position.x = lerp(this.queue[0].getCenter()[0],
-      this.queue[1].getCenter()[0], this.easeInOutTile(this.interpolator));
-    this.position.y = lerp(this.queue[0].getCenter()[1],
-      this.queue[1].getCenter()[1], this.easeInOutTile(this.interpolator));
+    this.position.x = lerp(this.queue[0].getCenter().x, this.queue[1].getCenter().x, this.easeInOutTile(this.interpolator));
+    this.position.y = lerp(this.queue[0].getCenter().y, this.queue[1].getCenter().y, this.easeInOutTile(this.interpolator));
 
     // increase interpolator speed
     this.interpolator += INTERPOLATION_SPEED;
@@ -150,22 +148,22 @@ class Player {
     stroke(0);
     fill(this.tokenColor);
     if (playersOnTile === 1) {
-      ellipse(tileCenter[0], tileCenter[1], tokenSize);
+      ellipse(tileCenter.x, tileCenter.y, tokenSize);
     } else {
       // set offset of player relative to tile center
       let offset = resolution * 0.25;
       if (this.number === 0) {
         // player 0 in upper left corner
-        ellipse(tileCenter[0] - offset, tileCenter[1] - offset, tokenSize);
+        ellipse(tileCenter.x - offset, tileCenter.y - offset, tokenSize);
       } else if (this.number === 1) {
         // player 1 in lower right corner
-        ellipse(tileCenter[0] + offset, tileCenter[1] + offset, tokenSize);
+        ellipse(tileCenter.x + offset, tileCenter.y + offset, tokenSize);
       } else if (this.number === 2) {
         // player 2 in upper right left corner
-        ellipse(tileCenter[0] + offset, tileCenter[1] - offset, tokenSize);
+        ellipse(tileCenter.x + offset, tileCenter.y - offset, tokenSize);
       } else if (this.number === 3) {
         // player 1 in lower left corner
-        ellipse(tileCenter[0] - offset, tileCenter[1] + offset, tokenSize);
+        ellipse(tileCenter.x - offset, tileCenter.y + offset, tokenSize);
       }
     }
 

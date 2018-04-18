@@ -12,18 +12,12 @@ class Tile {
     this.y = y;
 
     // checker board pattern
-    if (this.index % 2 === 0) {
-      this.color = 200;
-    } else {
-      this.color = 100;
-    }
+    this.color = (this.index % 2 ? 200 : 100);
   }
 
   // find center
   getCenter() {
-    let cx = this.x + this.wh / 2;
-    let cy = this.y + this.wh / 2;
-    return [cx, cy];
+    return createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
   }
 
   // draw tile
@@ -67,7 +61,7 @@ class Tile {
         stroke(0, 255, 0, 200);
       }
 
-      line(myCenter[0], myCenter[1], nextCenter[0], nextCenter[1]);
+      line(myCenter.x, myCenter.y, nextCenter.x, nextCenter.y);
     }
   }
 }
