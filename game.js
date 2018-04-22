@@ -511,7 +511,7 @@ function switchPlayer() {
     turns++;
 
     // find next player still in play
-    for (let p = 0; i <= curPlayer; p++) {
+    for (let p = 0; p <= curPlayer; p++) {
       if (players[p].finished === 0) {
         nextPlayer = p;
         break;
