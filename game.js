@@ -78,15 +78,14 @@ function initGame() {
   moveControls();
 
   // reset the tiles array
-  tiles = [];
+  tiles = [cols * rows];
 
   // create all the tiles from start to finish
   let x = 0;
   let y = title + separator + (rows - 1) * resolution;
   let dir = 1;
   for (let t = 0; t < cols * rows; t++) {
-    let tile = new Tile(x, y, resolution, t);
-    tiles.push(tile);
+    tiles[t] = new Tile(x, y, resolution, t);
     x = x + (resolution * dir);
 
     // move along a winding path up the rows
@@ -145,13 +144,9 @@ function initGame() {
   die = new Die();
 
   // create new players (zero players still requires one player for simulation mode)
-  players = [];
-  if (numPlayers === 0) {
-    players.push(new Player(0));
-  } else {
-    for (var p = 1; p <= numPlayers; p++) {
-      players.push(new Player(p - 1));
-    }
+  players = [numPlayers];
+  for (let p = 0; p < numPlayers; p++) {
+    players[p] = new Player(p);
   }
 
   // set current player

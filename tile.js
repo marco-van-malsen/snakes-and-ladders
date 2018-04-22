@@ -35,7 +35,7 @@ class Tile {
 
     // determine content to display
     let tileText;
-    if (this.index == 0) {
+    if (this.index === 0) {
       tileText = 'start';
     } else if (this.index === tiles.length - 1) {
       tileText = 'finish';
@@ -53,8 +53,6 @@ class Tile {
   // show snake or ladder
   showSnadders() {
     if (this.snadder != 0) {
-      let myCenter = this.center;
-      let nextCenter = tiles[this.index + this.snadder].center;
       strokeWeight(4);
       if (this.snadder < 0) {
         stroke(255, 0, 0, 200);
@@ -62,7 +60,8 @@ class Tile {
         stroke(0, 255, 0, 200);
       }
 
-      line(myCenter.x, myCenter.y, nextCenter.x, nextCenter.y);
+      let snadderEnd = tiles[this.index + this.snadder].center;
+      line(this.center.x, this.center.y, snadderEnd.x, snadderEnd.y);
     }
   }
 }

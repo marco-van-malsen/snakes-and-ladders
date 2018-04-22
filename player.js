@@ -22,7 +22,7 @@ class Player {
   }
 
   // animate player's movement
-  animateMovement() {
+  calculateXY() {
     // calculate x,y coordinate based on where player is and is going
     this.position.x = lerp(this.queue[0].center.x, this.queue[1].center.x, this.easeInOutTile(this.interpolator));
     this.position.y = lerp(this.queue[0].center.y, this.queue[1].center.y, this.easeInOutTile(this.interpolator));
@@ -113,9 +113,7 @@ class Player {
       }
 
       // animate player movement
-      this.animateMovement();
-
-      // animate player movement
+      this.calculateXY();
       this.showAnimation();
     }
   }
