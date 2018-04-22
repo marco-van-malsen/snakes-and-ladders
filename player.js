@@ -24,8 +24,8 @@ class Player {
   // animate player's movement
   animateMovement() {
     // calculate x,y coordinate based on where player is and is going
-    this.position.x = lerp(this.queue[0].getCenter().x, this.queue[1].getCenter().x, this.easeInOutTile(this.interpolator));
-    this.position.y = lerp(this.queue[0].getCenter().y, this.queue[1].getCenter().y, this.easeInOutTile(this.interpolator));
+    this.position.x = lerp(this.queue[0].center.x, this.queue[1].center.x, this.easeInOutTile(this.interpolator));
+    this.position.y = lerp(this.queue[0].center.y, this.queue[1].center.y, this.easeInOutTile(this.interpolator));
 
     // increase interpolator speed
     this.interpolator += INTERPOLATION_SPEED;
@@ -123,8 +123,7 @@ class Player {
   // display players not currently at play
   show() {
     // get players position on the board
-    let playerTile = tiles[this.spot];
-    let tileCenter = playerTile.getCenter();
+    let tileCenter = tiles[this.spot].center;
 
     // get total number of players on current tile
     let playersOnTile = 0;

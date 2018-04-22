@@ -10,6 +10,7 @@ class Tile {
     this.wh = wh;
     this.x = x;
     this.y = y;
+    this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
 
     // checker board pattern
     this.color = (this.index % 2 ? 200 : 100);
@@ -46,14 +47,14 @@ class Tile {
     textAlign(CENTER, CENTER);
     textSize(12);
     fill(255);
-    text(tileText, this.x + this.wh / 2, this.y + this.wh / 2);
+    text(tileText, this.center.x, this.center.y);
   }
 
   // show snake or ladder
   showSnadders() {
     if (this.snadder != 0) {
-      let myCenter = this.getCenter();
-      let nextCenter = tiles[this.index + this.snadder].getCenter();
+      let myCenter = this.center;
+      let nextCenter = tiles[this.index + this.snadder].center;
       strokeWeight(4);
       if (this.snadder < 0) {
         stroke(255, 0, 0, 200);
