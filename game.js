@@ -82,17 +82,17 @@ function initGame() {
 
   // create all the tiles from start to finish
   let x = 0;
-  let y = title + separator + (rows - 1) * resolution;
+  let y = title + separator + (rows - 1) * tileSize;
   let dir = 1;
   for (let t = 0; t < cols * rows; t++) {
-    tiles[t] = new Tile(x, y, resolution, t);
-    x = x + (resolution * dir);
+    tiles[t] = new Tile(t, x, y);
+    x = x + (tileSize * dir);
 
     // move along a winding path up the rows
-    if (x >= cols * resolution || x <= -resolution) {
+    if (x >= cols * tileSize || x <= -tileSize) {
       dir *= -1;
-      x += resolution * dir;
-      y -= resolution;
+      x += tileSize * dir;
+      y -= tileSize;
     }
   }
 
@@ -186,7 +186,7 @@ function moveControls() {
   // set location of first control element
   let spacingMajor = 15;
   let spacingMinor = 35;
-  let x = cols * resolution + separator + 15;
+  let x = cols * tileSize + separator + 15;
   let y = title + separator;
 
   // update simulation text and checkbox
@@ -225,14 +225,14 @@ function moveControls() {
   sliderLadders.position(x, y);
 
   // update button to roll the die
-  buttonRollDie.position(cols * resolution + separator + 45,
-    title + separator + rows * resolution - 20);
+  buttonRollDie.position(cols * tileSize + separator + 45,
+    title + separator + rows * tileSize - 20);
 }
 
 // create the canvas
 function setupCanvas() {
-  let canvasW = (cols * resolution) + separator + controlsArea;
-  let canvasH = title + separator + (rows * resolution) + separator + playersArea;
+  let canvasW = (cols * tileSize) + separator + controlsArea;
+  let canvasH = title + separator + (rows * tileSize) + separator + playersArea;
   createCanvas(canvasW, canvasH);
 }
 
@@ -241,10 +241,10 @@ function showControlsArea() {
   push();
   fill(200);
   noStroke();
-  let myX = cols * resolution + separator;
+  let myX = cols * tileSize + separator;
   let myY = title + separator;
   let myW = controlsArea;
-  let myH = rows * resolution;
+  let myH = rows * tileSize;
   rect(myX, myY, myW, myH);
   pop();
 }
@@ -256,13 +256,13 @@ function showGameTitle() {
   // draw background
   fill(200);
   noStroke();
-  rect(0, 0, cols * resolution, title);
+  rect(0, 0, cols * tileSize, title);
 
   // draw text
   fill(100);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text('Snakes & Ladders', (cols * resolution) / 2, title / 2);
+  text('Snakes & Ladders', (cols * tileSize) / 2, title / 2);
   pop();
 }
 
@@ -282,7 +282,7 @@ function showPlayersArea() {
 
   // translate to upper left corner
   let myX = 0;
-  let myY = title + separator + rows * resolution + separator;
+  let myY = title + separator + rows * tileSize + separator;
   translate(myX, myY);
 
   // format text
@@ -293,54 +293,54 @@ function showPlayersArea() {
   fill(100);
   stroke(0);
   strokeWeight(1);
-  rect(0, 0, resolution, resolution);
+  rect(0, 0, tileSize, tileSize);
   fill(255);
   strokeWeight(0);
-  text('Player', resolution * 0.5, resolution * 0.5);
+  text('Player', tileSize * 0.5, tileSize * 0.5);
 
   // draw player numbers
-  translate(0, resolution);
+  translate(0, tileSize);
   for (let p = 0; p <= numPlayers - 1; p++) {
     // draw rectangle
     fill(100);
     stroke(0);
     strokeWeight(1);
-    rect(0, p * resolution, resolution, resolution);
+    rect(0, p * tileSize, tileSize, tileSize);
 
     // draw number
     fill(255);
     strokeWeight(0);
     textSize(14);
-    text(p + 1, resolution * 0.5, p * resolution + resolution * 0.5);
+    text(p + 1, tileSize * 0.5, p * tileSize + tileSize * 0.5);
   }
 
-  translate(0, -resolution);
+  translate(0, -tileSize);
 
   // token-column
   // draw header
-  translate(resolution, 0);
+  translate(tileSize, 0);
   fill(100);
   stroke(0);
   strokeWeight(1);
-  rect(0, 0, resolution, resolution);
+  rect(0, 0, tileSize, tileSize);
   fill(255);
   strokeWeight(0);
-  text('Token', resolution * 0.5, resolution * 0.5);
+  text('Token', tileSize * 0.5, tileSize * 0.5);
 
   // draw tokens
-  translate(0, resolution);
+  translate(0, tileSize);
   for (let p = 0; p <= numPlayers - 1; p++) {
     // draw rectangle
     fill(100);
     stroke(0);
     strokeWeight(1);
-    rect(0, p * resolution, resolution, resolution);
+    rect(0, p * tileSize, tileSize, tileSize);
 
     // draw tokens
     fill(players[p].tokenColor);
     stroke(0);
     strokeWeight(2);
-    ellipse(0.5 * resolution, p * resolution + 0.5 * resolution, 25, 25);
+    ellipse(0.5 * tileSize, p * tileSize + 0.5 * tileSize, 25, 25);
 
     // draw 'X' for current player
     // draw number matching finishing order for players that have finished
@@ -359,15 +359,15 @@ function showPlayersArea() {
       // draw text on token
       fill(0);
       textSize(14);
-      text(tokenText, 0.5 * resolution, p * resolution + 0.5 * resolution);
+      text(tokenText, 0.5 * tileSize, p * tileSize + 0.5 * tileSize);
     }
   }
 
-  translate(0, -resolution);
+  translate(0, -tileSize);
 
   // draw histogram - background
-  translate(resolution, resolution * (max(1, numPlayers) + 1));
-  let histW = width - 2 * resolution;
+  translate(tileSize, tileSize * (max(1, numPlayers) + 1));
+  let histW = width - 2 * tileSize;
   let histH = playersArea;
   fill(10);
   stroke(0);
@@ -561,7 +561,7 @@ function updateControls() {
   // change the number of players
   if (sliderPlayers.value() != numPlayers) {
     numPlayers = sliderPlayers.value();
-    playersArea = resolution * (max(1, numPlayers) + 1);
+    playersArea = tileSize * (max(1, numPlayers) + 1);
 
     // change grid size
   } else if (sliderGrid.value() != cols) {

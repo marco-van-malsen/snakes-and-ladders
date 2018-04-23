@@ -39,7 +39,7 @@ let maxColsRows = 14;
 let minColsRows = 10;
 let cols = 10;
 let rows = cols;
-let resolution = 40;
+let tileSize = 40;
 
 // setup control for number of players
 let curPlayer;
@@ -61,10 +61,10 @@ let sliderSnakes;
 let txtSnakes = '';
 
 // setup game areas (title, separator and controls area)
-let controlsArea = 4 * resolution;
-let playersArea = resolution * (numPlayers + 1);
-let separator = 0.5 * resolution;
-let title = resolution;
+let controlsArea = 4 * tileSize;
+let playersArea = tileSize * (numPlayers + 1);
+let separator = 0.5 * tileSize;
+let title = tileSize;
 
 // setup control for Roll the Die-button
 let buttonRollDie;

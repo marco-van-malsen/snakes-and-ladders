@@ -4,10 +4,10 @@
 
 // a tile on the board
 class Tile {
-  constructor(x, y, wh, index) {
+  constructor(index, x, y) {
     this.index = index;
     this.snadder = 0;
-    this.wh = wh;
+    this.wh = tileSize;
     this.x = x;
     this.y = y;
     this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);

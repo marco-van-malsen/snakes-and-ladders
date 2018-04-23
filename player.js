@@ -133,11 +133,11 @@ class Player {
     }
 
     // determine token size based on number of players occupying a tile
-    let tokenSize = resolution * 0.6;
+    let tokenSize = tileSize * 0.6;
     strokeWeight(2);
     if (playersOnTile > 1) {
       strokeWeight(1);
-      tokenSize = resolution * 0.4;
+      tokenSize = tileSize * 0.4;
     }
 
     // draw the player
@@ -148,7 +148,7 @@ class Player {
       ellipse(tileCenter.x, tileCenter.y, tokenSize);
     } else {
       // set offset of player relative to tile center
-      let offset = resolution * 0.25;
+      let offset = tileSize * 0.25;
       if (this.number === 0) {
         // player 0 in upper left corner
         ellipse(tileCenter.x - offset, tileCenter.y - offset, tokenSize);
@@ -172,7 +172,7 @@ class Player {
     stroke(0);
     strokeWeight(2);
     fill(this.tokenColor);
-    ellipse(this.position.x, this.position.y, resolution * 0.6);
+    ellipse(this.position.x, this.position.y, tileSize * 0.6);
   }
 
   // update player after animation has finished
