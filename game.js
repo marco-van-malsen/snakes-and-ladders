@@ -89,7 +89,7 @@ function initGame() {
     x = x + (tileSize * dir);
 
     // move along a winding path up the rows
-    if (x >= cols * tileSize || x <= -tileSize) {
+    if (x >= cols * tileSize || x < 0) {
       dir *= -1;
       x += tileSize * dir;
       y -= tileSize;
