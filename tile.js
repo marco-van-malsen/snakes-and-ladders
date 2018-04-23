@@ -11,8 +11,6 @@ class Tile {
     this.x = x;
     this.y = y;
     this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
-
-    // checker board pattern
     this.color = (this.index % 2 ? 200 : 100);
   }
 
