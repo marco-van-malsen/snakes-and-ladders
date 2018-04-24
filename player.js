@@ -17,7 +17,7 @@ class Player {
     this.delay = TURN_DELAY; // delay after move animation is complete
     this.interpolator = 0; // interpolator for move animation
     this.moves2go = 0; // moves left; starts on die face value and decrements by 1 during animation
-    this.position = tiles[this.spot].getCenter(); // player's XY-coordinate on the board
+    this.position = createVector(0, 0); // player's XY-coordinate on the gameboard
     this.queue = []; // animiation queue
   }
 

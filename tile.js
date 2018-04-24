@@ -14,11 +14,6 @@ class Tile {
     this.color = (this.index % 2 ? 200 : 100);
   }
 
-  // find center
-  getCenter() {
-    return createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
-  }
-
   // draw tile
   show() {
     // draw tile (override tile color for start and finish)
