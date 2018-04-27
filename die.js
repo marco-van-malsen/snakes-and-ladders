@@ -7,9 +7,9 @@ class Die {
   // initialize
   constructor() {
     // set x and y position of the die-center
-    this.x = cols * tileSize + separator + controlsArea / 2;
-    this.y = title + separator + rows * tileSize - 60;
     this.wh = 50;
+    this.x = cols * tileSize + separator + controlsArea / 2 - this.wh * 0.5;
+    this.y = title + separator + rows * tileSize - this.wh * 1.5;
     this.r = this.wh * 0.1;
     this.value = 0;
   }
@@ -35,23 +35,24 @@ function rollDie() {
 }
 
 function showDie() {
-  let dotD = 9; // dot diameter
-  let dotXY = 13; // dot offset from center
+  // draw the die outline
+  fill(255);
+  strokeWeight(4);
+  stroke(0);
+  rect(die.x, die.y, die.wh, die.wh, die.r, die.r, die.r, die.r);
 
   // remember current settings
   push();
 
-  // translate to center of where die will be drawn
-  translate(die.x, die.y);
+  // set the dot-size and offset
+  let dotD = 9; // dot diameter
+  let dotXY = 13; // dot offset from center
 
-  // draw the die outline
-  rectMode(CENTER);
-  fill(255);
-  strokeWeight(4);
-  stroke(0);
-  rect(0, 0, die.wh, die.wh, die.r, die.r, die.r, die.r);
+  // translate to center of die
+  // dots are drawn relative to die-center
+  translate(die.x + die.wh * 0.5, die.y + die.wh * 0.5);
 
-  // draw the dots
+  // set format for dots
   noStroke();
   fill(0);
 

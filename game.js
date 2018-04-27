@@ -2,55 +2,6 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// create game controls (DOM objects) in top-down order they will be seen
-function createControls() {
-  // create simulate text and checkbox
-  txtSimulation = createP('Simulate');
-  checkboxSimulation = createCheckbox('', simulationMode);
-  checkboxSimulation.changed(switchSimulationMode);
-
-  // create animate text and checkbox
-  txtAnimation = createP('Animate');
-  checkboxAnimation = createCheckbox('', animationMode);
-  checkboxAnimation.changed(switchAnimationMode);
-
-  // create text for number of players
-  txtPlayers = createP('');
-
-  // create slider for number of players
-  sliderPlayers = createSlider(1, maxPlayers, numPlayers);
-  sliderPlayers.input(updateControlsTxt);
-  sliderPlayers.changed(updateControls);
-
-  // create text showing grid size
-  txtGrid = createP('');
-
-  // create slider for grid size
-  sliderGrid = createSlider(minColsRows, maxColsRows, cols, 2);
-  sliderGrid.input(updateControlsTxt);
-  sliderGrid.changed(updateControls);
-
-  // create text for number of snakes
-  txtSnakes = createP('');
-
-  // create slider for number of snakes
-  sliderSnakes = createSlider(1, maxSnakes, numSnakes);
-  sliderSnakes.input(updateControlsTxt);
-  sliderSnakes.changed(updateControls);
-
-  // create text for number of ladders
-  txtLadders = createP('');
-
-  // create slider to control number of ladders
-  sliderLadders = createSlider(1, maxLadders, numLadders);
-  sliderLadders.input(updateControlsTxt);
-  sliderLadders.changed(updateControls);
-
-  // create button to roll the die
-  buttonRollDie = createButton('Roll the Die');
-  buttonRollDie.mousePressed(rollDie);
-}
-
 // is the game over?
 function GameOver() {
   // count number of players on the finish-tile
@@ -73,9 +24,6 @@ function GameOver() {
 function initGame() {
   // setup canvas
   setupCanvas();
-
-  // move game controls
-  moveControls();
 
   // reset the tiles array
   tiles = [cols * rows];
@@ -171,9 +119,6 @@ function initGame() {
     }
   }
 
-  // update text for controls
-  updateControlsTxt();
-
   // switch state
   state = ROLL_STATE;
 
@@ -181,56 +126,9 @@ function initGame() {
   loop();
 }
 
-// add game controls
-function moveControls() {
-  // set location of first control element
-  let spacingMajor = 15;
-  let spacingMinor = 35;
-  let x = cols * tileSize + separator + 15;
-  let y = title + separator;
-
-  // update simulation text and checkbox
-  txtSimulation.position(x, y);
-  y += 15;
-  checkboxSimulation.position(x + controlsArea - 35, y);
-  y += spacingMajor;
-
-  // update animation text and checkbox
-  txtAnimation.position(x, y);
-  y += 15;
-  checkboxAnimation.position(x + controlsArea - 35, y);
-  y += spacingMajor;
-
-  // update text and slider for number of players
-  txtPlayers.position(x, y);
-  y += spacingMinor;
-  sliderPlayers.position(x, y);
-  y += spacingMajor;
-
-  // update text and slider for grid size
-  txtGrid.position(x, y);
-  y += spacingMinor;
-  sliderGrid.position(x, y);
-  y += spacingMajor;
-
-  // update text and slider for number of snakes
-  txtSnakes.position(x, y);
-  y += spacingMinor;
-  sliderSnakes.position(x, y);
-  y += spacingMajor;
-
-  // update text and slider for number of ladders
-  txtLadders.position(x, y);
-  y += spacingMinor;
-  sliderLadders.position(x, y);
-
-  // update button to roll the die
-  buttonRollDie.position(cols * tileSize + separator + 45,
-    title + separator + rows * tileSize - 20);
-}
-
 // create the canvas
 function setupCanvas() {
+  playersArea = tileSize * (numPlayers + 1);
   let canvasW = (cols * tileSize) + separator + controlsArea;
   let canvasH = title + separator + (rows * tileSize) + separator + playersArea;
   createCanvas(canvasW, canvasH);
@@ -238,7 +136,7 @@ function setupCanvas() {
 
 // draw background for controls
 function showControlsArea() {
-  push();
+  // draw background
   fill(200);
   noStroke();
   let myX = cols * tileSize + separator;
@@ -246,13 +144,49 @@ function showControlsArea() {
   let myW = controlsArea;
   let myH = rows * tileSize;
   rect(myX, myY, myW, myH);
-  pop();
+
+  // nuke the game controls
+  controls = [];
+
+  // set text format
+  noStroke();
+  fill(0);
+  textSize(14);
+  textAlign(LEFT, CENTER);
+
+  // simulate
+  text('Simulate', myX + 5, myY + 20);
+  createControlSet(myX + 110, myY + 10, 40, 20, simulationMode, 0, 1, 2, toggleSimulationMode);
+
+  // animate
+  text('Animate', myX + 5, myY + 50);
+  createControlSet(myX + 110, myY + 40, 40, 20, animationMode, 0, 1, 2, toggleAnimationMode);
+
+  // player selection
+  text('# Players :', myX + 5, myY + 80);
+  createControlSet(myX + 10, myY + 90, myW - 20, 20, numPlayers, 1, 4, 4, toggleNumPlayers);
+
+  // grid size
+  text('# Columns / Rows :', myX + 5, myY + 130);
+  createControlSet(myX + 10, myY + 140, myW - 20, 20, cols, 10, 14, 3, toggleGridSize);
+
+  // number of Snakes
+  text('# Snakes :', myX + 5, myY + 180);
+  createControlSet(myX + 10, myY + 190, myW - 20, 20, numSnakes, 1, maxSnakes, maxSnakes, toggleNumSnakes);
+
+  // number of Ladders
+  text('# Ladders :', myX + 5, myY + 230);
+  createControlSet(myX + 10, myY + 240, myW - 20, 20, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
+
+  // show all controls
+  textAlign(CENTER);
+  for (let control in controls) {
+    controls[control].show();
+  }
 }
 
 // display game title
 function showGameTitle() {
-  push();
-
   // draw background
   fill(200);
   noStroke();
@@ -260,10 +194,8 @@ function showGameTitle() {
 
   // draw text
   fill(100);
-  textAlign(CENTER, CENTER);
   textSize(32);
-  text('Snakes & Ladders', (cols * tileSize) / 2, title / 2);
-  pop();
+  text('Snakes & Ladders', (cols * tileSize) * 0.5, title * 0.5);
 }
 
 // show players
@@ -284,9 +216,6 @@ function showPlayersArea() {
   let myX = 0;
   let myY = title + separator + rows * tileSize + separator;
   translate(myX, myY);
-
-  // format text
-  textAlign(CENTER, CENTER);
 
   // player-column
   // draw header
@@ -520,80 +449,4 @@ function switchPlayer() {
   if (nextPlayer >= 0) {
     curPlayer = nextPlayer;
   }
-}
-
-// switch animation mode on or off
-function switchAnimationMode() {
-  // toggle animation mode
-  animationMode = !animationMode;
-
-  // switch game state
-  state = ROLL_STATE;
-
-  // start a new game if the previous game has ended
-  if (GameOver()) {
-    initGame();
-  }
-
-  // resume game loop
-  loop();
-}
-
-// switch simulation mode on or off
-function switchSimulationMode() {
-  // toggle simulation mode
-  simulationMode = !simulationMode;
-
-  // switch game state
-  state = ROLL_STATE;
-
-  // start new game if previous game has ended
-  if (GameOver()) {
-    initGame();
-  }
-
-  // resume game loop
-  loop();
-}
-
-// update the controls
-function updateControls() {
-  // change the number of players
-  if (sliderPlayers.value() != numPlayers) {
-    numPlayers = sliderPlayers.value();
-    playersArea = tileSize * (max(1, numPlayers) + 1);
-
-    // change grid size
-  } else if (sliderGrid.value() != cols) {
-    cols = sliderGrid.value();
-    rows = cols;
-
-    // max number of snakes and ladders is half the grid Size
-    // e.g. a grid of 10x10 has max 5 snakes and 5 ladders
-    sliderSnakes.attribute('max', cols / 2);
-    sliderLadders.attribute('max', cols / 2);
-
-    // the number of ladders is always less or equal to the number of snakes
-  } else if (sliderSnakes.value() != numSnakes) {
-    numSnakes = sliderSnakes.value();
-    numLadders = min(sliderSnakes.value(), sliderLadders.value());
-    sliderLadders.value(numLadders);
-
-    // the number of snakes is always greater or equal to the number of ladders
-  } else if (sliderLadders.value() != numLadders) {
-    numLadders = sliderLadders.value();
-    numSnakes = max(sliderSnakes.value(), sliderLadders.value());
-    sliderSnakes.value(numSnakes);
-  }
-
-  // restart the game
-  initGame();
-}
-
-// update the text of the game controls
-function updateControlsTxt() {
-  txtPlayers.html('# Players : ' + sliderPlayers.value());
-  txtGrid.html('Grid Size : ' + sliderGrid.value() + 'x' + sliderGrid.value());
-  txtSnakes.html('# Snakes : ' + sliderSnakes.value());
-  txtLadders.html('# Ladders : ' + sliderLadders.value());
 }

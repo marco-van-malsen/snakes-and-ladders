@@ -18,6 +18,9 @@ let animationMode = true;
 // set initial game simulation mode
 let simulationMode = true;
 
+// array with all game controls
+let controls = [];
+
 // all the tiles
 let tiles = [];
 
@@ -45,33 +48,24 @@ let tileSize = 40;
 let curPlayer;
 let maxPlayers = 4;
 let numPlayers = 4;
-let sliderPlayers;
-let txtPlayers = '';
 
 // setup control for number of ladders
 let maxLadders = cols * 0.5;
 let numLadders = 3;
-let sliderLadders;
-let txtLadders = '';
 
 // setup control for number of snakes
 let maxSnakes = cols * 0.5;
 let numSnakes = 3;
-let sliderSnakes;
-let txtSnakes = '';
 
 // setup game areas (title, separator and controls area)
 let controlsArea = 4 * tileSize;
-let playersArea = tileSize * (numPlayers + 1);
+let playersArea;
 let separator = 0.5 * tileSize;
 let title = tileSize;
 
-// setup control for Roll the Die-button
-let buttonRollDie;
-
 function setup() {
-  // create the controls
-  createControls();
+  // default text format
+  textAlign(CENTER);
 
   // initialize the game
   initGame();
@@ -84,7 +78,7 @@ function draw() {
   // display game title
   showGameTitle();
 
-  // highlight the conrols area
+  // highlight the controls area
   showControlsArea();
 
   // show the die
