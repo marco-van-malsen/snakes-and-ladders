@@ -123,6 +123,8 @@ function toggleGridSize(num) {
   rows = cols;
   maxSnakes = cols * 0.5;
   maxLadders = maxSnakes;
+  numSnakes = floor(cols / 3);
+  numLadders = numSnakes;
   initGame();
 }
 
