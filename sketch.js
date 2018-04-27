@@ -65,7 +65,8 @@ let title = tileSize;
 
 function setup() {
   // default text format
-  textAlign(CENTER);
+  textAlign(CENTER, CENTER);
+  textSize(12);
 
   // initialize the game
   initGame();

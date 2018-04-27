@@ -151,7 +151,6 @@ function showControlsArea() {
   // set text format
   noStroke();
   fill(0);
-  textSize(14);
   textAlign(LEFT, CENTER);
 
   // simulate
@@ -179,7 +178,7 @@ function showControlsArea() {
   createControlSet(myX + 10, myY + 240, myW - 20, 20, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
 
   // show all controls
-  textAlign(CENTER);
+  textAlign(CENTER, CENTER);
   for (let control in controls) {
     controls[control].show();
   }
@@ -193,9 +192,12 @@ function showGameTitle() {
   rect(0, 0, cols * tileSize, title);
 
   // draw text
+  push();
   fill(100);
+  textAlign(CENTER, CENTER);
   textSize(32);
   text('Snakes & Ladders', (cols * tileSize) * 0.5, title * 0.5);
+  pop();
 }
 
 // show players
@@ -239,7 +241,6 @@ function showPlayersArea() {
     // draw number
     fill(255);
     strokeWeight(0);
-    textSize(14);
     text(p + 1, tileSize * 0.5, p * tileSize + tileSize * 0.5);
   }
 
@@ -287,7 +288,6 @@ function showPlayersArea() {
 
       // draw text on token
       fill(0);
-      textSize(14);
       text(tokenText, 0.5 * tileSize, p * tileSize + 0.5 * tileSize);
     }
   }
@@ -361,7 +361,6 @@ function showPlayersArea() {
   // draw # turns
   fill(100);
   noStroke();
-  textSize(12);
   text(turns, turnsW * 0.5, -histH + turnsH * 0.5);
 
   // draw histogram per player

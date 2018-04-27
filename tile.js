@@ -42,8 +42,6 @@ class Tile {
     }
 
     // display tile text
-    textAlign(CENTER, CENTER);
-    textSize(12);
     fill(255);
     text(tileText, this.center.x, this.center.y);
   }
