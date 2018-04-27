@@ -25,6 +25,10 @@ function rollDie() {
   // pick a random number between 1 and 6
   die.value = random([1, 2, 3, 4, 5, 6]);
 
+  // set preview
+  players[curPlayer].previewS = players[curPlayer].spot;
+  players[curPlayer].previewF = players[curPlayer].spot + die.value;
+
   // switch state
   state = MOVE_STATE;
 

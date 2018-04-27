@@ -14,9 +14,14 @@ class Tile {
     this.color = (this.index % 2 ? 200 : 100);
   }
 
-  // find center
-  getCenter() {
-    return createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
+  // highlight
+  highlight() {
+    noStroke();
+    let myC = players[curPlayer].tokenColor;
+    myC.setAlpha(50);
+    fill(myC);
+    rect(this.x, this.y, this.wh, this.wh);
+    myC.setAlpha(255);
   }
 
   // draw tile

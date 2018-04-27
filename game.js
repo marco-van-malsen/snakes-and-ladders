@@ -200,7 +200,7 @@ function showGameTitle() {
   pop();
 }
 
-// show players
+// show stationary players
 function showPlayers() {
   for (let p of players) {
     if (!p.animate) {

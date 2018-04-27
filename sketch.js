@@ -95,9 +95,6 @@ function draw() {
     tile.showSnadders();
   }
 
-  // show the players
-  showPlayers();
-
   // show player information area
   showPlayersArea();
 
@@ -109,8 +106,19 @@ function draw() {
       noLoop();
     }
 
+    // show stationary players
+    showPlayers();
+
     // player in motion
   } else {
+    // show preview
+    if (state === MOVE_STATE && animationMode) {
+      players[curPlayer].showPreview();
+    }
+
+    // show stationary players
+    showPlayers();
+
     // move player; no animation
     if (state === MOVE_STATE && !animationMode) {
       players[curPlayer].updateSimple();

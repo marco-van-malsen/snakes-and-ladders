@@ -12,6 +12,10 @@ class Player {
     this.spot = 0; // player's position on the board
     this.tokenColor = color(255, 0, 0); // color assigned to players token
 
+    // preview related
+    this.previewS = null;
+    this.previewF = null;
+
     // animation related
     this.animate = false; // animite player or not
     this.delay = TURN_DELAY; // delay after move animation is complete
@@ -173,6 +177,15 @@ class Player {
     strokeWeight(2);
     fill(this.tokenColor);
     ellipse(this.position.x, this.position.y, tileSize * 0.6);
+  }
+
+  // preview
+  showPreview() {
+    let first = this.previewS;
+    let last = min(this.previewF, tiles.length - 1);
+    for (let c = first; c <= last; c++) {
+      tiles[c].highlight();
+    }
   }
 
   // update player after animation has finished
