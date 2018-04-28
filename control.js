@@ -17,6 +17,7 @@ class Control {
 
   // draw the control
   show() {
+    // set background color
     if (this.active ? fill(100) : fill(200));
 
     // draw rectangle
@@ -33,10 +34,7 @@ class Control {
   }
 
   isClicked(x, y) {
-    if (x > this.x && x < this.x + this.w &&
-      y > this.y && y < this.y + this.h) {
-      this.fnc(this.val);
-    }
+    return (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h);
   }
 }
 
@@ -63,7 +61,7 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
   for (let c = min; c <= max; c += interval) {
     // determine if current control-value matches the current value
     let active = false;
-    
+
     // this is for booleans
     if (min === 0 && max === 1) {
       if ((c === 0 && cur === false) || (c === 1 && cur === true)) {
@@ -89,9 +87,13 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
 
 // handle mouse press events
 function mousePressed() {
-  // check if one of the controls was pressed
+  // check if control element was pressed
+  // if so, then execute the associated function and break
   for (let c = 0; c <= controls.length - 1; c++) {
-    (controls[c].isClicked(mouseX, mouseY));
+    if (controls[c].isClicked(mouseX, mouseY)) {
+      controls[c].fnc(controls[c].val);
+      break;
+    }
   }
 
   // check if the die was clicked
@@ -125,19 +127,19 @@ function toggleGridSize(num) {
   if (num === cols) {
     return;
   }
-  
+
   // update grid size
   cols = num;
   rows = cols;
-  
+
   // set maximum possible snakes and ladder
   maxSnakes = cols * 0.5;
   maxLadders = maxSnakes;
-  
+
   // set active number of snakes and ladders
   numSnakes = floor(cols / 3);
   numLadders = numSnakes;
-  
+
   // start a new game
   initGame();
 }
