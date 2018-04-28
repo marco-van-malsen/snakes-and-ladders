@@ -18,7 +18,7 @@ class Tile {
   highlight() {
     noStroke();
     let myC = players[curPlayer].tokenColor;
-    myC.setAlpha(50);
+    myC.setAlpha(75);
     fill(myC);
     rect(this.x, this.y, this.wh, this.wh);
     myC.setAlpha(255);
