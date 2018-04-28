@@ -5,13 +5,13 @@
 // a tile on the board
 class Tile {
   constructor(index, x, y) {
-    this.index = index;
-    this.snadder = 0;
-    this.wh = tileSize;
-    this.x = x;
-    this.y = y;
-    this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5);
-    this.color = (this.index % 2 ? 200 : 100);
+    this.index = index; // index of tile in array
+    this.snadder = 0; // normal tile (zero), snake (negative numbers) or ladder (positive number)
+    this.wh = tileSize; // width and height of tile
+    this.x = x; // left side of tile (relative to canvas upper left)
+    this.y = y; // top side of tile (relative to canvas upper left)
+    this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5); // center (x,y) of tile 
+    this.color = (this.index % 2 ? 200 : 100); // checkerboard colors
   }
 
   // highlight
@@ -33,6 +33,7 @@ class Tile {
       fill(this.color);
     }
 
+    // draw tile
     noStroke();
     rect(this.x, this.y, this.wh, this.wh);
 
