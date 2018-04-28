@@ -106,36 +106,63 @@ function draw() {
       noLoop();
     }
 
+    // switch game state
+    state = MOVE_STATE;
+
     // show stationary players
     showPlayers();
 
-    // player in motion
-  } else {
+    // player moving number of spots rolled by die
+  } else if (state === MOVE_STATE) {
     // show preview
-    if (state === MOVE_STATE && animationMode) {
+    if (animationMode) {
       players[curPlayer].showPreview();
     }
 
     // show stationary players
     showPlayers();
 
-    // move player; no animation
-    if (state === MOVE_STATE && !animationMode) {
-      players[curPlayer].updateSimple();
-
-      //  move player; with animation
-    } else {
+    // move player
+    if (animationMode) {
       players[curPlayer].movePlayer();
       if (players[curPlayer].animate) return;
+    } else {
+      players[curPlayer].updateSimple();
     }
 
-    // update players history
+    // update player history
     players[curPlayer].updateHistory();
 
     // switch state
     if (players[curPlayer].isSnadder()) {
       // switch state
       state = SNADDER_STATE;
+      return;
+    }
+
+    // check if player is finished
+    players[curPlayer].checkFinished();
+
+    // switch player
+    switchPlayer();
+
+    // continue play
+    state = ROLL_STATE;
+
+    // player following a snadder
+  } else {
+    // show stationary players
+    showPlayers();
+
+    //  move player; with animation
+    players[curPlayer].movePlayer();
+    if (players[curPlayer].animate) return;
+
+    // update player history
+    players[curPlayer].updateHistory();
+
+    // snadder found at end of snadder
+    if (players[curPlayer].isSnadder()) {
       return;
     }
 
