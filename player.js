@@ -181,9 +181,9 @@ class Player {
 
   // preview
   showPreview() {
-    let first = this.previewS;
-    let last = min(this.previewF, tiles.length - 1);
-    for (let c = first; c <= last; c++) {
+    let start = this.previewS;
+    let finish = min(this.previewF, tiles.length - 1);
+    for (let c = start; c <= finish; c++) {
       tiles[c].highlight();
     }
   }
