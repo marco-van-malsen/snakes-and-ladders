@@ -158,22 +158,13 @@ function draw() {
     players[curPlayer].movePlayer();
     if (players[curPlayer].animate) return;
 
-    // update player history
-    players[curPlayer].updateHistory();
-
-    // snadder found at end of snadder
-    if (players[curPlayer].isSnadder()) {
-      return;
+    // continue following snadders; then continue main game loop
+    if (!players[curPlayer].isSnadder()) {
+      // update player history
+      players[curPlayer].updateHistory();
+      switchPlayer();
+      state = ROLL_STATE;
     }
-
-    // check if player is finished
-    players[curPlayer].checkFinished();
-
-    // switch player
-    switchPlayer();
-
-    // continue play
-    state = ROLL_STATE;
   }
 
   // check game over state
