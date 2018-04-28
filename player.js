@@ -13,8 +13,8 @@ class Player {
     this.tokenColor = color(255, 0, 0); // color assigned to players token
 
     // preview related
-    this.previewS = null;
-    this.previewF = null;
+    this.previewS = null; // first tile of preview, player's current position
+    this.previewF = null; // last tile of preview, depends on die-roll value
 
     // animation related
     this.animate = false; // animite player or not
