@@ -29,9 +29,6 @@ function rollDie() {
   players[curPlayer].previewS = players[curPlayer].spot;
   players[curPlayer].previewF = players[curPlayer].spot + die.value;
 
-  // switch state
-  state = MOVE_STATE;
-
   // restart game loop, when in interactive mode
   if (!simulationMode) {
     loop();
