@@ -448,4 +448,7 @@ function switchPlayer() {
   if (nextPlayer >= 0) {
     curPlayer = nextPlayer;
   }
+
+  // set turn delay (6 @ 60 fps = 0.1 seconds)
+  turnDelay = 6;
 }

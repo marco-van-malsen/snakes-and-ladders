@@ -34,6 +34,9 @@ let finishOrder;
 // number of turns played
 let turns;
 
+// delay between turns
+let turnDelay;
+
 // the die
 let die;
 
@@ -97,6 +100,15 @@ function draw() {
 
   // show player information area
   showPlayersArea();
+
+  // show stationary players
+  showPlayers();
+
+  // wait between turns
+  if (turnDelay > 0) {
+    turnDelay--;
+    return;
+  }
 
   // roll the die or wait for player to roll the die
   if (state === ROLL_STATE) {
