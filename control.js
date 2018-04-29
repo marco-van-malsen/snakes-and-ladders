@@ -1,3 +1,7 @@
+// Snakes and Ladders
+// Original: Daniel Shiffman (The Coding Train)
+// Extended: Marco van Malsen
+
 // each individual control
 class Control {
   // (x,y) = upper left corner of control element
