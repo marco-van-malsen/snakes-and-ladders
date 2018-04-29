@@ -450,5 +450,5 @@ function switchPlayer() {
   }
 
   // set turn delay (6 @ 60 fps = 0.1 seconds)
-  turnDelay = 6;
+  if (animationMode) turnDelay = 6;
 }
