@@ -98,7 +98,7 @@ function mousePressed() {
 
   // check if the die was clicked
   // only allowed when simulationMode is not active
-  if (!simulationMode &&
+  if (!simulationMode && !players[curPlayer].animate &&
     mouseX > die.x && mouseX < die.x + die.wh &&
     mouseY > die.y && mouseY < die.y + die.wh) {
     rollDie();

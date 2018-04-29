@@ -17,7 +17,7 @@ class Player {
     this.previewF = null; // last tile of preview, depends on die-roll value
 
     // animation related
-    this.animate = false; // animite player or not
+    this.animate = false; // animate player or not
     this.delay = TURN_DELAY; // delay after move animation is complete
     this.interpolator = 0; // interpolator for move animation
     this.moves2go = 0; // moves left; starts on die face value and decrements by 1 during animation
