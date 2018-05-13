@@ -6,6 +6,7 @@
 const ROLL_STATE = 1; // roll the die
 const MOVE_STATE = 2; // move player to next spot
 const SNADDER_STATE = 3; // move player along a Snake or Ladder
+const GAME_OVER = 0; // game over
 let state;
 
 // values required for player animation
@@ -104,6 +105,9 @@ function draw() {
   // show stationary players
   showPlayers();
 
+  // disable game logic when game is over
+  if (state === GAME_OVER) return;
+
   // wait between turns
   if (turnDelay > 0) {
     turnDelay--;
@@ -185,11 +189,7 @@ function draw() {
     die.value = 0;
     showDie();
 
-    // show players on the finish tile and update info area
-    showPlayers();
-    showPlayersArea();
-
-    // interrupt the game loop
-    noLoop();
+    // switch game state
+    state = GAME_OVER;
   }
 }

@@ -101,11 +101,15 @@ function mousePressed() {
   }
 
   // check if the die was clicked
-  // only allowed when simulationMode is not active
-  if (!simulationMode && !players[curPlayer].animate &&
-    mouseX > die.x && mouseX < die.x + die.wh &&
-    mouseY > die.y && mouseY < die.y + die.wh) {
-    rollDie();
+  if (mouseX > die.x && mouseX < die.x + die.wh && mouseY > die.y && mouseY < die.y + die.wh) {
+    // allowed when game is over
+    if (state === GAME_OVER) {
+      rollDie();
+
+      // or when simulationMode is not active and no player animation is running
+    } else if (!simulationMode && !players[curPlayer].animate) {
+      rollDie();
+    }
   }
 }
 

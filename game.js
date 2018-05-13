@@ -13,11 +13,7 @@ function GameOver() {
   }
 
   // game over if all players are on the finish tile
-  if (playersActive === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (playersActive === 0);
 }
 
 // initialize a new game

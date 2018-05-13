@@ -57,7 +57,7 @@ class Player {
       this.spot++;
 
       // stop when player has moved the number of spots / reached finish
-      if (this.moves2go === 0 || this.spot === cols * rows - 1) {
+      if (this.moves2go === 0 || this.spot === tiles.length - 1) {
         this.animate = false;
       }
 
