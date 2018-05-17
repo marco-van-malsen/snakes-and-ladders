@@ -10,17 +10,24 @@ class Tile {
     this.wh = tileSize; // width and height of tile
     this.x = x; // left side of tile (relative to canvas upper left)
     this.y = y; // top side of tile (relative to canvas upper left)
-    this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5); // center (x,y) of tile 
+    this.center = createVector(this.x + this.wh * 0.5, this.y + this.wh * 0.5); // center (x,y) of tile
     this.color = (this.index % 2 ? 200 : 100); // checkerboard colors
   }
 
   // highlight
   highlight() {
+    // get token color for current player
+    var myC = players[curPlayer].tokenColor;
+
+    // set transparancy
+    myC.setAlpha(100);
+
+    // highlight cell in player's token color with transparancy
     noStroke();
-    let myC = players[curPlayer].tokenColor;
-    myC.setAlpha(75);
     fill(myC);
     rect(this.x, this.y, this.wh, this.wh);
+
+    // disable transparancy
     myC.setAlpha(255);
   }
 
