@@ -69,8 +69,8 @@ class Tile {
     let tile1 = this.center;
     let tile2 = tiles[this.index + this.snadder].center;
 
-    // ugly hack to deal with game over situation
-    if (state === GAME_OVER) {
+    // draw a simple snadder when game is over, or when not in animiation mode
+    if (state === GAME_OVER || !animationMode) {
       line(tile1.x, tile1.y, tile2.x, tile2.y);
       return;
     }
