@@ -10,13 +10,13 @@ class Control {
   // (fnc) = function to execute when clicked
   // (active) = boolean to mark the control as the currently active one in the set
   constructor(x, y, w, h, val, fnc, active) {
+    this.active = active;
+    this.fnc = fnc;
+    this.val = val;
+    this.h = h;
+    this.w = w;
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
-    this.val = val;
-    this.fnc = fnc;
-    this.active = active;
   }
 
   // draw the control
