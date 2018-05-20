@@ -94,7 +94,6 @@ function mousePressed() {
   // toggle debug mode when Title is clicked
   if (mouseX < cols * tileSize && mouseY <= title) {
     debug = !debug;
-    initGame();
   }
 
   // check if control element was pressed
