@@ -38,7 +38,7 @@ function showDie() {
   fill(255);
   strokeWeight(4);
   stroke(0);
-  rect(die.x, die.y, die.wh, die.wh, die.r, die.r, die.r, die.r);
+  rect(die.x, die.y, die.wh, die.wh, die.r);
 
   // remember current settings
   push();
