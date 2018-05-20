@@ -61,16 +61,64 @@ class Tile {
 
   // show snake or ladder
   showSnadders() {
-    if (this.snadder != 0) {
-      strokeWeight(4);
-      if (this.snadder < 0) {
-        stroke(255, 0, 0, 200);
-      } else {
-        stroke(0, 255, 0, 200);
+    // do nothing if there is no snadder
+    if (this.snadder === 0) return;
+
+    // set colors and weights of line and other geometry
+    strokeWeight(4);
+    if (this.snadder < 0) {
+      fill(255, 0, 0, 100);
+      stroke(255, 0, 0, 200);
+    } else {
+      fill(0, 255, 0, 100);
+      stroke(0, 255, 0, 200);
+    }
+
+    // get tiles where snadders begins and ends
+    let tile1 = this.center;
+    let tile2 = tiles[this.index + this.snadder].center;
+
+    // ugly hack to deal with game over situation
+    if (state === GAME_OVER) {
+      line(tile1.x, tile1.y, tile2.x, tile2.y);
+      return;
+    }
+
+    // draw the snadder as a line
+    if (players[curPlayer].spot != this.index || players[curPlayer].moves2go > 0) {
+      line(tile1.x, tile1.y, tile2.x, tile2.y);
+
+      // draw a detailed snadder
+    } else {
+      // calculate distance and angle between tile2 and tile1
+      let deltaX = tile2.x - tile1.x;
+      let deltaY = tile2.y - tile1.y;
+      let angle = atan(deltaY / deltaX);
+
+      // correction of angle
+      if (deltaX < 0 && deltaY < 0) {
+        angle = -1 * angle - HALF_PI;
+      } else if (deltaX < 0 && deltaY > 0) {
+        angle = -1 * angle + HALF_PI;
       }
 
-      let snadderEnd = tiles[this.index + this.snadder].center;
-      line(this.center.x, this.center.y, snadderEnd.x, snadderEnd.y);
+      // calculate snadder dimensions
+      let snadderH = tileSize * 0.75;
+      let snadderR = snadderH * 0.5;
+      let snadderW = sqrt(sq(abs(deltaX)) + sq(abs(deltaY))) + 2 * snadderR;
+
+      // remember current settings
+      push();
+
+      // translate to tile1
+      translate(tile1.x, tile1.y);
+      rotate(angle);
+
+      // draw snadder as a rectangle with rounder corners
+      rect(-snadderR, -0.5 * snadderH, snadderW, snadderH, snadderR);
+
+      // restore previous settings
+      pop();
     }
   }
 }
