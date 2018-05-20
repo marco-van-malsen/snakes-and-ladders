@@ -41,47 +41,59 @@ function initGame() {
   }
 
   // pick random snakes
-  let beginMin = cols;
-  let beginMax = tiles.length - 2;
-  for (let s = 0; s <= numSnakes - 1; s++) {
-    // pick random tile to add snake to (snake on finish tile not allowed)
-    let begin = floor(random(beginMin, beginMax));
+  if (!debug) {
+    let beginMin = cols;
+    let beginMax = tiles.length - 2;
+    for (let s = 0; s <= numSnakes - 1; s++) {
+      // pick random tile to add snake to (snake on finish tile not allowed)
+      let begin = floor(random(beginMin, beginMax));
 
-    // add snake, unless one already exists
-    if (tiles[begin].snadder !== 0) {
-      s--;
-    } else {
-      // create a snake: player will drop down a number of spots
-      deltaMin = (begin % cols) + 1;
-      deltaMax = begin - 1;
-      delta = -1 * floor(random(deltaMin, deltaMax));
-      tiles[begin].snadder = delta;
+      // add snake, unless one already exists
+      if (tiles[begin].snadder !== 0) {
+        s--;
+      } else {
+        // create a snake: player will drop down a number of spots
+        deltaMin = (begin % cols) + 1;
+        deltaMax = begin - 1;
+        delta = -1 * floor(random(deltaMin, deltaMax));
+        tiles[begin].snadder = delta;
+      }
     }
   }
 
   // pick random ladders
-  beginMin = 1;
-  beginMax = tiles.length - cols - 1;
-  for (let l = 0; l <= numLadders - 1; l++) {
-    // pick random tile to add Ladder to
-    begin = floor(random(beginMin, beginMax));
+  if (!debug) {
+    beginMin = 1;
+    beginMax = tiles.length - cols - 1;
+    for (let l = 0; l <= numLadders - 1; l++) {
+      // pick random tile to add Ladder to
+      begin = floor(random(beginMin, beginMax));
 
-    // add ladder, unless one already exists
-    if (tiles[begin].snadder != 0) {
-      l--;
-    } else {
-      // create a ladder (player will skip ahead a number of spots)
-      deltaMin = cols - (begin % cols);
-      deltaMax = tiles.length - begin - 2;
-      delta = floor(random(deltaMin, deltaMax));
-
-      // do not allow ladder to end on snake with equal length
-      if (tiles[begin + delta].snadder === -delta) {
+      // add ladder, unless one already exists
+      if (tiles[begin].snadder != 0) {
         l--;
       } else {
-        tiles[begin].snadder = delta;
+        // create a ladder (player will skip ahead a number of spots)
+        deltaMin = cols - (begin % cols);
+        deltaMax = tiles.length - begin - 2;
+        delta = floor(random(deltaMin, deltaMax));
+
+        // do not allow ladder to end on snake with equal length
+        if (tiles[begin + delta].snadder === -delta) {
+          l--;
+        } else {
+          tiles[begin].snadder = delta;
+        }
       }
     }
+  }
+
+  // fixed snadders for debugging purposes
+  if (debug) {
+    tiles[5].snadder = 44;
+    tiles[49].snadder = 46;
+    tiles[95].snadder = -36;
+    tiles[59].snadder = -54;
   }
 
   // create or reset the die
@@ -192,7 +204,7 @@ function showGameTitle() {
   fill(100);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text('Snakes & Ladders', (cols * tileSize) * 0.5, title * 0.5);
+  text('Snakes & Ladders', cols * tileSize * 0.5, title * 0.5);
   pop();
 }
 
@@ -237,7 +249,8 @@ function showPlayersArea() {
     // draw number
     fill(255);
     strokeWeight(0);
-    text(p + 1, tileSize * 0.5, p * tileSize + tileSize * 0.5);
+    let playerNumber = (debug ? p : p + 1);
+    text(playerNumber, tileSize * 0.5, p * tileSize + tileSize * 0.5);
   }
 
   translate(0, -tileSize);

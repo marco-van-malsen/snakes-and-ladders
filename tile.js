@@ -51,7 +51,7 @@ class Tile {
     } else if (this.index === tiles.length - 1) {
       tileText = 'finish';
     } else {
-      tileText = this.index + 1;
+      tileText = (debug ? this.index : this.index + 1);
     }
 
     // display tile text
@@ -97,9 +97,9 @@ class Tile {
 
       // correction of angle
       if (deltaX < 0 && deltaY < 0) {
-        angle = -1 * angle - HALF_PI;
+        angle -= PI;
       } else if (deltaX < 0 && deltaY > 0) {
-        angle = -1 * angle + HALF_PI;
+        angle += PI;
       }
 
       // calculate snadder dimensions

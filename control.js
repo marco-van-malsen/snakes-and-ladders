@@ -91,6 +91,12 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
 
 // handle mouse press events
 function mousePressed() {
+  // toggle debug mode when Title is clicked
+  if (mouseX < cols * tileSize && mouseY <= title) {
+    debug = !debug;
+    initGame();
+  }
+
   // check if control element was pressed
   // if so, then execute the associated function and break
   for (let c = 0; c <= controls.length - 1; c++) {

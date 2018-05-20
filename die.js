@@ -21,7 +21,7 @@ function rollDie() {
   if (state === GAME_OVER) initGame();
 
   // pick a random number between 1 and 6
-  die.value = random([1, 2, 3, 4, 5, 6]);
+  die.value = (debug ? 5 : random([1, 2, 3, 4, 5, 6]));
 
   // set preview
   players[curPlayer].previewS = players[curPlayer].spot;

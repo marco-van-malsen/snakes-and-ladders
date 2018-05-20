@@ -16,30 +16,33 @@ let TURN_DELAY = 15;
 // set initial game animation mode
 let animationMode = true;
 
-// set initial game simulation mode
-let simulationMode = true;
-
 // array with all game controls
 let controls = [];
 
-// all the tiles
-let tiles = [];
+// enable or disable debugging
+let debug = false;
 
-// the players
-let players = [];
+// the die
+let die;
 
 // keep track of the final result of the players
 // initialize at 0 in initGame and increase by one for every finished player
 let finishOrder;
 
-// number of turns played
-let turns;
+// the players
+let players = [];
+
+// set initial game simulation mode
+let simulationMode = true;
+
+// all the tiles
+let tiles = [];
 
 // delay between turns
 let turnDelay;
 
-// the die
-let die;
+// number of turns played
+let turns;
 
 // setup gameboard (columns, rows and tile size)
 let maxColsRows = 14;
@@ -65,6 +68,8 @@ let numSnakes = 3;
 let controlsArea = 4 * tileSize;
 let playersArea;
 let separator = 0.5 * tileSize;
+
+// height of rectangle with title in it
 let title = tileSize;
 
 function setup() {
