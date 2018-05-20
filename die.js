@@ -39,7 +39,7 @@ function rollDie(num) {
 
 function showDie() {
   // draw the die outline
-  fill(simulationMode ? 255 : players[curPlayer].tokenColorAlpha);
+  fill(simulationMode ? 255 : players[curPlayer].tokenColor);
   strokeWeight(4);
   stroke(0);
   rect(die.x, die.y, die.wh, die.wh, die.r);
