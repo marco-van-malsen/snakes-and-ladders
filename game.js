@@ -41,59 +41,47 @@ function initGame() {
   }
 
   // pick random snakes
-  if (!debug) {
-    let beginMin = cols;
-    let beginMax = tiles.length - 2;
-    for (let s = 0; s <= numSnakes - 1; s++) {
-      // pick random tile to add snake to (snake on finish tile not allowed)
-      let begin = floor(random(beginMin, beginMax));
+  let beginMin = cols;
+  let beginMax = tiles.length - 2;
+  for (let s = 0; s <= numSnakes - 1; s++) {
+    // pick random tile to add snake to (snake on finish tile not allowed)
+    let begin = floor(random(beginMin, beginMax));
 
-      // add snake, unless one already exists
-      if (tiles[begin].snadder !== 0) {
-        s--;
-      } else {
-        // create a snake: player will drop down a number of spots
-        deltaMin = (begin % cols) + 1;
-        deltaMax = begin - 1;
-        delta = -1 * floor(random(deltaMin, deltaMax));
-        tiles[begin].snadder = delta;
-      }
+    // add snake, unless one already exists
+    if (tiles[begin].snadder !== 0) {
+      s--;
+    } else {
+      // create a snake: player will drop down a number of spots
+      deltaMin = (begin % cols) + 1;
+      deltaMax = begin - 1;
+      delta = -1 * floor(random(deltaMin, deltaMax));
+      tiles[begin].snadder = delta;
     }
   }
 
   // pick random ladders
-  if (!debug) {
-    beginMin = 1;
-    beginMax = tiles.length - cols - 1;
-    for (let l = 0; l <= numLadders - 1; l++) {
-      // pick random tile to add Ladder to
-      begin = floor(random(beginMin, beginMax));
+  beginMin = 1;
+  beginMax = tiles.length - cols - 1;
+  for (let l = 0; l <= numLadders - 1; l++) {
+    // pick random tile to add Ladder to
+    begin = floor(random(beginMin, beginMax));
 
-      // add ladder, unless one already exists
-      if (tiles[begin].snadder != 0) {
+    // add ladder, unless one already exists
+    if (tiles[begin].snadder != 0) {
+      l--;
+    } else {
+      // create a ladder (player will skip ahead a number of spots)
+      deltaMin = cols - (begin % cols);
+      deltaMax = tiles.length - begin - 2;
+      delta = floor(random(deltaMin, deltaMax));
+
+      // do not allow ladder to end on snake with equal length
+      if (tiles[begin + delta].snadder === -delta) {
         l--;
       } else {
-        // create a ladder (player will skip ahead a number of spots)
-        deltaMin = cols - (begin % cols);
-        deltaMax = tiles.length - begin - 2;
-        delta = floor(random(deltaMin, deltaMax));
-
-        // do not allow ladder to end on snake with equal length
-        if (tiles[begin + delta].snadder === -delta) {
-          l--;
-        } else {
-          tiles[begin].snadder = delta;
-        }
+        tiles[begin].snadder = delta;
       }
     }
-  }
-
-  // fixed snadders for debugging purposes
-  if (debug) {
-    tiles[5].snadder = 44;
-    tiles[49].snadder = 46;
-    tiles[95].snadder = -36;
-    tiles[59].snadder = -54;
   }
 
   // create or reset the die
@@ -167,27 +155,40 @@ function showControlsArea() {
 
   // simulate
   text('Simulate', myX + 5, myY + 20);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 110, myY + 10, 40, 20, simulationMode, 0, 1, 2, toggleSimulationMode);
 
   // animate
   text('Animate', myX + 5, myY + 50);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 110, myY + 40, 40, 20, animationMode, 0, 1, 2, toggleAnimationMode);
 
   // player selection
   text('# Players :', myX + 5, myY + 80);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 90, myW - 20, 20, numPlayers, 1, 4, 4, toggleNumPlayers);
 
   // grid size
   text('# Columns / Rows :', myX + 5, myY + 130);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 140, myW - 20, 20, cols, 10, 14, 3, toggleGridSize);
 
   // number of Snakes
   text('# Snakes :', myX + 5, myY + 180);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 190, myW - 20, 20, numSnakes, 1, maxSnakes, maxSnakes, toggleNumSnakes);
 
   // number of Ladders
   text('# Ladders :', myX + 5, myY + 230);
+  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 240, myW - 20, 20, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
+
+  // pick your own die value
+  if (debug && !simulationMode) {
+    text('Roll this die :', myX + 5, myY + 280);
+    // createControlSet(x, y, w, h, cur, min, max, num, fnc);
+    createControlSet(myX + 10, myY + 290, myW - 20, 20, die.value, 1, 6, 6, rollDie);
+  }
 
   // show all controls
   textAlign(CENTER, CENTER);
