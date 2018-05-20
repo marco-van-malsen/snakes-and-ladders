@@ -61,7 +61,7 @@ class Tile {
 
   // show snake or ladder
   showSnadders() {
-    // do nothing if there is no snadder
+    // there is no snadder here, bye
     if (this.snadder === 0) return;
 
     // set colors and weights of line and other geometry
