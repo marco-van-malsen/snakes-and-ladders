@@ -16,12 +16,16 @@ class Die {
 }
 
 // roll the die
-function rollDie() {
+function rollDie(num) {
   // start a new game
   if (state === GAME_OVER) initGame();
 
   // pick a random number between 1 and 6
-  die.value = (debug ? 5 : random([1, 2, 3, 4, 5, 6]));
+  if (num) {
+    die.value = num;
+  } else {
+    die.value = random([1, 2, 3, 4, 5, 6]);
+  }
 
   // set preview
   players[curPlayer].previewS = players[curPlayer].spot;
@@ -35,7 +39,7 @@ function rollDie() {
 
 function showDie() {
   // draw the die outline
-  fill(255);
+  fill(simulationMode ? 255 : players[curPlayer].tokenColorAlpha);
   strokeWeight(4);
   stroke(0);
   rect(die.x, die.y, die.wh, die.wh, die.r);
