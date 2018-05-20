@@ -118,12 +118,16 @@ function initGame() {
   for (let p = 0; p <= players.length - 1; p++) {
     if (p === 0) {
       players[p].tokenColor = color(0, 255, 255);
+      players[p].tokenColorAlpha = color(0, 255, 255, 100);
     } else if (p === 1) {
       players[p].tokenColor = color(255, 0, 255);
+      players[p].tokenColorAlpha = color(255, 0, 255, 100);
     } else if (p === 2) {
       players[p].tokenColor = color(255, 255, 0);
+      players[p].tokenColorAlpha = color(255, 255, 0, 100);
     } else if (p === 3) {
       players[p].tokenColor = color(255, 255, 255);
+      players[p].tokenColorAlpha = color(255, 255, 255, 100);
     }
   }
 

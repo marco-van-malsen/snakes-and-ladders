@@ -11,6 +11,7 @@ class Player {
     this.number = n; // player's number
     this.spot = 0; // player's position on the board
     this.tokenColor = color(255, 0, 0); // color assigned to players token
+    this.tokenColorAlpha = color(255, 0, 0, 100); // color assigned to players token
 
     // preview related
     this.previewS = null; // first tile of preview, player's current position
@@ -181,10 +182,79 @@ class Player {
 
   // preview
   showPreview() {
+    // set first and last tile
     let start = this.previewS;
     let finish = min(this.previewF, tiles.length - 1);
-    for (let c = start; c <= finish; c++) {
-      tiles[c].highlight();
+
+    // calculate some dimensions
+    let e = tileSize * 0.5; // distance between center of tile and its edges
+    let h = e * 0.75; // distance between center of tile and edge of highlight
+
+    // set outline and fill colors and line thickness
+    noFill();
+    stroke(players[curPlayer].tokenColor);
+    strokeWeight(4);
+
+    // process all tiles
+    for (let t = start; t <= finish; t++) {
+      // remember current settings
+      push();
+
+      // get current and next tile
+      let tileCurr = tiles[t].center;
+      let tileNext;
+      let tilePrev;
+      if (t < finish) tileNext = tiles[t + 1].center;
+      if (t > start) tilePrev = tiles[t - 1].center;
+
+      // translate to tile center
+      translate(tileCurr.x, tileCurr.y);
+
+      // first and last tile
+      if (t === start || t === finish) {
+        // rotate if needed
+        if (t === start && tileNext.x === tileCurr.x) {
+          rotate(-HALF_PI);
+        } else if (t === start && tileNext.x < tileCurr.x) {
+          rotate(PI);
+        } else if (t === finish && tileCurr.x > tilePrev.x) {
+          rotate(PI);
+        } else if (t === finish && tileCurr.y < tilePrev.y) {
+          rotate(HALF_PI);
+        }
+
+        // draw lines
+        line(0, -h, e, -h);
+        arc(0, 0, 2 * h, 2 * h, HALF_PI, -HALF_PI, OPEN);
+        line(0, h, e, h);
+
+        // in between tiles (straights)
+      } else if (tileNext.y === tileCurr.y && tileCurr.y === tilePrev.y) {
+        // draw lines
+        line(-e, -h, e, -h);
+        line(-e, h, e, h);
+
+        // in between tiles (corners)
+      } else {
+        // rotate if needed
+        if (tileCurr.x === tilePrev.x && tileCurr.y < tilePrev.y && tileCurr.x > tileNext.x && tileCurr.y === tileNext.y) {
+          rotate(-HALF_PI);
+        } else if (tileCurr.x < tilePrev.x && tileCurr.y === tilePrev.y && tileCurr.x === tileNext.x && tileCurr.y > tileNext.y) {
+          rotate(HALF_PI);
+        } else if (tileCurr.x === tilePrev.x && tileCurr.y < tilePrev.y && tileCurr.x < tileNext.x && tileCurr.y === tileNext.y) {
+          rotate(PI);
+        }
+
+        // draw lines
+        line(-e, -h, -h, -h); // inner horizontal
+        line(-h, -h, -h, -e); // inner vertical
+        arc(0, 0, 2 * h, 2 * h, 0, HALF_PI, OPEN); // corner
+        line(-e, h, 0, h); // outer horizontal
+        line(h, 0, h, -e); // out vertical
+      }
+
+      // restore previous settings
+      pop();
     }
   }
 

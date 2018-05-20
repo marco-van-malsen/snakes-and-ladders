@@ -16,19 +16,10 @@ class Tile {
 
   // highlight
   highlight() {
-    // get token color for current player
-    var myC = players[curPlayer].tokenColor;
-
-    // set transparancy
-    myC.setAlpha(100);
-
     // highlight cell in player's token color with transparancy
     noStroke();
-    fill(myC);
+    fill(players[curPlayer].tokenColorAlpha);
     rect(this.x, this.y, this.wh, this.wh);
-
-    // disable transparancy
-    myC.setAlpha(255);
   }
 
   // draw tile
