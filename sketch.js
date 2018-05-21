@@ -33,7 +33,7 @@ let finishOrder;
 let players = [];
 
 // set initial game simulation mode
-let simulationMode = false;
+let simulationMode = true;
 
 // all the tiles
 let tiles = [];
