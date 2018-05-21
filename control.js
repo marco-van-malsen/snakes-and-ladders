@@ -93,7 +93,14 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
 function mousePressed() {
   // toggle debug mode when Title is clicked
   if (mouseX < cols * tileSize && mouseY <= title) {
+    // toggle debug mode
     debug = !debug;
+
+    // disable simulation mode when activating debug mode
+    if (debug) simulationMode = false;
+
+    // redraw
+    draw();
   }
 
   // check if control element was pressed
@@ -194,7 +201,7 @@ function toggleSimulationMode() {
   simulationMode = !simulationMode;
 
   // switch game state
-  state = ROLL_STATE;
+  if (simulationMode) state = ROLL_STATE;
 
   // start new game if previous game has ended
   if (GameOver()) {

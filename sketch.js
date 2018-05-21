@@ -33,7 +33,7 @@ let finishOrder;
 let players = [];
 
 // set initial game simulation mode
-let simulationMode = true;
+let simulationMode = false;
 
 // all the tiles
 let tiles = [];
@@ -127,9 +127,6 @@ function draw() {
       noLoop();
     }
 
-    // switch game state
-    state = MOVE_STATE;
-
     // show stationary players
     showPlayers();
 
@@ -160,6 +157,9 @@ function draw() {
       state = SNADDER_STATE;
       return;
     }
+
+    // switch player
+    if (animationMode) players[curPlayer].resetAnimation();
 
     // check if player is finished
     players[curPlayer].checkFinished();

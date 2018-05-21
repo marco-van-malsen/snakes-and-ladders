@@ -123,6 +123,14 @@ class Player {
     }
   }
 
+  // reset animiation
+  resetAnimation() {
+    this.moves2go = 0;
+    this.previewF = null;
+    this.previewS = null;
+    this.queue = [];
+  }
+
   // display players not currently at play
   show() {
     // get players position on the board

@@ -30,7 +30,7 @@ function initGame() {
   let dir = 1;
   for (let t = 0; t < cols * rows; t++) {
     tiles[t] = new Tile(t, x, y);
-    x = x + (tileSize * dir);
+    x += tileSize * dir;
 
     // move along a winding path up the rows
     if (x >= cols * tileSize || x < 0) {
@@ -258,6 +258,7 @@ function showPlayersArea() {
     text(playerNumber, tileSize * 0.5, p * tileSize + tileSize * 0.5);
   }
 
+  // translate back to previous coordinate
   translate(0, -tileSize);
 
   // token-column
@@ -306,6 +307,7 @@ function showPlayersArea() {
     }
   }
 
+  // translate back to previous coordinate
   translate(0, -tileSize);
 
   // draw histogram - background
@@ -337,6 +339,7 @@ function showPlayersArea() {
     }
   }
 
+  // restore previus settings
   pop();
 
   // draw number of turns played in upper left corner of histogram
@@ -463,6 +466,6 @@ function switchPlayer() {
     curPlayer = nextPlayer;
   }
 
-  // set turn delay (6 @ 60 fps = 0.1 seconds)
-  if (animationMode) turnDelay = 6;
+  // set turn delay (12 @ 60 fps = 0.2 seconds)
+  if (animationMode) turnDelay = 12;
 }
