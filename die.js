@@ -9,7 +9,7 @@ class Die {
     // set x and y position of the die-center
     this.wh = 50;
     this.x = cols * tileSize + separator + controlsArea / 2 - this.wh * 0.5;
-    this.y = title + separator + rows * tileSize - this.wh * 1.5;
+    this.y = title + separator + (rows - 1) * tileSize - this.wh * 0.5;
     this.r = this.wh * 0.1;
     this.value = 0;
   }
