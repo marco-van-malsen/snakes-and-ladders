@@ -21,11 +21,7 @@ function rollDie(num) {
   if (state === GAME_OVER) initGame();
 
   // pick a random number between 1 and 6
-  if (num) {
-    die.value = num;
-  } else {
-    die.value = random([1, 2, 3, 4, 5, 6]);
-  }
+  die.value = (num ? num : random([1, 2, 3, 4, 5, 6]));
 
   // set preview
   players[curPlayer].previewS = players[curPlayer].spot;
@@ -35,9 +31,7 @@ function rollDie(num) {
   state = MOVE_STATE;
 
   // restart game loop, when in interactive mode
-  if (!simulationMode) {
-    loop();
-  }
+  if (!simulationMode) loop();
 }
 
 function showDie() {
@@ -74,9 +68,8 @@ function showDie() {
   }
 
   // draw dot 2
-  if (die.value === 2) {
-    ellipse(0, -dotXY, dotD, dotD);
-  }
+  if (die.value === 2) ellipse(0, -dotXY, dotD, dotD);
+
 
   // draw dot 3
   if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
@@ -84,9 +77,7 @@ function showDie() {
   }
 
   // draw dot 4
-  if (die.value === 6) {
-    ellipse(-dotXY, 0, dotD, dotD);
-  }
+  if (die.value === 6) ellipse(-dotXY, 0, dotD, dotD);
 
   // draw dot 5
   if (die.value === 1 || die.value === 3 || die.value === 5) {
@@ -94,9 +85,8 @@ function showDie() {
   }
 
   // draw dot 6
-  if (die.value === 6) {
+  if (die.value === 6)
     ellipse(dotXY, 0, dotD, dotD);
-  }
 
   // draw dot 7
   if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
@@ -104,9 +94,7 @@ function showDie() {
   }
 
   // draw dot 8
-  if (die.value === 2) {
-    ellipse(0, dotXY, dotD, dotD);
-  }
+  if (die.value === 2) ellipse(0, dotXY, dotD, dotD);
 
   // draw dot 9
   if (die.value === 4 || die.value === 5 || die.value === 6) {

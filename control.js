@@ -114,12 +114,8 @@ function mousePressed() {
 
   // check if the die was clicked
   if (mouseX > die.x && mouseX < die.x + die.wh && mouseY > die.y && mouseY < die.y + die.wh) {
-    // allowed when game is over
-    if (state === GAME_OVER) {
-      rollDie();
-
-      // or when simulationMode is not active and no player animation is running
-    } else if (!simulationMode && !players[curPlayer].animate) {
+    // allowed when game is over or animation has finished in simulation mode
+    if (state === GAME_OVER || (!simulationMode && !players[curPlayer].animate)) {
       rollDie();
     }
   }
@@ -134,9 +130,7 @@ function toggleAnimationMode() {
   state = ROLL_STATE;
 
   // start a new game if the previous game has ended
-  if (GameOver()) {
-    initGame();
-  }
+  if (GameOver()) initGame();
 
   // resume game loop
   loop();
@@ -144,9 +138,8 @@ function toggleAnimationMode() {
 
 // change grid size
 function toggleGridSize(num) {
-  if (num === cols) {
-    return;
-  }
+  // nothing to do, bye bye
+  if (num === cols) return;
 
   // update grid size
   cols = num;
@@ -165,32 +158,27 @@ function toggleGridSize(num) {
 }
 
 // change number of ladders
+// number of snakes >= number of ladders
 function toggleNumLadders(num) {
-  if (num === numLadders) {
-    return;
-  }
+  if (num === numLadders) return;
   numLadders = num;
-  // number of snakes >= number of ladders
   numSnakes = max(numLadders, numSnakes);
   initGame();
+
 }
 
 // change number of players
 function toggleNumPlayers(num) {
-  if (num === numPlayers) {
-    return;
-  }
+  if (num === numPlayers) return;
   numPlayers = num;
   initGame();
 }
 
 // change number of snakes
+// number of ladders <= number of snakes
 function toggleNumSnakes(num) {
-  if (num === numSnakes) {
-    return;
-  }
+  if (num === numSnakes) return;
   numSnakes = num;
-  // number of ladders <= number of snakes
   numLadders = min(numLadders, numSnakes);
   initGame();
 }
@@ -204,9 +192,7 @@ function toggleSimulationMode() {
   if (simulationMode) state = ROLL_STATE;
 
   // start new game if previous game has ended
-  if (GameOver()) {
-    initGame();
-  }
+  if (GameOver()) initGame();
 
   // resume game loop
   loop();
