@@ -14,14 +14,6 @@ class Tile {
     this.color = (this.index % 2 ? 200 : 100); // checkerboard colors
   }
 
-  // highlight
-  highlight() {
-    // highlight cell in player's token color with transparancy
-    noStroke();
-    fill(players[curPlayer].tokenColorAlpha);
-    rect(this.x, this.y, this.wh, this.wh);
-  }
-
   // draw tile
   show() {
     // draw tile (override tile color for start and finish)
@@ -52,7 +44,7 @@ class Tile {
 
   // show snake or ladder
   showSnadders() {
-    // there is no snadder here, bye
+    // there is no snadder here, bye bye
     if (this.snadder === 0) return;
 
     // set colors and weights of line and other geometry

@@ -137,9 +137,6 @@ function draw() {
       players[curPlayer].showPreview();
     }
 
-    // show stationary players
-    showPlayers();
-
     // move player
     if (animationMode) {
       players[curPlayer].movePlayer();
@@ -172,9 +169,6 @@ function draw() {
 
     // player following a snadder
   } else {
-    // show stationary players
-    showPlayers();
-
     //  move player; with animation
     players[curPlayer].movePlayer();
     if (players[curPlayer].animate) return;

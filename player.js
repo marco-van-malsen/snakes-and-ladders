@@ -133,16 +133,13 @@ class Player {
 
   // display players not currently at play
   show() {
-    // get players position on the board
+    // get center of current player's position on the board
     let tileCenter = tiles[this.spot].center;
 
-    // get total number of players on current tile
+    // get total number of stationary players on current tile
     let playersOnTile = 0;
-    for (let p = 0; p <= players.length - 1; p++) {
-      // players still moving are ignored here
-      if (this.spot === players[p].spot && !players[p].animate) {
-        playersOnTile += 1;
-      }
+    for (var p of players) {
+      if (this.spot === p.spot && !p.animate) playersOnTile++;
     }
 
     // determine token size based on number of players occupying a tile
