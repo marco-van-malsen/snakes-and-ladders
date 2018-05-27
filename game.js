@@ -2,18 +2,12 @@
 // Original: Daniel Shiffman (The Coding Train)
 // Extended: Marco van Malsen
 
-// is the game over?
+// game over, when there are no more active players
 function GameOver() {
-  // count number of players on the finish-tile
-  let playersActive = 0;
-  for (let p in players) {
-    if (players[p].finished === 0) {
-      playersActive += 1;
-    }
+  for (var p of players) {
+    if (p.finished === 0) return false;
   }
-
-  // game over if all players are on the finish tile
-  return (playersActive === 0);
+  return true;
 }
 
 // initialize a new game
@@ -215,10 +209,8 @@ function showGameTitle() {
 
 // show stationary players
 function showPlayers() {
-  for (let p of players) {
-    if (!p.animate) {
-      p.show();
-    }
+  for (var p of players) {
+    if (!p.animate) p.show();
   }
 }
 
@@ -327,7 +319,7 @@ function showPlayersArea() {
   // draw histogram - horizontal lines
   push();
   strokeWeight(1);
-  stroke(255, 255, 255, 50);
+  stroke(255, 25);
   for (let r = 0; r <= rows - 1; r++) {
     line(0, -r * histSpacingY, histW, -r * histSpacingY);
   }
@@ -347,28 +339,16 @@ function showPlayersArea() {
   let turnsW;
 
   // set height of textbox
-  if (numPlayers === 4) {
-    turnsH = histSpacingY;
-  } else {
-    turnsH = histSpacingY * 2;
-  }
+  turnsH = (numPlayers === 4 ? histSpacingY : histSpacingY * 2);
 
   // height of textbox; make sure textbox is higher than the textsize
-  if (turnsH <= 12) {
-    turnsH += histSpacingY;
-  }
+  if (turnsH <= 12) turnsH += histSpacingY;
 
   // set width of textbox
-  if (numPlayers === 1) {
-    turnsW = histSpacingY * 3;
-  } else {
-    turnsW = histSpacingY * 2;
-  }
+  turnsW = (numPlayers === 1 ? histSpacingY * 3 : histSpacingY * 2);
 
   // set width of textbox; increase if number of turns exceeds 100
-  if (turns >= 100 && numPlayers < 4) {
-    turnsW += histSpacingY;
-  }
+  if (turns >= 100 && numPlayers < 4) turnsW += histSpacingY;
 
   // draw text box
   fill(200);
@@ -434,9 +414,8 @@ function switchPlayer() {
   // find next player still in play
   let nextPlayer = null;
 
-  // find next player after current player
+  // find next player still in play (after current player)
   if (curPlayer < players.length - 1) {
-    // find next player still in play
     for (let p = curPlayer + 1; p <= players.length - 1; p++) {
       if (players[p].finished === 0) {
         nextPlayer = p;
@@ -445,7 +424,8 @@ function switchPlayer() {
     }
   }
 
-  // find next player before current player; but only if no new player has been found
+  // find next player still in play (before current player)
+  // but only if no new player has been found
   if (nextPlayer === null) {
     // bump number of turns
     turns++;
@@ -462,9 +442,7 @@ function switchPlayer() {
   // set next current player (nextPlayer starts at -1)
   // nextPlayer = -1 ; current player is only player left, no need to switch
   // nextPlayer >= 0 ; two or more players still in play (switch player)
-  if (nextPlayer >= 0) {
-    curPlayer = nextPlayer;
-  }
+  if (nextPlayer >= 0) curPlayer = nextPlayer;
 
   // set turn delay (12 @ 60 fps = 0.2 seconds)
   if (animationMode) turnDelay = 12;
