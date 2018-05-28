@@ -19,26 +19,22 @@ class Control {
     this.y = y;
   }
 
+  isClicked(x, y) {
+    return (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h);
+  }
+
   // draw the control
   show() {
-    // set background color
-    if (this.active ? fill(100) : fill(200));
-
     // draw rectangle
+    if (this.active ? fill(100) : fill(200));
     stroke(0);
     strokeWeight(1);
     rect(this.x, this.y, this.w, this.h);
 
-    // determine text color
-    if (this.active ? fill(255) : fill(0));
-
     // draw text
+    if (this.active ? fill(255) : fill(0));
     noStroke();
     text(this.val, this.x + this.w * 0.5, this.y + this.h * 0.5);
-  }
-
-  isClicked(x, y) {
-    return (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h);
   }
 }
 
@@ -105,11 +101,8 @@ function mousePressed() {
 
   // check if control element was pressed
   // if so, then execute the associated function and break
-  for (let c = 0; c <= controls.length - 1; c++) {
-    if (controls[c].isClicked(mouseX, mouseY)) {
-      controls[c].fnc(controls[c].val);
-      break;
-    }
+  for (var c of controls) {
+    if (c.isClicked(mouseX, mouseY)) c.fnc(c.val);
   }
 
   // check if the die was clicked
