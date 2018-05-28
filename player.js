@@ -205,26 +205,39 @@ class Player {
       // remember current settings
       push();
 
-      // get current and next tile
-      let tileCurr = tiles[t].center;
-      let tileNext;
-      let tilePrev;
-      if (t < finish) tileNext = tiles[t + 1].center;
-      if (t > start) tilePrev = tiles[t - 1].center;
+      // get current (cur), next (nxt) and previous (prv) tiles
+      let cur = tiles[t].center;
+      let nxt;
+      let prv;
+      if (t < finish) nxt = tiles[t + 1].center;
+      if (t > start) prv = tiles[t - 1].center;
 
       // translate to tile center
-      translate(tileCurr.x, tileCurr.y);
+      translate(cur.x, cur.y);
 
       // first and last tile
+      //    e    e
+      // |-----|-----|
+      // |     |     |
+      // +-----------+ ----------
+      // |           |         |
+      // |     ------| -----  e|
+      // |   /       |   h|    |
+      // |  |  +     | ----------
+      // |  \        |   h|    |
+      // |   --------| -----  e|
+      // |           |         |
+      // +-----------+ ---------
+      //
       if (t === start || t === finish) {
         // rotate if needed
-        if (t === start && tileNext.x === tileCurr.x) {
+        if (t === start && nxt.x === cur.x) {
           rotate(-HALF_PI);
-        } else if (t === start && tileNext.x < tileCurr.x) {
+        } else if (t === start && nxt.x < cur.x) {
           rotate(PI);
-        } else if (t === finish && tileCurr.x > tilePrev.x) {
+        } else if (t === finish && cur.x > prv.x) {
           rotate(PI);
-        } else if (t === finish && tileCurr.y < tilePrev.y) {
+        } else if (t === finish && cur.y < prv.y) {
           rotate(HALF_PI);
         }
 
@@ -234,19 +247,47 @@ class Player {
         line(0, h, e, h);
 
         // in between tiles (straights)
-      } else if (tileNext.y === tileCurr.y && tileCurr.y === tilePrev.y) {
+        //    e     e
+        // |-----|-----|
+        // |     |     |
+        // +-----------+ ----------
+        // |           |         |
+        // |-----------| -----  e|
+        // |           |   h|    |
+        // |     +     | ----------
+        // |           |   h|    |
+        // |-----------| -----  e|
+        // |           |         |
+        // +-----------+ ----------
+        //
+      } else if (nxt.y === cur.y && cur.y === prv.y) {
         // draw lines
         line(-e, -h, e, -h);
         line(-e, h, e, h);
 
         // in between tiles (corners)
+        //              e     e
+        //           |-----|-----|
+        //           |   h | h   |
+        //           | |---|---| |
+        //           | |   |   | |
+        //  -------- +-----------+
+        //   |       | |       | |
+        //  e|  ---- |-        | |
+        //   |  h|   |         | |
+        //  -------- |     +   | |
+        //   |  h|   |        /  |
+        //  e|  ---- |-------    |
+        //   |       |           |
+        //  -------- +-----------+
+        //
       } else {
         // rotate if needed
-        if (tileCurr.x === tilePrev.x && tileCurr.y < tilePrev.y && tileCurr.x > tileNext.x && tileCurr.y === tileNext.y) {
+        if (cur.x === prv.x && cur.y < prv.y && cur.x > nxt.x && cur.y === nxt.y) {
           rotate(-HALF_PI);
-        } else if (tileCurr.x < tilePrev.x && tileCurr.y === tilePrev.y && tileCurr.x === tileNext.x && tileCurr.y > tileNext.y) {
+        } else if (cur.x < prv.x && cur.y === prv.y && cur.x === nxt.x && cur.y > nxt.y) {
           rotate(HALF_PI);
-        } else if (tileCurr.x === tilePrev.x && tileCurr.y < tilePrev.y && tileCurr.x < tileNext.x && tileCurr.y === tileNext.y) {
+        } else if (cur.x === prv.x && cur.y < prv.y && cur.x < nxt.x && cur.y === nxt.y) {
           rotate(PI);
         }
 
