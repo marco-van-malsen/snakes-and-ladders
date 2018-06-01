@@ -234,37 +234,7 @@ function showPlayersArea() {
   strokeWeight(0);
   text('Player', tileSize * 0.5, tileSize * 0.5);
 
-  // draw player numbers
-  translate(0, tileSize);
-  for (let p = 0; p <= numPlayers - 1; p++) {
-    // draw rectangle
-    fill(100);
-    stroke(0);
-    strokeWeight(1);
-    rect(0, p * tileSize, tileSize, tileSize);
-
-    // draw number
-    fill(255);
-    strokeWeight(0);
-    let playerNumber = (debug ? p : p + 1);
-    text(playerNumber, tileSize * 0.5, p * tileSize + tileSize * 0.5);
-  }
-
-  // translate back to previous coordinate
-  translate(0, -tileSize);
-
-  // token-column
-  // draw header
-  translate(tileSize, 0);
-  fill(100);
-  stroke(0);
-  strokeWeight(1);
-  rect(0, 0, tileSize, tileSize);
-  fill(255);
-  strokeWeight(0);
-  text('Token', tileSize * 0.5, tileSize * 0.5);
-
-  // draw tokens
+  // draw player tokens
   translate(0, tileSize);
   for (let p = 0; p <= numPlayers - 1; p++) {
     // draw rectangle
@@ -304,7 +274,7 @@ function showPlayersArea() {
 
   // draw histogram - background
   translate(tileSize, tileSize * (max(1, numPlayers) + 1));
-  let histW = width - 2 * tileSize;
+  let histW = width - tileSize;
   let histH = playersArea;
   fill(10);
   stroke(0);
