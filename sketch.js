@@ -92,7 +92,7 @@ function draw() {
   showControlsArea();
 
   // show the die
-  showDie();
+  die.show();
 
   // draw tiles
   for (let tile of tiles) {
@@ -122,7 +122,7 @@ function draw() {
   // roll the die or wait for player to roll the die
   if (state === ROLL_STATE) {
     if (simulationMode) {
-      rollDie();
+      die.roll();
     } else {
       noLoop();
     }

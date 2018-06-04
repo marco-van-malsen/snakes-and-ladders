@@ -181,7 +181,7 @@ function showControlsArea() {
   if (debug && !simulationMode) {
     text('Roll this die :', myX + 5, myY + 280);
     // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-    createControlSet(myX + 10, myY + 290, myW - 20, 20, die.value, 1, 6, 6, rollDie);
+    createControlSet(myX + 10, myY + 290, myW - 20, 20, die.value, 1, 6, 6, die.roll);
   }
 
   // show all controls

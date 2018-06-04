@@ -106,10 +106,10 @@ function mousePressed() {
   }
 
   // check if the die was clicked
-  if (mouseX > die.x && mouseX < die.x + die.wh && mouseY > die.y && mouseY < die.y + die.wh) {
+  if (die.clicked(mouseX, mouseY)) {
     // allowed when game is over or animation has finished in simulation mode
     if (state === GAME_OVER || (!simulationMode && !players[curPlayer].animate)) {
-      rollDie();
+      die.roll();
     }
   }
 }
