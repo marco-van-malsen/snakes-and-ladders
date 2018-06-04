@@ -121,24 +121,13 @@ function draw() {
 
   // roll the die or wait for player to roll the die
   if (state === ROLL_STATE) {
-    if (simulationMode) {
-      die.roll();
-    } else {
-      noLoop();
-    }
-
-    // show stationary players
-    showPlayers();
+    if (simulationMode ? die.roll() : noLoop());
 
     // player moving number of spots rolled by die
   } else if (state === MOVE_STATE) {
     // show preview
     if (animationMode) {
       players[curPlayer].showPreview();
-    }
-
-    // move player
-    if (animationMode) {
       players[curPlayer].movePlayer();
       if (players[curPlayer].animate) return;
     } else {
@@ -186,7 +175,7 @@ function draw() {
   if (GameOver()) {
     // reset the die
     die.value = 0;
-    showDie();
+    die.show();
 
     // switch game state
     state = GAME_OVER;
