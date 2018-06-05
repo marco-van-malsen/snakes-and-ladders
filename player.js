@@ -84,8 +84,7 @@ class Player {
 
   // did current player land on a snake or ladder?
   isSnadder() {
-    let tile = tiles[this.spot];
-    return (tile && tile.snadder !== 0);
+    return (tiles[this.spot].snadder !== 0);
   }
 
   // move the player

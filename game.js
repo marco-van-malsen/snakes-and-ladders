@@ -4,7 +4,7 @@
 
 // game over, when there are no more active players
 function GameOver() {
-  for (var p of players) {
+  for (let p of players) {
     if (p.finished === 0) return false;
   }
   return true;
@@ -186,8 +186,8 @@ function showControlsArea() {
 
   // show all controls
   textAlign(CENTER, CENTER);
-  for (let control in controls) {
-    controls[control].show();
+  for (let c in controls) {
+    controls[c].show();
   }
 }
 
@@ -209,7 +209,7 @@ function showGameTitle() {
 
 // show stationary players
 function showPlayers() {
-  for (var p of players) {
+  for (let p of players) {
     if (!p.animate) p.show();
   }
 }
@@ -236,7 +236,7 @@ function showPlayersArea() {
 
   // draw player tokens
   translate(0, tileSize);
-  for (let p = 0; p <= numPlayers - 1; p++) {
+  for (let p in players) {
     // draw rectangle
     fill(100);
     stroke(0);
@@ -254,14 +254,10 @@ function showPlayersArea() {
     let tokenText = '';
     if (numPlayers > 1) {
       // mark current player with X
-      if (p === curPlayer) {
-        tokenText = 'X';
-      }
+      if (curPlayer === players[p].number) tokenText = 'X';
 
       // mark finished players with their finishing place
-      if (players[p].finished > 0) {
-        tokenText = players[p].finished;
-      }
+      if (players[p].finished > 0) tokenText = players[p].finished;
 
       // draw text on token
       fill(0);
@@ -331,7 +327,7 @@ function showPlayersArea() {
   text(turns, turnsW * 0.5, -histH + turnsH * 0.5);
 
   // draw histogram per player
-  for (let p = 0; p <= players.length - 1; p++) {
+  for (let p in players) {
     // reset histogram coordinates
     let x1 = 0;
     let y1 = 0;

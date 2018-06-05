@@ -19,6 +19,7 @@ class Control {
     this.y = y;
   }
 
+  // check if the die was clicked by the user
   isClicked(x, y) {
     return (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h);
   }
@@ -64,15 +65,11 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
 
     // this is for booleans
     if (min === 0 && max === 1) {
-      if ((c === 0 && cur === false) || (c === 1 && cur === true)) {
-        active = true;
-      }
+      if ((c === 0 && cur === false) || (c === 1 && cur === true)) active = true;
 
       // this is for values
     } else {
-      if (c === cur) {
-        active = true;
-      }
+      if (c === cur) active = true;
     }
 
     // create control element and add to array
@@ -101,7 +98,7 @@ function mousePressed() {
 
   // check if control element was pressed
   // if so, then execute the associated function and break
-  for (var c of controls) {
+  for (let c of controls) {
     if (c.isClicked(mouseX, mouseY)) c.fnc(c.val);
   }
 
@@ -157,7 +154,6 @@ function toggleNumLadders(num) {
   numLadders = num;
   numSnakes = max(numLadders, numSnakes);
   initGame();
-
 }
 
 // change number of players

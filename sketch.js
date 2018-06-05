@@ -164,7 +164,6 @@ function draw() {
 
     // continue following snadders; then continue main game loop
     if (!players[curPlayer].isSnadder()) {
-      // update player history
       players[curPlayer].updateHistory();
       switchPlayer();
       state = ROLL_STATE;

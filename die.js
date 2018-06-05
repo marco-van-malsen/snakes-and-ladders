@@ -89,8 +89,7 @@ class Die {
     }
 
     // draw dot 6
-    if (die.value === 6)
-      ellipse(dotXY, 0, dotD, dotD);
+    if (die.value === 6) ellipse(dotXY, 0, dotD, dotD);
 
     // draw dot 7
     if (die.value === 3 || die.value === 4 || die.value === 5 || die.value === 6) {
