@@ -25,7 +25,7 @@ class Die {
     if (state === GAME_OVER) initGame();
 
     // pick a random number between 1 and 6
-    die.value = (num ? num : random([1, 2, 3, 4, 5, 6]));
+    die.value = (num ? num : floor(random(1, 7)));
 
     // set preview
     players[curPlayer].previewS = players[curPlayer].spot;
