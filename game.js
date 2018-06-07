@@ -390,19 +390,21 @@ function showStats() {
   strokeWeight(1);
   line(myX, myY - 0.5 * tileSize, myX + myW, myY - 0.5 * tileSize);
 
-  // determine vertical scale
+  // calcalate totals
   let totals = [0, 0, 0, 0, 0, 0];
   for (let p in players) {
     for (let d in players[p].dieRolls) {
       totals[d] += players[p].dieRolls[d];
     }
   }
+
+  // determine vertical scale
   let scale = (myH - tileSize) / max(totals);
 
   // draw statistics
   for (let dieValue = 1; dieValue <= 6; dieValue++) {
     // determine lower left corner of current bar
-    let barW = myW / 6;
+    let barW = round(myW / 6);
     let barY = myY - 0.5 * tileSize;
     let barX = myX + (dieValue - 1) * barW;
 
