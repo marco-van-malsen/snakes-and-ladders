@@ -6,6 +6,7 @@
 class Player {
   // initialize player
   constructor(n) {
+    this.dieRolls = [0, 0, 0, 0, 0, 0]; // statistics, store the number of times player rolled which side of the die
     this.finished = 0; // player finishing position (1 for winner, 2 for 2nd place etc.)
     this.history = []; // history of spots where player landed, including snakes ladders
     this.number = n; // player's number
@@ -308,6 +309,7 @@ class Player {
     // add player's spot to the history
     if (state === MOVE_STATE) {
       this.history.push(this.spot);
+      this.dieRolls[die.value - 1]++;
 
       // update player's spot after the snadder to the history
     } else if (state === SNADDER_STATE) {

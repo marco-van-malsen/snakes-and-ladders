@@ -106,6 +106,7 @@ function draw() {
 
   // show player information area
   showPlayersArea();
+  showStats();
 
   // show stationary players
   showPlayers();

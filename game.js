@@ -270,7 +270,7 @@ function showPlayersArea() {
 
   // draw histogram - background
   translate(tileSize, tileSize * (max(1, numPlayers) + 1));
-  let histW = width - tileSize;
+  let histW = (cols - 1) * tileSize;
   let histH = playersArea;
   fill(10);
   stroke(0);
@@ -285,7 +285,7 @@ function showPlayersArea() {
   // draw histogram - horizontal lines
   push();
   strokeWeight(1);
-  stroke(255, 25);
+  stroke(255, 50);
   for (let r = 0; r <= rows - 1; r++) {
     line(0, -r * histSpacingY, histW, -r * histSpacingY);
   }
@@ -368,6 +368,65 @@ function showPlayersArea() {
 
   // restore previous settings
   pop();
+}
+
+// graph to display the number of times each player rolled with die value
+function showStats() {
+  // calculate available area for statistics graph
+  // myX,yY = lower left corner
+  let myH = (numPlayers + 1) * tileSize;
+  let myW = controlsArea;
+  let myX = cols * tileSize + separator;
+  let myY = title + separator + rows * tileSize + separator + myH;
+
+  // draw background
+  fill(10);
+  noStroke();
+  rect(myX, myY, myW, -myH);
+
+  // draw line
+  noFill();
+  stroke(255, 50);
+  strokeWeight(1);
+  line(myX, myY - 0.5 * tileSize, myX + myW, myY - 0.5 * tileSize);
+
+  // determine vertical scale
+  let totals = [0, 0, 0, 0, 0, 0];
+  for (let p in players) {
+    for (let d in players[p].dieRolls) {
+      totals[d] += players[p].dieRolls[d];
+    }
+  }
+  let scale = (myH - tileSize) / max(totals);
+
+  // draw statistics
+  for (let dieValue = 1; dieValue <= 6; dieValue++) {
+    // determine lower left corner of current bar
+    let barW = myW / 6;
+    let barY = myY - 0.5 * tileSize;
+    let barX = myX + (dieValue - 1) * barW;
+
+    // draw die values below graph
+    fill(255);
+    noStroke();
+    text(dieValue, barX + 0.5 * barW, barY + 0.25 * tileSize);
+
+    // draw graph bars
+    for (let p in players) {
+      let total = totals[dieValue - 1];
+      if (total > 0) {
+        // determine bar height
+        let barH = total * scale;
+
+        // draw text
+        text(total, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
+
+        // draw bar
+        fill(255, 50);
+        rect(barX, barY, barW, -barH);
+      }
+    }
+  }
 }
 
 function switchPlayer() {
