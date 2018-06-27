@@ -139,7 +139,7 @@ function showControlsArea() {
   let myH = rows * tileSize;
   rect(myX, myY, myW, myH);
 
-  // nuke the game controls
+  // (re)create game controls
   controls = [];
 
   // set text format
@@ -186,9 +186,7 @@ function showControlsArea() {
 
   // show all controls
   textAlign(CENTER, CENTER);
-  for (let c in controls) {
-    controls[c].show();
-  }
+  for (let c in controls) controls[c].show();
 }
 
 // display game title
@@ -370,7 +368,7 @@ function showPlayersArea() {
   pop();
 }
 
-// graph to display the number of times each player rolled with die value
+// graph to display the number of times each die-value was rolled
 function showStats() {
   // calculate available area for statistics graph
   // myX,yY = lower left corner
@@ -417,13 +415,8 @@ function showStats() {
     for (let p in players) {
       let total = totals[dieValue - 1];
       if (total > 0) {
-        // determine bar height
         let barH = total * scale;
-
-        // draw text
         text(total, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
-
-        // draw bar
         fill(255, 50);
         rect(barX, barY, barW, -barH);
       }
@@ -431,6 +424,7 @@ function showStats() {
   }
 }
 
+// find next eligible player
 function switchPlayer() {
   // single player mode; just increase the number of turns
   if (numPlayers === 1) {

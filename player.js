@@ -37,9 +37,7 @@ class Player {
     this.interpolator += INTERPOLATION_SPEED;
 
     // drop the first cell after the interpolation has finished
-    if (this.interpolator >= 1) {
-      this.interpolator = 0;
-    }
+    if (this.interpolator >= 1) this.interpolator = 0;
 
     // delay between steps in animated frames
     if (animationMode) {
@@ -96,9 +94,7 @@ class Player {
       this.animate = true;
 
       // player inherits current die value
-      if (state === MOVE_STATE) {
-        players[curPlayer].moves2go = die.value;
-      }
+      if (state === MOVE_STATE) players[curPlayer].moves2go = die.value;
 
       // repeat until animation is finished
     } else {
@@ -321,10 +317,7 @@ class Player {
 
   // move player without animation
   updateSimple() {
-    // advance player
-    this.spot += die.value;
-
-    // player cannot overshoot finish
-    this.spot = min(this.spot, tiles.length - 1);
+    this.spot += die.value; // advance player
+    this.spot = min(this.spot, tiles.length - 1); // do not overshoot finish
   }
 }

@@ -82,31 +82,23 @@ function setup() {
 }
 
 function draw() {
-  // draw canvas
-  background(245);
-
-  // display game title
-  showGameTitle();
-
-  // highlight the controls area
-  showControlsArea();
+  // update everything except the board only when no player is moving
+  if (!players[curPlayer].animate) {
+    background(245);
+    showGameTitle();
+    showControlsArea();
+    showPlayersArea();
+    showStats();
+  }
 
   // show the die
   die.show();
 
   // draw tiles
-  for (let tile of tiles) {
-    tile.show();
-  }
+  for (let tile of tiles) tile.show();
 
   // draw snakes and ladders
-  for (let tile of tiles) {
-    tile.showSnadders();
-  }
-
-  // show player information area
-  showPlayersArea();
-  showStats();
+  for (let tile of tiles) tile.showSnadders();
 
   // show stationary players
   showPlayers();

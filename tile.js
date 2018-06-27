@@ -49,13 +49,8 @@ class Tile {
 
     // set colors and weights of line and other geometry
     strokeWeight(4);
-    if (this.snadder < 0) {
-      fill(255, 0, 0, 100);
-      stroke(255, 0, 0, 200);
-    } else {
-      fill(0, 255, 0, 100);
-      stroke(0, 255, 0, 200);
-    }
+    if (this.snadder < 0 ? fill(255, 0, 0, 100) : fill(0, 255, 0, 100));
+    if (this.snadder < 0 ? stroke(255, 0, 0, 200) : stroke(0, 255, 0, 200));
 
     // get tiles where snadders begins and ends
     let tile1 = this.center;
