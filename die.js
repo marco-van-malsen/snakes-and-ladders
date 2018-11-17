@@ -6,7 +6,7 @@
 class Die {
   // initialize
   constructor() {
-    // set x and y position of the die-center
+    // set width and height of die, x and y position of the die-center and radius
     this.wh = 50;
     this.x = cols * tileSize + separator + controlsArea / 2 - this.wh * 0.5;
     this.y = title + separator + (rows - 1) * tileSize - this.wh * 0.5;
@@ -19,12 +19,12 @@ class Die {
     return (x > die.x && x < die.x + die.wh && y > die.y && y < die.y + die.wh);
   }
 
-  // roll the die
+  // roll the die (takes an optional parameter for the desired die to be rolled)
   roll(num) {
     // start a new game
     if (state === GAME_OVER) initGame();
 
-    // pick a random number between 1 and 6
+    // pick a random number between 1 and 6 or desired value when given
     die.value = (num ? num : floor(random(1, 7)));
 
     // set preview
