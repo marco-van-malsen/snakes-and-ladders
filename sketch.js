@@ -3,15 +3,15 @@
 // Extended: Marco van Malsen
 
 // define available game states and set initial game state
+const GAME_OVER = 0; // game over
 const ROLL_STATE = 1; // roll the die
 const MOVE_STATE = 2; // move player to next spot
 const SNADDER_STATE = 3; // move player along a Snake or Ladder
-const GAME_OVER = 0; // game over
 let state;
 
 // values required for player animation
-let INTERPOLATION_SPEED = 1 / 15;
-let TURN_DELAY = 15;
+const INTERPOLATION_SPEED = 1 / 15;
+const TURN_DELAY = 15;
 
 // set initial game animation mode
 let animationMode = true;
