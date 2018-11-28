@@ -401,7 +401,7 @@ function showStats() {
 
   // draw statistics (one for each die side (6) and two to show snakes and ladders)
   let statsNum = 6 + 2;
-  for (let dieValue = 1; dieValue <= statsNum; dieValue++) {
+  for (let dieValue = 1; dieValue <= 6; dieValue++) {
     // determine lower left corner of current bar
     let barW = round(myW / statsNum);
     let barY = myY - 0.5 * tileSize;
