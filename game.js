@@ -34,14 +34,14 @@ function initGame() {
     }
   }
 
-  // pick random snakes
+  // pick random snakes (snake not allowed on finish tile)
   let beginMin = cols;
   let beginMax = tiles.length - 2;
   for (let s = 0; s <= numSnakes - 1; s++) {
-    // pick random tile to add snake to (snake on finish tile not allowed)
+    // pick random tile to add snake to
     let begin = floor(random(beginMin, beginMax));
 
-    // add snake, unless one already exists
+    // add snake, unless snadder already defined
     if (tiles[begin].snadder !== 0) {
       s--;
     } else {
@@ -57,10 +57,10 @@ function initGame() {
   beginMin = 1;
   beginMax = tiles.length - cols - 1;
   for (let l = 0; l <= numLadders - 1; l++) {
-    // pick random tile to add Ladder to
+    // pick random tile to add ladder to
     begin = floor(random(beginMin, beginMax));
 
-    // add ladder, unless one already exists
+    // add ladder, unless snadder already defined
     if (tiles[begin].snadder != 0) {
       l--;
     } else {
@@ -81,7 +81,7 @@ function initGame() {
   // create or reset the die
   die = new Die();
 
-  // create new players (zero players still requires one player for simulation mode)
+  // create new players
   players = [numPlayers];
   for (let p = 0; p < numPlayers; p++) {
     players[p] = new Player(p);
@@ -113,14 +113,14 @@ function initGame() {
     }
   }
 
-  // switch state
+  // set initial game state
   state = ROLL_STATE;
 
   // resume game loop
   loop();
 }
 
-// create the canvas
+// calculate size of canvas, then create
 function setupCanvas() {
   playersArea = tileSize * (numPlayers + 1);
   let canvasW = (cols * tileSize) + separator + controlsArea;
@@ -167,12 +167,12 @@ function showControlsArea() {
   // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 140, myW - 20, 20, cols, 10, 14, 3, toggleGridSize);
 
-  // number of Snakes
+  // number of snakes
   text('# Snakes :', myX + 5, myY + 180);
   // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 190, myW - 20, 20, numSnakes, 1, maxSnakes, maxSnakes, toggleNumSnakes);
 
-  // number of Ladders
+  // number of ladders
   text('# Ladders :', myX + 5, myY + 230);
   // createControlSet(x, y, w, h, cur, min, max, num, fnc);
   createControlSet(myX + 10, myY + 240, myW - 20, 20, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
@@ -295,10 +295,10 @@ function showPlayersArea() {
     }
   }
 
-  // restore previus settings
+  // restore previous settings
   pop();
 
-  // draw number of turns played in upper left corner of histogram
+  // create variables for histogram size
   let turnsH;
   let turnsW;
 
@@ -332,10 +332,10 @@ function showPlayersArea() {
     let x2 = 0;
     let y2 = 0;
 
-    // get players color; add some alpha for 'other' players
+    // get and set player's color
     stroke(players[p].tokenColor);
 
-    // draw histogram based on players history
+    // draw player histogram
     for (let h = 0; h <= players[p].history.length - 1; h++) {
       // reset snadder
       let drawSnadder = false;
@@ -399,10 +399,11 @@ function showStats() {
   // determine vertical scale
   let scale = (myH - tileSize) / max(totals);
 
-  // draw statistics
-  for (let dieValue = 1; dieValue <= 6; dieValue++) {
+  // draw statistics (one for each die side (6) and two to show snakes and ladders)
+  let statsNum = 6 + 2;
+  for (let dieValue = 1; dieValue <= statsNum; dieValue++) {
     // determine lower left corner of current bar
-    let barW = round(myW / 6);
+    let barW = round(myW / statsNum);
     let barY = myY - 0.5 * tileSize;
     let barX = myX + (dieValue - 1) * barW;
 
