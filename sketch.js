@@ -130,14 +130,14 @@ function draw() {
     // update player history
     players[curPlayer].updateHistory();
 
-    // switch state
+    // switch game state
     if (players[curPlayer].isSnadder()) {
-      // switch state
+      // switch game state
       state = SNADDER_STATE;
       return;
     }
 
-    // switch player
+    // reset animation
     if (animationMode) players[curPlayer].resetAnimation();
 
     // check if player is finished
@@ -146,7 +146,7 @@ function draw() {
     // switch player
     switchPlayer();
 
-    // continue play
+    // switch game state
     state = ROLL_STATE;
 
     // player following a snadder
