@@ -150,7 +150,7 @@ function draw() {
     state = ROLL_STATE;
 
     // player following a snadder
-  } else {
+  } else if (state === SNADDER_STATE) {
     //  move player; with animation
     players[curPlayer].movePlayer();
     if (players[curPlayer].animate) return;

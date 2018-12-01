@@ -6,13 +6,17 @@
 class Player {
   // initialize player
   constructor(n) {
-    this.dieRolls = [0, 0, 0, 0, 0, 0]; // statistics, store the number of times player rolled which side of the die
     this.finished = 0; // player finishing position (1 for winner, 2 for 2nd place etc.)
-    this.history = []; // history of spots where player landed, including snakes ladders
     this.number = n; // player's number
     this.spot = 0; // player's position on the board
     this.tokenColor = color(255, 0, 0); // color assigned to players token
     this.tokenColorAlpha = color(255, 0, 0, 100); // color assigned to players token
+
+    // statistics related
+    this.dieRolls = [0, 0, 0, 0, 0, 0]; // statistics, store the number of times player rolled which side of the die
+    this.history = []; // history of spots where player landed, including snakes ladders
+    this.numSnakes = 0; // number of snakes the player has landed on
+    this.numLadders = 0; // number of ladders the player has landed on
 
     // preview related
     this.previewS = null; // first tile of preview, player's current position
@@ -83,6 +87,8 @@ class Player {
 
   // did current player land on a snake or ladder?
   isSnadder() {
+    if (tiles[this.spot].snadder < 0) this.numSnakes += 1;
+    if (tiles[this.spot].snadder > 0) this.numLadders += 1;
     return (tiles[this.spot].snadder !== 0);
   }
 

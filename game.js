@@ -401,10 +401,10 @@ function showStats() {
 
   // draw statistics (one for each die side (6) and two to show snakes and ladders)
   let statsNum = 6 + 2;
+  let barW = round(myW / statsNum);
+  let barY = myY - 0.5 * tileSize;
   for (let dieValue = 1; dieValue <= 6; dieValue++) {
     // determine lower left corner of current bar
-    let barW = round(myW / statsNum);
-    let barY = myY - 0.5 * tileSize;
     let barX = myX + (dieValue - 1) * barW;
 
     // draw die values below graph
@@ -423,6 +423,28 @@ function showStats() {
       }
     }
   }
+
+  // draw graph bar for snakes
+  let totalSnakes = 0;
+  for (let p in players) totalSnakes += players[p].numSnakes;
+  barX = myX + (7 - 1) * barW;
+  barH = totalSnakes * scale;
+  fill(255);
+  text("S", barX + 0.5 * barW, barY + 0.25 * tileSize);
+  if (totalSnakes > 0) text(totalSnakes, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
+  fill(255, 0, 0, 150);
+  rect(barX, barY, barW, -barH);
+
+  // draw graph bar for ladders
+  let totalLadders = 0;
+  for (let p in players) totalLadders += players[p].numLadders;
+  barX = myX + (8 - 1) * barW;
+  barH = totalLadders * scale;
+  fill(255);
+  text("L", barX + 0.5 * barW, barY + 0.25 * tileSize);
+  if (totalLadders > 0) text(totalLadders, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
+  fill(0, 255, 0, 150);
+  rect(barX, barY, barW, -barH);
 }
 
 // find next eligible player
