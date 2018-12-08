@@ -78,6 +78,10 @@ function initGame() {
     }
   }
 
+  // reset statistics
+  statsNumLadders = 0;
+  statsNumSnakes = 0;
+
   // create or reset the die
   die = new Die();
 
@@ -389,7 +393,7 @@ function showStats() {
   line(myX, myY - 0.5 * tileSize, myX + myW, myY - 0.5 * tileSize);
 
   // calcalate totals
-  let totals = [0, 0, 0, 0, 0, 0];
+  let totals = [0, 0, 0, 0, 0, 0]; // total times a die face was rolled, 1 through 6
   for (let p in players) {
     for (let d in players[p].dieRolls) {
       totals[d] += players[p].dieRolls[d];
@@ -397,7 +401,8 @@ function showStats() {
   }
 
   // determine vertical scale
-  let scale = (myH - tileSize) / max(totals);
+  let maxRolledDieFace = max(totals); // get die-value that was rolled the most
+  let scale = (myH - tileSize) / max(maxRolledDieFace, statsNumSnakes, statsNumLadders);
 
   // draw statistics (one for each die side (6) and two to show snakes and ladders)
   let statsNum = 6 + 2;
@@ -425,24 +430,20 @@ function showStats() {
   }
 
   // draw graph bar for snakes
-  let totalSnakes = 0;
-  for (let p in players) totalSnakes += players[p].numSnakes;
   barX = myX + (7 - 1) * barW;
-  barH = totalSnakes * scale;
+  barH = statsNumSnakes * scale;
   fill(255);
   text("S", barX + 0.5 * barW, barY + 0.25 * tileSize);
-  if (totalSnakes > 0) text(totalSnakes, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
+  if (statsNumSnakes > 0) text(statsNumSnakes, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
   fill(255, 0, 0, 150);
   rect(barX, barY, barW, -barH);
 
   // draw graph bar for ladders
-  let totalLadders = 0;
-  for (let p in players) totalLadders += players[p].numLadders;
   barX = myX + (8 - 1) * barW;
-  barH = totalLadders * scale;
+  barH = statsNumLadders * scale;
   fill(255);
   text("L", barX + 0.5 * barW, barY + 0.25 * tileSize);
-  if (totalLadders > 0) text(totalLadders, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
+  if (statsNumLadders > 0) text(statsNumLadders, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
   fill(0, 255, 0, 150);
   rect(barX, barY, barW, -barH);
 }

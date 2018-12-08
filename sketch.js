@@ -72,6 +72,10 @@ let separator = 0.5 * tileSize;
 // height of rectangle with title in it
 let title = tileSize;
 
+// statistics for total times players landed on any snake or ladder
+let statsNumLadders;
+let statsNumSnakes;
+
 function setup() {
   // default text format
   textAlign(CENTER, CENTER);

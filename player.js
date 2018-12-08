@@ -15,8 +15,6 @@ class Player {
     // statistics related
     this.dieRolls = [0, 0, 0, 0, 0, 0]; // statistics, store the number of times player rolled which side of the die
     this.history = []; // history of spots where player landed, including snakes ladders
-    this.numSnakes = 0; // number of snakes the player has landed on
-    this.numLadders = 0; // number of ladders the player has landed on
 
     // preview related
     this.previewS = null; // first tile of preview, player's current position
@@ -87,8 +85,8 @@ class Player {
 
   // did current player land on a snake or ladder?
   isSnadder() {
-    if (tiles[this.spot].snadder < 0) this.numSnakes += 1;
-    if (tiles[this.spot].snadder > 0) this.numLadders += 1;
+    if (tiles[this.spot].snadder < 0) statsNumSnakes += 1;
+    if (tiles[this.spot].snadder > 0) statsNumLadders += 1;
     return (tiles[this.spot].snadder !== 0);
   }
 
