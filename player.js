@@ -87,11 +87,14 @@ class Player {
   isSnadder() {
     if (tiles[this.spot].snadder < 0) statsNumSnakes += 1;
     if (tiles[this.spot].snadder > 0) statsNumLadders += 1;
+    if (tiles[this.spot].snadder !== 0 && debug) console.log('SNADDER!'); // debug
     return (tiles[this.spot].snadder !== 0);
   }
 
   // move the player
   movePlayer() {
+    if (debug) console.log('move player, with animation'); // debug
+
     // trigger the animation
     if (!this.animate) {
       // trigger the animation
@@ -133,6 +136,8 @@ class Player {
 
   // display players not currently at play
   show() {
+    if (debug) console.log('show player token'); // debug
+
     // get center of current player's position on the board
     let tileCenter = tiles[this.spot].center;
 
@@ -187,6 +192,8 @@ class Player {
 
   // preview
   showPreview() {
+    if (debug) console.log('show preview'); // debug
+
     // set first and last tile
     let start = this.previewS;
     let finish = min(this.previewF, tiles.length - 1);
@@ -321,6 +328,7 @@ class Player {
 
   // move player without animation
   updateSimple() {
+    if (debug) console.log('update player, no animation'); // debug
     this.spot += die.value; // advance player
     this.spot = min(this.spot, tiles.length - 1); // do not overshoot finish
   }

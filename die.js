@@ -21,6 +21,8 @@ class Die {
 
   // roll the die (takes an optional parameter for the desired die to be rolled)
   roll(num) {
+    if (debug) console.log('roll the die'); // debug
+
     // start a new game
     if (state === GAME_OVER) initGame();
 
@@ -39,6 +41,8 @@ class Die {
   }
 
   show() {
+    if (debug) console.log('show die'); // debug
+
     // draw the die outline
     fill(simulationMode ? 255 : players[curPlayer].tokenColor);
     strokeWeight(4);

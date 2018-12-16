@@ -94,38 +94,48 @@ function draw() {
     showPlayersArea();
     showStats();
   }
+  if (debug) console.clear(); // clear console for debug
 
   // show the die
   die.show();
 
   // draw tiles
+  if (debug) console.log('draw tiles'); // debug
   for (let tile of tiles) tile.show();
 
   // draw snakes and ladders
+  if (debug) console.log('draw snakes and ladders'); // debug
   for (let tile of tiles) tile.showSnadders();
 
   // show stationary players
   showPlayers();
 
   // disable game logic when game is over
-  if (state === GAME_OVER) return;
+  if (state === GAME_OVER) {
+    if (debug) console.log('game over'); // debug
+    return;
+  }
 
   // wait between turns
   if (turnDelay > 0) {
+    if (debug) console.log('animation loop'); // debug
     turnDelay--;
     return;
   }
 
   // roll the die or wait for player to roll the die
   if (state === ROLL_STATE) {
+    if (debug) console.log('ROLL STATE'); // debug
     if (simulationMode ? die.roll() : noLoop());
 
     // player moving number of spots rolled by die
   } else if (state === MOVE_STATE) {
+    if (debug) console.log('MOVE STATE'); // debug
     // show preview
     if (animationMode) {
       players[curPlayer].showPreview();
       players[curPlayer].movePlayer();
+      if (players[curPlayer].animate && debug) console.log('start animation loop'); // debug
       if (players[curPlayer].animate) return;
     } else {
       players[curPlayer].updateSimple();
@@ -155,6 +165,8 @@ function draw() {
 
     // player following a snadder
   } else if (state === SNADDER_STATE) {
+    if (debug) console.log('SNADDER STATE'); // debug
+
     //  move player; with animation
     players[curPlayer].movePlayer();
     if (players[curPlayer].animate) return;
@@ -169,6 +181,8 @@ function draw() {
 
   // check game over state
   if (GameOver()) {
+    if (debug) console.log('GAME OVER!'); // debug
+
     // reset the die
     die.value = 0;
     die.show();
@@ -176,4 +190,7 @@ function draw() {
     // switch game state
     state = GAME_OVER;
   }
+
+  if (debug) console.log('run loop() to continue game play'); // debug
+  if (debug) noLoop(); // debug only
 }
