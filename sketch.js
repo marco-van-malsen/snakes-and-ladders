@@ -86,15 +86,14 @@ function setup() {
 }
 
 function draw() {
-  // update everything except the board only when no player is moving
-  if (!players[curPlayer].animate) {
-    background(245);
-    showGameTitle();
-    showControlsArea();
-    showPlayersArea();
-    showStats();
-  }
   if (debug) console.clear(); // clear console for debug
+
+  // show main game elements
+  background(245);
+  showGameTitle();
+  showControlsArea();
+  showPlayersArea();
+  showStats();
 
   // show the die
   die.show();
