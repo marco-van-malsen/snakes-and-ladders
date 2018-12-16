@@ -404,9 +404,19 @@ function showStats() {
   let maxRolledDieFace = max(totals); // get die-value that was rolled the most
   let scale = (myH - tileSize) / max(maxRolledDieFace, statsNumSnakes, statsNumLadders);
 
-  // draw statistics (one for each die side (6) and two to show snakes and ladders)
+  // determine bar width
   let statsNum = 6 + 2;
   let barW = round(myW / statsNum);
+
+  // draw vertical lines to separator statistics
+  noFill()
+  stroke(255, 50);
+  strokeWeight(1);
+  for (let stat = 1; stat < statsNum; stat++) {
+    line(myX + stat * barW, myY, myX + stat * barW, myY - myH);
+  }
+
+  // draw statistics (one for each die side (6) and two to show snakes and ladders)
   let barY = myY - 0.5 * tileSize;
   for (let dieValue = 1; dieValue <= 6; dieValue++) {
     // determine lower left corner of current bar
