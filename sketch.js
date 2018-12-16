@@ -130,6 +130,7 @@ function draw() {
     // player moving number of spots rolled by die
   } else if (state === MOVE_STATE) {
     if (debug) console.log('MOVE STATE'); // debug
+
     // show preview
     if (animationMode) {
       players[curPlayer].showPreview();
@@ -168,7 +169,7 @@ function draw() {
 
     //  move player; with animation
     players[curPlayer].movePlayer();
-    if (players[curPlayer].animate) return;
+    if (animationMode && players[curPlayer].animate) return;
 
     // continue following snadders; then continue main game loop
     if (!players[curPlayer].isSnadder()) {
