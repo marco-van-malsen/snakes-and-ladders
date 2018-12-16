@@ -432,8 +432,10 @@ function showStats() {
       let total = totals[dieValue - 1];
       if (total > 0) {
         let barH = total * scale;
+        fill(255);
         text(total, barX + 0.5 * barW, barY - barH - 0.25 * tileSize);
         fill(255, 50);
+        noStroke();
         rect(barX, barY, barW, -barH);
       }
     }
