@@ -43,6 +43,14 @@ class Die {
   show() {
     if (debug) console.log('show die'); // debug
 
+    // show instructions
+    if (!simulationMode) {
+      fill(0);
+      noStroke();
+      textAlign(CENTER, CENTER);
+      text('Click die to roll', die.x + 0.5 * die.wh, die.y - 15);
+    }
+
     // draw the die outline
     fill(simulationMode ? 255 : players[curPlayer].tokenColor);
     strokeWeight(4);
