@@ -146,46 +146,65 @@ function showControlsArea() {
   // (re)create game controls
   controls = [];
 
+  // distance and dimensions
+  let deltaX1 = 5; // distance between left edge and controls set text
+  let deltaX2 = 110; // distance between left edge and controls set with text before it
+  let deltaX3 = 5; // distance between left edge and controls set with text above it
+
+  let deltaY1 = 10; // distance between top edge and first control set
+  let deltaY2 = 25; // distance between control sets, with text before it
+  let deltaY3 = 30; // distance between control sets, with text above it
+  let deltaY4 = 15; // distance between control set and the text above it
+
+  let controlH = 20; // height of control set
+  let controlW1 = 40; // width of control set with text before it
+  let controlW2 = myW - deltaX1 * 2 - 5; // width of control set with text above it
+
   // set text format
   noStroke();
   fill(0);
-  textAlign(LEFT, CENTER);
+  textAlign(LEFT, TOP);
 
   // simulate
-  text('Simulate', myX + 5, myY + 20);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 110, myY + 10, 40, 20, simulationMode, 0, 1, 2, toggleSimulationMode);
+  myY += deltaY1;
+  text('Simulate', myX + deltaX1, myY);
+  createControlSet(myX + deltaX2, myY, controlW1, controlH, simulationMode, 0, 1, 2, toggleSimulationMode);
 
   // animate
-  text('Animate', myX + 5, myY + 50);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 110, myY + 40, 40, 20, animationMode, 0, 1, 2, toggleAnimationMode);
+  myY += deltaY2;
+  text('Animate', myX + deltaX1, myY);
+  createControlSet(myX + deltaX2, myY, controlW1, controlH, animationMode, 0, 1, 2, toggleAnimationMode);
 
   // player selection
-  text('# Players :', myX + 5, myY + 80);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 10, myY + 90, myW - 20, 20, numPlayers, 1, 4, 4, toggleNumPlayers);
+  myY += deltaY3;
+  text('# Players :', myX + deltaX1, myY);
+  myY += deltaY4;
+  createControlSet(myX + deltaX3, myY, controlW2, controlH, numPlayers, 1, 4, 4, toggleNumPlayers);
 
   // grid size
-  text('# Columns / Rows :', myX + 5, myY + 130);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 10, myY + 140, myW - 20, 20, cols, 10, 14, 3, toggleGridSize);
+  myY += deltaY3;
+  text('# Columns / Rows :', myX + deltaX1, myY);
+  myY += deltaY4;
+  createControlSet(myX + deltaX3, myY, controlW2, controlH, cols, 10, 14, 3, toggleGridSize);
 
   // number of snakes
-  text('# Snakes :', myX + 5, myY + 180);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 10, myY + 190, myW - 20, 20, numSnakes, 1, maxSnakes, maxSnakes, toggleNumSnakes);
+  myY += deltaY3;
+  text('# Snakes :', myX + deltaX1, myY);
+  myY += deltaY4;
+  createControlSet(myX + deltaX3, myY, controlW2, controlH, numSnakes, 1, maxSnakes, maxSnakes, toggleNumSnakes);
 
   // number of ladders
-  text('# Ladders :', myX + 5, myY + 230);
-  // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-  createControlSet(myX + 10, myY + 240, myW - 20, 20, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
+  myY += deltaY3;
+  text('# Ladders :', myX + deltaX1, myY);
+  myY += deltaY4;
+  createControlSet(myX + deltaX3, myY, controlW2, controlH, numLadders, 1, maxLadders, maxLadders, toggleNumLadders);
 
   // pick your own die value
+  myY += deltaY3;
   if (debug && !simulationMode) {
-    text('Roll this die :', myX + 5, myY + 280);
-    // createControlSet(x, y, w, h, cur, min, max, num, fnc);
-    createControlSet(myX + 10, myY + 290, myW - 20, 20, die.value, 1, 6, 6, die.roll);
+    text('Roll this die :', myX + deltaX1, myY);
+    myY += deltaY4;
+    createControlSet(myX + deltaX3, myY, controlW2, controlH, die.value, 1, 6, 6, die.roll);
   }
 
   // show all controls
