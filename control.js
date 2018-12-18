@@ -136,7 +136,7 @@ function toggleGridSize(num) {
   cols = num;
   rows = cols;
 
-  // set maximum possible snakes and ladder
+  // set maximum possible snakes and ladders
   maxSnakes = cols * 0.5;
   maxLadders = maxSnakes;
 
