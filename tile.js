@@ -39,6 +39,7 @@ class Tile {
 
     // display tile text
     fill(255);
+    noStroke();
     text(tileText, this.center.x, this.center.y);
   }
 
