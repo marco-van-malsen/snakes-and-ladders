@@ -52,7 +52,7 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
   let interval = (max - min) / (num - 1);
 
   // calculate width of individual control
-  let myW = round(w / num);
+  let myW = w / num;
 
   // values for first control in set
   let myVal = min;
@@ -78,7 +78,7 @@ function createControlSet(x, y, w, h, cur, min, max, num, fnc) {
 
     // update for next control
     myVal += interval;
-    myX += myW;
+    myX = round(myX + myW);
   }
 }
 
