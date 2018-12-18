@@ -101,6 +101,7 @@ function draw() {
   // draw tiles
   if (debug) console.log('draw tiles'); // debug
   for (let tile of tiles) tile.show();
+  showPathAndEdges();
 
   // draw snakes and ladders
   if (debug) console.log('draw snakes and ladders'); // debug

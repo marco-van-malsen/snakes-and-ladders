@@ -479,6 +479,34 @@ function showStats() {
   rect(barX, barY, barW, -barH);
 }
 
+// show the path
+function showPathAndEdges() {
+  // define look and feel for lines
+  noFill();
+  stroke(0);
+  let weight = 4;
+  strokeWeight(weight);
+
+  // determine edges
+  let lower = tiles[0].y + tileSize;
+  let left = 0;
+  let upper = tiles[tiles.length - 1].y;
+  let right = tiles[tiles.length - cols].x + tileSize;
+
+  // draw outline
+  rect(left + weight * 0.5, upper, cols * tileSize, rows * tileSize);
+
+  // draw lines
+  for (let y = lower - tileSize; y > upper; y -= tileSize * 2) {
+    line(0, y, (cols - 1) * tileSize, y);
+  }
+
+  // draw more lines
+  for (let y = lower - tileSize * 2; y > upper; y -= tileSize * 2) {
+    line(tileSize, y, cols * tileSize, y);
+  }
+}
+
 // find next eligible player
 function switchPlayer() {
   // single player mode; just increase the number of turns
