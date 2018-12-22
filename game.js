@@ -494,16 +494,16 @@ function showPathAndEdges() {
   let right = tiles[tiles.length - cols].x + tileSize;
 
   // draw outline
-  rect(left + weight * 0.5, upper, cols * tileSize, rows * tileSize);
+  rect(left + 0.5 * weight, upper, cols * tileSize - 0.5 * weight, rows * tileSize - 0.5 * weight);
 
   // draw lines
   for (let y = lower - tileSize; y > upper; y -= tileSize * 2) {
-    line(0, y, (cols - 1) * tileSize, y);
+    line(0, y, (cols - 1) * tileSize - 0.5 * weight, y);
   }
 
   // draw more lines
   for (let y = lower - tileSize * 2; y > upper; y -= tileSize * 2) {
-    line(tileSize, y, cols * tileSize, y);
+    line(tileSize + 0.5 * weight, y, cols * tileSize, y);
   }
 }
 
